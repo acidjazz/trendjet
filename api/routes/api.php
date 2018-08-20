@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/routes', 'TestController@routes');
+Route::get('/', 'TestController@routes');
 
 Route::apiResource('test', 'TestController');
 
