@@ -1,0 +1,25 @@
+# laravel
+dump.rdb
+/api/public/hot
+/api/public/storage
+/api/storage/*
+npm-debug.log
+yarn-error.log
+.env
+envs/*
+/api/vendor
+/api/public/vendor
+
+# osx
+.DS_Store
+
+# vim
+*.swp
+
+# nuxt
+node_modules
+dist
+.nuxt
+web/static/framework.css
+web/static/mdi.css
+web/static/fonts

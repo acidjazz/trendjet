@@ -1,0 +1,34 @@
+{
+  "name": "trendjet",
+  "version": "1.0.0",
+  "description": "front end for trendjet",
+  "author": "kevin olson",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "precommit": "npm run lint",
+    "css": "node-sass --output-style compressed assets/sass/framework.sass > static/framework.css",
+    "mdi": "cp node_modules/@mdi/font/css/materialdesignicons.min.css static/mdi.css; cp node_modules/@mdi/font/fonts/* static/fonts/."
+  },
+  "dependencies": {
+    "@mdi/font": "^2.6.95",
+    "@nuxtjs/axios": "^5.0.0",
+    "bulma": "^0.7.1",
+    "node-sass": "^4.9.3",
+    "nuxt": "^1.0.0",
+    "pug": "^2.0.3",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.1",
+    "cross-env": "^5.0.1",
+    "eslint": "^5.0.1",
+    "eslint-loader": "^2.0.0",
+    "eslint-plugin-vue": "^4.0.0"
+  }
+}
