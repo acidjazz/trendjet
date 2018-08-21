@@ -24,6 +24,7 @@ module.exports = {
       { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' },
       { rel: 'manifest', href: '/site.webmanifest' },
       { rel: 'mask-icon', href: '/safari-pinned-tab.svg', color: '#01b5fa' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto' },
     ],
     script: [
       { src: 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js', integrity: 'sha256-9YAuB2VnFZNJ+lKfpaQ3dKQT9/C0j3VUla76hHbiVF8=', crossorigin: 'anonymous' },
