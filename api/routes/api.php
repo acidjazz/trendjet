@@ -16,7 +16,8 @@ use Illuminate\Http\Request;
 Route::get('/', 'TestController@routes');
 
 Route::apiResource('test', 'TestController');
+Route::apiResource('user', 'UserController');
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('/attempt', 'AuthController@attempt');
+
+require(base_path('routes/mailable.php'));
