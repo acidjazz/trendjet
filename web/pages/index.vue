@@ -14,6 +14,11 @@
             i.mdi.mdi-logout
           span another test
 
+      br
+      br
+      .button.is-primary
+        span Login
+
 </template>
 
 <script>
