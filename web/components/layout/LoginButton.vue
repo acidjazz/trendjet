@@ -16,8 +16,8 @@
       ref="loginButton")
       span.icon
         i.mdi.mdi-login-variant
-      span Connect
-
+      span Login
+    | &nbsp;
 </template>
 
 <script>
