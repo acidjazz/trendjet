@@ -2,7 +2,7 @@
 nav.navbar.is-dark.is-fixed-top
   .container
     .navbar-brand
-      .navbar-item 
+      nuxt-link.navbar-item(to="/")
         .logo
           include ../../static/logo.svg
         .title.has-text-primary.is-hidden-mobile trendjet
