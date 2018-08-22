@@ -1,16 +1,17 @@
 <template lang="pug">
 #Home.page
   .container
-    section.hero
-      .hero-body
-        h1.title home page
-        h2.subtitle trendjet home page
+    section.section
+      .button(@click="showModal") show modal
+
 </template>
 
 <script>
 export default {
+  methods: {
+    showModal () {
+      this.$modal.alert('this is a test')
+    },
+  },
 }
 </script>
-
-<style>
-</style>
