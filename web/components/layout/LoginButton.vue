@@ -24,8 +24,11 @@
 export default {
   methods:  {
     attempt () {
+
       if (!this.prompt) {
+
         this.prompt = true
+
         setTimeout( () => {
           if (this.$refs.email) {
             this.$refs.email.focus()
@@ -33,11 +36,15 @@ export default {
         }, 200)
         return true
       }
+
       if (this.email === '') {
         this.prompt = false
         this.errors = []
         return true
       }
+
+      this.$modal.alert(this.email)
+
     },
   },
   data () {
