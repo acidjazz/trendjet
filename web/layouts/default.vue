@@ -1,7 +1,8 @@
 <template lang="pug">
-  #trendjet
-    NavBar
-    nuxt
+#trendjet
+  NavBar
+  nuxt
+  #global
 </template>
 
 <script>
