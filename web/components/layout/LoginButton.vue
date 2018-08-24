@@ -1,14 +1,17 @@
 <template lang="pug">
 .field(:class="{'has-addons': prompt}")
-  p.control(v-if="prompt").has-icons-left
-    input.input.input-slide-in(
+  p.control(v-if="prompt").has-icons-left.has-icons-right
+    input.input.ani-slide-in(
       type="text",
       placeholder="E-mail address",
       v-model="email",
       ref="email",
+      :class="{'is-danger': errors}",
       @keyup.enter="attempt")
     span.icon.is-small.is-left
       i.mdi.mdi-email
+    span.icon.is-small.is-right.has-text-danger(v-if="errors")
+      i.mdi.mdi-alert
   p.control
     button.button(
       @click="attempt",
@@ -34,17 +37,21 @@ export default {
 
       if (this.email === '') {
         this.prompt = false
-        this.errors = []
+        this.errors = false
         return true
       }
 
       this.loading = true
       this.get(this.email)
-      this.modal()
 
     },
-    async get (email) {
-      await this.$axios.get('/attempt', {params: {email: this.email}})
+    get (email) {
+      this.errors = false
+      this.$axios.get('/attempt', {params: {email: this.email}}
+        ).then((result) => {
+        }).catch((error) => {
+          this.errors = true
+        }).then((result) => this.loading = false)
     },
     modal () {
       this.$modal.show({
@@ -66,7 +73,7 @@ export default {
       loading: false,
       prompt: false,
       email: '',
-      errors: [],
+      errors: false,
     }
   }
 }

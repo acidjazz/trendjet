@@ -17,5 +17,3 @@ const Plugin = {
 
 Vue.use(Plugin)
 export default Plugin
-
-
