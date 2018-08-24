@@ -1,47 +1,76 @@
 <template lang="pug">
-transition(name="animodal")
-  .modal.is-active(v-if="isActive")
-    .modal-background
+transition(name="animodal",v-if="title")
+  .modal.is-active(v-if="active")
+    .modal-background(@click="destroy")
     .modal-card
       .modal-card-head
-        p.modal-card-title Check your Inbox
+        p.modal-card-title {{ title }}
         button.delete(@click="destroy")
-      section.modal-card-body
-        p An e-mail was sent to your account with a link to login.
-        hr
-        p You may 
-          b close this window/tab now
-          |, since clicking the link will open a new one!
-        hr
-        p {{ message }}
-      footer.modal-card-foot.justify-flex-end
-        .buttons.is-right
-          .button.button OK
+      section.modal-card-body(v-html="body")
+
+      footer.modal-card-foot.justify-flex-end(v-if="buttons")
+        .buttons.is-right.has-addons
+          button.button(
+            v-for="button, index in buttons",
+            :autofocus="index === 0",
+            :class="button.class",
+            @click="action(button)")
+            span {{ button.name }}
+transition(name="animodal",v-else)
+  .modal.is-active(v-if="active")
+    .modal-background(@click="destroy")
+    .modal-content
+      .box(v-html="body")
+    button.modal-close.is-large(autofocus,@click="destroy")
 </template>
 
 <script>
+import { removeElement } from '@/utils/helpers.js'
 export default {
   name: 'GlobalModal',
   props: {
-    message: String
+    body: {
+      type: String,
+      required: true,
+      default: 'You need to specify a body',
+    },
+    title:  {
+      type: [String, Boolean],
+      required: false,
+      default: false,
+    },
+    buttons: {
+      type: [Array, Boolean],
+      required: false,
+      default: () => false,
+    }
   },
   methods: {
-    destroy() {
-      if (typeof (this.$el).remove !== 'undefined') {
-        this.$el.remove()
-      } else {
-        this.$el.parentNode.removeChild(el)
-      }
+
+    destroy () {
+      this.active = false
+      setTimeout( () => {
+        this.$destroy()
+        removeElement(this.$el)
+      }, 500)
     },
+
+    action (button) {
+      if (button.action && typeof button.action === 'function') {
+        button.action()
+      }
+      return this.destroy()
+    },
+
   },
 
   mounted () {
-    console.log(this.message)
-    this.isActive = true
+    this.active = true
   },
+
   data () {
     return {
-      isActive: false,
+      active: false,
     }
   }
 }
