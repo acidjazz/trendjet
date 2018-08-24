@@ -23,17 +23,12 @@
 <script>
 export default {
   methods:  {
+
     attempt () {
 
       if (!this.prompt) {
-
         this.prompt = true
-
-        setTimeout( () => {
-          if (this.$refs.email) {
-            this.$refs.email.focus()
-          }
-        }, 200)
+        setTimeout( () => this.$refs.email.focus() , 200)
         return true
       }
 
@@ -43,9 +38,28 @@ export default {
         return true
       }
 
-      this.$modal.alert(this.email)
+      this.loading = true
+      this.get(this.email)
+      this.modal()
 
     },
+    async get (email) {
+      await this.$axios.get('/attempt', {params: {email: this.email}})
+    },
+    modal () {
+      this.$modal.show({
+        title: 'Check your Inbox',
+        body: `
+          <p>An e-mail was sent to your account with a link to login.</p>
+          <hr />
+          <p>You may <b>close</b> this window/tab now since clicking the link will open a new one!</p>
+          `,
+        buttons: [
+          {name: 'Close'}, 
+        ],
+      })
+    },
+
   },
   data () {
     return {

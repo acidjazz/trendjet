@@ -1,20 +1,16 @@
 import Vue from 'vue'
 import Modal from './Modal.vue'
+import { spawn } from '@/utils/helpers.js'
 
-function open(propsData) {
-  const instance = Vue.extend(Modal)
-  return new instance({
-    el: document.getElementById('global').appendChild(document.createElement('div')),
-    propsData
-  })
-}
-
+// programmatic functions available
 const ModalProgrammatic = {
-  alert (message) {
-    return open({message: message})
+  show (props) {
+    if (typeof props === 'string') props = { body: props }
+    return spawn('modals', props, Vue, Modal)
   }
 }
 
+// .use the programmatic component
 const Plugin = {
   install(Vue) {
     Vue.prototype['$modal'] = ModalProgrammatic

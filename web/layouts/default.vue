@@ -1,16 +1,13 @@
 <template lang="pug">
 #trendjet
+  #messages
+  #modals
   NavBar
   nuxt
-  #global
 </template>
 
 <script>
 import NavBar from '@/components/layout/NavBar.vue'
-export default {
-  components: { 
-    NavBar,
-  },
-}
+export default { components: { NavBar } }
 </script>
 
