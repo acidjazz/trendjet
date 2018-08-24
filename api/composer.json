@@ -8,6 +8,7 @@
         "php": "^7.1.3",
         "acidjazz/metapi": "1.0.4",
         "aws/aws-sdk-php": "^3.65",
+        "barryvdh/laravel-cors": "^0.11.0",
         "campo/random-user-agent": "^1.3",
         "fideloper/proxy": "^4.0",
         "laravel/dusk": "^4.0",

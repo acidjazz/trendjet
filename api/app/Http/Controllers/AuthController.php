@@ -19,6 +19,8 @@ class AuthController extends \acidjazz\metapi\MetApiController
       return $this->error();
     }
 
+    return $this->render($bob);
+
     $user = User::where('email', $request->email)->first();
 
     return $this->render(Login::attempt(
