@@ -1,7 +1,13 @@
+require('dotenv').config()
 const pkg = require('./package')
 
 module.exports = {
   mode: 'universal',
+
+  env: {
+    API_URL: process.env.API_URL || 'https://api.trendjet.io/',
+    ENV: process.env.ENV || 'undefined',
+  },
 
   /*
   ** Headers of the page
@@ -47,13 +53,6 @@ module.exports = {
   extractCSS: true,
 
   /*
-  ** Plugins to load before mounting the App
-  */
-  plugins: [
-    'plugins/global-components.js',
-  ],
-
-  /*
   ** Nuxt.js modules
   */
   modules: [
@@ -61,6 +60,13 @@ module.exports = {
     '@nuxtjs/axios',
     // 'globals',
   ],
+
+  axios: {
+    credentials: true,
+    init (axios, ctx) {
+      axios.defaults.headers.common['Accept'] = 'application/json'
+    },
+  },
 
   globals: {
     components: [
@@ -73,6 +79,16 @@ module.exports = {
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
   },
+
+
+  /*
+  ** Plugins to load before mounting the App
+  */
+  plugins: [
+    'plugins/global-components.js',
+    'plugins/axios.js',
+  ],
+
 
   /*
   ** Build configuration
