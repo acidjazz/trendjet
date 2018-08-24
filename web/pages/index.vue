@@ -2,16 +2,33 @@
 #Home.page
   .container
     section.section
-      .button(@click="showModal") show modal
-
+      .buttons.is-centered
+        .button(@click="modal") show modal
+        .button(@click="message") show message
 </template>
 
 <script>
 export default {
   methods: {
-    showModal () {
-      this.$modal.alert('this is a test')
+    modal () {
+      this.$modal.show({title: 'testing', body: 'this is a test', buttons: [{name: 'OK'}] })
     },
+
+    message () {
+      this.$message.show({
+        type: 'success', 
+        message: `this is a test message`}
+      )
+    },
+  },
+
+  data () {
+    return {
+      counter: 0,
+      types: [ 'success', 'info', 'warning', 'danger' ],
+    }
   },
 }
 </script>
+
+
