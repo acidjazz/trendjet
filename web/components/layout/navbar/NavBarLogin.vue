@@ -47,20 +47,20 @@ export default {
     },
     get (email) {
       this.errors = false
-      this.$axios.get('/attempt', {params: {email: this.email}}
-        ).then((result) => {
-        }).catch((error) => {
-          this.errors = true
-        }).then((result) => this.loading = false)
+      this.$axios.get('/attempt', {params: {email: this.email}})
+        .then((response) => { 
+          window.Cookies.set('attempt', response.data.data, { expires: 1})
+          this.modal() 
+        })
+        .catch((error) => { this.errors = true })
+        .then((result) => { this.loading = false })
     },
     modal () {
       this.$modal.show({
         title: 'Check your Inbox',
-        body: `
-          <p>An e-mail was sent to your account with a link to login.</p>
+        body: `<p>An e-mail was sent to your account with a link to login.</p>
           <hr />
-          <p>You may <b>close</b> this window/tab now since clicking the link will open a new one!</p>
-          `,
+          <p>You may <b>close this window</b> now since clicking the link will open a new one!</p>`,
         buttons: [
           {name: 'Close'}, 
         ],
