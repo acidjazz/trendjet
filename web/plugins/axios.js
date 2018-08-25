@@ -28,13 +28,10 @@ export default function ({ $axios, app }, inject) {
       }
     }
     if (error.response.data && error.response.data.message) {
-          app.$message.show({
-            type: 'danger', 
-            message: `<b>[${error.response.data.exception}]</b> ${error.response.data.message}`,
-            file: error.response.data.file,
-            line: error.response.data.line,
-            trace: error.response.data.trace,
-          })
+      app.$message.show({
+        type: 'danger', 
+        message: `<b>[${error.response.data.exception}]</b> ${error.response.data.message}`,
+      })
     }
   })
 }
