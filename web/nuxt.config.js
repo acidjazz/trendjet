@@ -79,13 +79,6 @@ module.exports = {
       '@/components/global/Modal',
     ],
   },
-  /*
-  ** Axios module configuration
-  */
-  axios: {
-    // See https://github.com/nuxt-community/axios-module#options
-  },
-
 
   /*
   ** Plugins to load before mounting the App

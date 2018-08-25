@@ -1,6 +1,5 @@
 <?php
 
-return [
 
     /*
     |--------------------------------------------------------------------------
@@ -12,12 +11,23 @@ return [
     |
     */
    
-    'supportsCredentials' => false,
-    'allowedOrigins' => ['*'],
-    'allowedOriginsPatterns' => [],
+return [
+    'supportsCredentials' => true,
+    'allowedOrigins' => [
+      '*'
+      /*
+      'http://localhost',
+      'http://localhost:3000',
+      'http://localhost:3030',
+      'http://localhost:4649',
+      'http://localhost:5000',
+      'http://control.pub.io',
+      'http://pub.com',
+      'https://pub.com',
+       */
+    ],
     'allowedHeaders' => ['*'],
     'allowedMethods' => ['*'],
-    'exposedHeaders' => [],
+    'exposedHeaders' => ['Authorization'],
     'maxAge' => 0,
-
 ];
