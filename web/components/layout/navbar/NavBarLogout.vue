@@ -10,7 +10,10 @@ export default {
   methods: {
     logout () {
       this.$axios.get('/logout')
-      this.$router.push('/')
+      if (window && window.Cookies) {
+        window.Cookies.set('token', null)
+        document.location = '/'
+      }
     },
   },
 }
