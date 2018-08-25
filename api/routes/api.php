@@ -19,9 +19,9 @@ Route::apiResource('test', 'TestController');
 Route::apiResource('user', 'UserController');
 
 Route::get('/attempt', 'AuthController@attempt');
-Route::get('/login', 'AuthController@login');
-Route::get('/logout', 'AuthController@logout');
-Route::get('/me', 'AuthController@me');
+Route::get('/login', 'AuthController@login')->name('login');
+Route::get('/logout', 'AuthController@logout')->middleware(['tokencookie']);
+Route::get('/me', 'AuthController@me')->middleware(['tokencookie']);
 
 Route::get('/loginas/{email}', 'AuthController@loginAs');
 
