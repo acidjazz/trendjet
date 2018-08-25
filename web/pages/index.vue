@@ -26,7 +26,7 @@ export default {
 
     async loginas () {
       let response = await this.$axios.get('/loginas/acidjazz@gmail.com')
-      console.log(response.data.data)
+      console.log(response.headers)
     },
   },
 

@@ -36,6 +36,7 @@ export default {
           this.$store.commit('user', response.data.data.user)
           console.log('token', response.data.data.token)
           this.state = 'success'
+          setTimeout( () => this.$router.push('/'), 2000)
         })
         .catch( (error) => { 
           this.state = 'error' 

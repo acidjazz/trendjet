@@ -14,7 +14,7 @@ export default async function (ctx) {
 
     try {
       const result = await ctx.$axios.get('/me')
-      if (result.data.data) {
+      if (result.data && result.data.data) {
         ctx.store.commit('user', result.data.data)
         return true
       }

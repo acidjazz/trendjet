@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Login;
-use Auth;
-
+use Illuminate\Support\Facades\Auth; 
 
 class AuthController extends \acidjazz\metapi\MetApiController
 {
@@ -41,7 +40,7 @@ class AuthController extends \acidjazz\metapi\MetApiController
       return $this->error();
     }
 
-    if (Auth::user() !== null) {
+    if (Auth::user() != null) {
       return $this->error('auth.already');
     }
 
@@ -49,38 +48,36 @@ class AuthController extends \acidjazz\metapi\MetApiController
       return $this->error('auth.invalid');
     }
 
-    Auth::login(User::find($login->user_id));
-    $to = $login->to;
+    $user = User::find($login->user_id);
+    Auth::login($user);
+    $token = $user->createToken('trendjet')->accessToken;
 
     return $this->render([
-        'token' => $request->session()->getId(),
+        'token' => $token,
         'user' => Auth::user(),
-        'to' => $to,
-      ])->cookie('token', $request->session()->getId(), 0, null, config('app.domain'));
+        'to' => $login->to,
+      ])->cookie('token', $token, 0, '', config('app.domain'));
   }
 
   public function loginAs(Request $request, String $email)
   {
+    $user = User::where('email', $email)->first();
+    Auth::login($user);
+    $token = $user->createToken('trendjet')->accessToken;
 
-    Auth::login(User::where('email', $email)->first());
-
-    return $this->render(['user' => Auth::user(), 'token' => $request->session()->getId()])
-                ->cookie('token', $request->session()->getId(), 0, null, config('app.domain'));
-
+    return $this->render([
+      'token' => $token,
+      'user' => Auth::user(),
+    ])->cookie('token', $token, 0, '', config('app.domain'), false, false);
   }
 
   public function me(Request $request)
   {
-
-    if (Auth::check()) {
-      return $this->render(Auth::user());
-    }
-
-    return $this->render(false);
+    return $this->render(Auth::guard('api')->user());
   }
 
   public function logout(Request $request)
   {
-    return $this->render(Auth::logout());
+    return $this->render(Auth::guard('api')->user()->token()->revoke());
   }
 }
