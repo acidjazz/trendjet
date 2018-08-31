@@ -1,5 +1,5 @@
 <template lang="pug">
-.button.is-dark(@click="logout")
+a.navbar-item.button.is-text(@click="logout",:class="{'is-loading': loading}")
   span.icon
     i.mdi.mdi-logout
   span Logout
@@ -8,13 +8,28 @@
 <script>
 export default {
   methods: {
-    logout () {
-      this.$axios.get('/logout')
+    async logout () {
+      this.loading = true
+      await this.$axios.get('/logout')
       if (window && window.Cookies) {
-        window.Cookies.set('token', null)
-        document.location = '/'
+        window.Cookies.remove('token')
+        this.$message.show({
+          type: 'success', 
+          message: 'Logout Successful'
+        })
+        this.$router.push('/')
+        setTimeout(() => {
+          this.loading = false
+          this.$store.commit('user', null)
+        }, 100)
       }
     },
+  },
+
+  data () {
+    return {
+      loading: false,
+    }
   },
 }
 </script>

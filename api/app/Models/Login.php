@@ -4,7 +4,6 @@ namespace App\Models;
 
 use User;
 use Carbon\Carbon;
-use App\Notifications\UserLogin;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -48,7 +47,6 @@ class Login extends Model
 
     ]);
 
-    $user->notify(new UserLogin($login));
 
     return $login->cookie;
 

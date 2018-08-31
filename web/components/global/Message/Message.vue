@@ -9,7 +9,6 @@ transition(name="animessage")
             i.mdi.mdi-48px(:class="icon")
         .media-content.align-self-center
           span(v-html="message")
-              
 </template>
 
 <script>

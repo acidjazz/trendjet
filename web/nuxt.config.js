@@ -77,6 +77,7 @@ module.exports = {
   globals: {
     components: [
       '@/components/global/Modal',
+      '@/components/global/Message',
     ],
   },
 

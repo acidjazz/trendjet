@@ -9,7 +9,7 @@ export default async function (ctx) {
     return true
   } else {
 
-    let blocked = ['login-id']
+    let blocked = ['login-token']
     if (blocked.indexOf(ctx.route.name) !== -1) return true
 
     try {

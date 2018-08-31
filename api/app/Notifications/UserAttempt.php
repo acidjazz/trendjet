@@ -7,20 +7,20 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class UserLogin extends Notification
+class UserAttempt extends Notification
 {
   use Queueable;
 
-  private $login;
+  private $attempt;
 
   /**
    * Create a new notification instance.
    *
    * @return void
    */
-  public function __construct($login)
+  public function __construct($attempt)
   {
-    $this->login = $login;
+    $this->attempt = $attempt;
   }
 
   /**
@@ -56,9 +56,9 @@ class UserLogin extends Notification
   public function toArray($notifiable)
   {
     return [
-      'id' => $this->login->id,
-      'cookie' => $this->login->cookie,
-      'created_at' => $this->login->created_at,
+      'token' => $this->attempt->token,
+      'cookie' => $this->attempt->cookie,
+      'created_at' => $this->attempt->created_at,
     ];
   }
 }
