@@ -16,16 +16,20 @@
           i.mdi.mdi-email
         span.icon.is-small.is-right.has-text-danger(v-if="errors")
           i.mdi.mdi-alert
+        span.icon.is-small.is-right.has-text-success(v-if="success.email")
+          i.mdi.mdi-check
       p.control(v-if="prompt")
         button.button.ani-slide-in.delay-1(
           :class="{'is-loading': loading.facebook}",
           @click="oauth('facebook')")
-          span.icon: i.mdi.mdi-facebook
+          span.icon.has-text-success(v-if="success.facebook"): i.mdi.mdi-check
+          span.icon(v-else): i.mdi.mdi-facebook
       p.control(v-if="prompt")
         button.button.ani-slide-in(
           :class="{'is-loading': loading.google}",
           @click="oauth('google')")
-          span.icon: i.mdi.mdi-google
+          span.icon.has-text-success(v-if="success.google"): i.mdi.mdi-check
+          span.icon(v-else): i.mdi.mdi-google
       p.control
         button.button(
           @click="attempt",
@@ -44,7 +48,6 @@ export default {
     oauth(provider) {
 
       this.loading[provider] = true
-      console.log(this.loading)
 
       let width = 640
       let height = 660
@@ -77,9 +80,9 @@ export default {
     oauthComplete (result) {
       if (process.SERVER) return true
       this.loading[result.provider] = false
+      this.success[result.provider] = true
       window.localStorage.setItem('trendjet', JSON.stringify(result))
-      this.$store.commit('user', result.user)
-      this.$message.show({ type: 'success', message: 'Login Successful' })
+      setTimeout( () => this.$store.commit('user', result.user), 50)
     },
 
     attempt () {
@@ -104,6 +107,7 @@ export default {
       this.errors = false
       this.$axios.get('/attempt', {params: {email: this.email}})
         .then((response) => { 
+          this.success.email = true
           window.Cookies.set('attempt', response.data.data.cookie, { expires: 1})
           this.modal() 
         })
@@ -134,6 +138,11 @@ export default {
   data () {
     return {
       loading: {
+        email: false,
+        facebook: false,
+        google: false,
+      },
+      success: {
         email: false,
         facebook: false,
         google: false,
