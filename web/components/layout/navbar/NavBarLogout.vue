@@ -3,6 +3,8 @@ a.navbar-item(@click="logout")
   .level
     .level-left
   LoadingSpinner(size="24px",v-if="loading")
+  span.icon.has-text-success(v-else-if="loggedout")
+    i.mdi.mdi-check
   span.icon(v-else)
     i.mdi.mdi-logout
   span &nbsp;Logout
@@ -19,14 +21,9 @@ export default {
       if (window && window.Cookies) {
         window.Cookies.remove('token')
         this.$router.push('/')
-        setTimeout(() => {
-          this.loading = false
-          this.$store.commit('user', null)
-          this.$message.show({
-            type: 'success', 
-            message: 'Logout Successful'
-          })
-        }, 200)
+        this.loading = false
+        this.loggedout = true
+        setTimeout(() => this.$store.commit('user', null) , 200)
       }
     },
   },
@@ -34,6 +31,7 @@ export default {
   data () {
     return {
       loading: false,
+      loggedout: false,
     }
   },
 }
