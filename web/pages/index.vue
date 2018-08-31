@@ -19,7 +19,7 @@ export default {
 
     message () {
       this.$message.show({
-        type: 'success', 
+        type: this.types[Math.floor(Math.random()*this.types.length)], 
         message: `this is a test message`}
       )
     },
