@@ -27,16 +27,23 @@ export default {
     login () {
 
       let params = {
-        id: this.$route.params.id,
+        token: this.$route.params.token,
         cookie: window.Cookies.get('attempt') || this.hash,
       }
 
       this.$axios.get('/login', {params: params})
         .then( (response) => {
           this.$store.commit('user', response.data.data.user)
-          console.log('token', response.data.data.token)
           this.state = 'success'
-          setTimeout( () => this.$router.push('/'), 2000)
+          window.Cookies.remove('attempt')
+          setTimeout( () => {
+            this.$message.show({
+              type: 'success', 
+              message: 'Login Successful'
+            })
+            this.$router.push('/')
+          }
+            , 2000)
         })
         .catch( (error) => { 
           this.state = 'error' 
@@ -46,7 +53,7 @@ export default {
     }
   },
   mounted () {
-     if (!this.checked) this.login()
+    if (!this.checked) this.login()
     this.API_URL = process.env.API_URL
   },
 

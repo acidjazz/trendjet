@@ -2,15 +2,18 @@
 
 namespace App\Models;
 
+use App\Models\Provider;
+
+use acidjazz\Humble\Traits\Humble;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-use Laravel\Passport\HasApiTokens;
+// use Laravel\Passport\HasApiTokens;
 
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use Notifiable, Humble;
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +24,9 @@ class User extends Authenticatable
         'name', 'email',
     ];
 
-    public $remember_token = false;
+    public function providers()
+    {
+      return $this->hasMany(Provider::class);
+    }
 
 }
