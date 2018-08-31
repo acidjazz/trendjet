@@ -149,6 +149,7 @@ class AuthController extends \acidjazz\metapi\MetApiController
 
   public function logout(Request $request)
   {
+    sleep(1);
     return $this->render(Auth::logout())->cookie('token', false, 0, '', config('app.domain'));
   }
 }
