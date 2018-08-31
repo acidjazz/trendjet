@@ -32,23 +32,6 @@ public function up()
     $table->timestamps();
   });
 
-  Schema::create('sessions', function (Blueprint $table) {
-
-    $table->string('token', 64)->unique();
-    $table->integer('user_id')->unsigned();
-    $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-    $table->string('source')->default('attempt');
-    $table->string('cookie', 64);
-    $table->boolean('verified')->default(false);
-
-    // user metadata
-    $table->string('to')->nullable();
-    $table->string('ip', 15)->nullable();
-    $table->string('agent')->nullable();
-
-    $table->timestamps();
-    $table->primary('token');
-  });
 }
 
 /**
