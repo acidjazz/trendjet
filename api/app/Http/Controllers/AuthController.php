@@ -2,13 +2,80 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Login;
+use App\Models\Provider;
+
+use Illuminate\Http\Request;
+use App\Notifications\UserAttempt;
 use Illuminate\Support\Facades\Auth; 
+
+use Socialite;
 
 class AuthController extends \acidjazz\metapi\MetApiController
 {
+
+  public function redirect(Request $request, $provider)
+  {
+
+    if (!in_array($provider, Provider::$allowed)) {
+      return $this->error('auth.provider.allowed', 'Auth Provider is not allowed');
+    }
+
+    return Socialite::driver($provider)->redirect();
+
+  }
+
+  public function callback(Request $request, String $provider)
+  {
+    if (!in_array($provider, Provider::$allowed)) {
+      return $this->error('auth.provider.allowed', 'Auth Provider is not allowed');
+    }
+
+    $oaUser = Socialite::driver($provider)->stateless()->user();
+
+    $user = User::where('email', $oaUser->email)->first();
+
+    if ($user == null) {
+      $user = new User([
+        'name' => $oaUser->name,
+        'email' => $oaUser->email,
+        'avatar' => $oaUser->avatar_original ?? $oaUser->avatar,
+      ]);
+      if (!$user->save()) {
+        return $this->error('auth.user_save', 'Error saving user');
+      }
+    }
+
+    if ($user == null || !in_array($provider, $user->providers->pluck('name')->toArray())) {
+      $provider = new Provider([
+        'user_id' => $user->id,
+        'name' => $provider,
+        'avatar' => $oaUser->avatar_original ?? $oaUser->avatar,
+        'payload' => $request->get('state'),
+      ]);
+      if (!$provider->save()) {
+        return $this->error('auth.provider_save', 'Error saving provider');
+      }
+
+      if ($user->avatar == null) {
+        $user->avatar = $provider->avatar;
+        $user->save();
+      }
+    }
+
+    Auth::login($user);
+
+    return response(
+      view('complete', [
+        'json' => json_encode([
+          'provider' => $provider,
+          'token' => Auth::token(),
+          'user' => Auth::user(),
+          'to' => Auth::session()->to,
+        ])
+      ]))->cookie('token', Auth::token(), 0, '', config('app.domain'));
+
+  }
 
   public function attempt(Request $request)
   {
@@ -22,18 +89,17 @@ class AuthController extends \acidjazz\metapi\MetApiController
 
     $user = User::where('email', $request->email)->first();
 
-    return $this->render(Login::attempt(
-      $user, 
-      $request->to, 
-      $request->ip(),
-      $request->header('User-Agent'))
-    );
+    $attempt = Auth::attempt($user);
+
+    $user->notify(new UserAttempt($attempt));
+
+    return $this->render(['cookie' => $attempt->cookie]);
 
   }
 
   public function login(Request $request)
   {
-    $this->option('id', 'required|alpha_num|size:64');
+    $this->option('token', 'required|alpha_num|size:64');
     $this->option('cookie', 'required|alpha_num|size:64');
 
     if (!$this->verify()) {
@@ -44,40 +110,41 @@ class AuthController extends \acidjazz\metapi\MetApiController
       return $this->error('auth.already');
     }
 
-    if (!$login = Login::verify($request->id, $request->cookie)) {
+    if (!$login = Auth::verify($request->token, $request->cookie)) {
       return $this->error('auth.invalid');
     }
 
-    $user = User::find($login->user_id);
-    Auth::login($user);
-    $token = $user->createToken('trendjet')->accessToken;
-
     return $this->render([
-        'token' => $token,
+        'token' => Auth::token(),
         'user' => Auth::user(),
-        'to' => $login->to,
-      ])->cookie('token', $token, 0, '', config('app.domain'));
+        'to' => Auth::session()->to,
+      ])->cookie('token', Auth::token(), 0, '', config('app.domain'));
   }
 
   public function loginAs(Request $request, String $email)
   {
-    $user = User::where('email', $email)->first();
+
+    Auth::check();
+    
+    if (($user = User::where('email', $email)->first()) == null) {
+      return $this->error('notfound', 'E-mail address not found');
+    }
+
     Auth::login($user);
-    $token = $user->createToken('trendjet')->accessToken;
 
     return $this->render([
-      'token' => $token,
+      'token' => Auth::token(),
       'user' => Auth::user(),
-    ])->cookie('token', $token, 0, '', config('app.domain'), false, false);
+    ])->cookie('token', Auth::token(), 0, '', config('app.domain'), false, false);
   }
 
   public function me(Request $request)
   {
-    return $this->render(Auth::guard('api')->user());
+    return $this->render(Auth::user());
   }
 
   public function logout(Request $request)
   {
-    return $this->render(Auth::guard('api')->user()->token()->revoke());
+    return $this->render(Auth::logout())->cookie('token', false, 0, '', config('app.domain'));
   }
 }

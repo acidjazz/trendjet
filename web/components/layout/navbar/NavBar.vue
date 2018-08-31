@@ -11,21 +11,20 @@ nav.navbar.is-dark.is-fixed-top
         span
         span
     .navbar-menu(:class="{'is-active': burger}")
-      .navbar-end
-        .navbar-item
-          NavBarLogin(v-if="!auth")
-          NavBarLogout(v-else)
+      transition(name="slide-fade",mode="out-in")
+        NavBarUser(v-if="auth")
+        NavBarLogin(v-else)
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import NavBarLogin from '@/components/layout/navbar/NavBarLogin'
-import NavBarLogout from '@/components/layout/navbar/NavBarLogout'
+import NavBarUser from '@/components/layout/navbar/NavBarUser'
 export default {
   computed: { ...mapGetters(['auth'])},
   components: { 
     NavBarLogin,
-    NavBarLogout,
+    NavBarUser,
   },
   data () {
     return {
@@ -43,4 +42,18 @@ export default {
   margin-right 10px
 .navbar-brand  a.navbar-burger:hover
   color picton
+
+.slide-fade-enter-active
+  transition all .6s ease .0s
+.slide-fade-leave-active 
+  transition all .6s ease 1s
+
+.slide-fade-enter
+  transform translate(0, -30px)
+.slide-fade-leave-to
+  transform translate(0, -30px)
+.slide-fade-enter, .slide-fade-leave-to
+  opacity 0
+
+
 </style>
