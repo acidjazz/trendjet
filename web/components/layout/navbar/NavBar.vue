@@ -44,9 +44,9 @@ export default {
   color picton
 
 .slide-fade-enter-active
-  transition all .6s ease .0s
+  transition all .3s ease .0s
 .slide-fade-leave-active 
-  transition all .6s ease 1s
+  transition all .3s ease .2s
 
 .slide-fade-enter
   transform translate(0, -30px)
