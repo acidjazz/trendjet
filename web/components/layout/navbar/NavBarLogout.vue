@@ -1,27 +1,32 @@
 <template lang="pug">
-a.navbar-item.button.is-text(@click="logout",:class="{'is-loading': loading}")
-  span.icon
+a.navbar-item(@click="logout")
+  .level
+    .level-left
+  LoadingSpinner(size="24px",v-if="loading")
+  span.icon(v-else)
     i.mdi.mdi-logout
-  span Logout
+  span &nbsp;Logout
 </template>
 
 <script>
+import LoadingSpinner from '@/components/loading/LoadingSpinner'
 export default {
+  components: { LoadingSpinner },
   methods: {
     async logout () {
       this.loading = true
       await this.$axios.get('/logout')
       if (window && window.Cookies) {
         window.Cookies.remove('token')
-        this.$message.show({
-          type: 'success', 
-          message: 'Logout Successful'
-        })
         this.$router.push('/')
         setTimeout(() => {
           this.loading = false
           this.$store.commit('user', null)
-        }, 100)
+          this.$message.show({
+            type: 'success', 
+            message: 'Logout Successful'
+          })
+        }, 200)
       }
     },
   },
