@@ -25,6 +25,7 @@ duration = 1.4s
 
 .spinner
   animation rotator duration linear infinite
+  padding 0.15rem
 
 @keyframes rotator
   0% 

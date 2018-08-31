@@ -69,7 +69,6 @@ export default {
     },
 
     handleMessage (event) {
-      console.log('handleMessage', event.data.user)
       if (event.data.user && event.data.token) {
         this.oauthComplete(event.data)
       }
@@ -77,6 +76,7 @@ export default {
 
     oauthComplete (result) {
       if (process.SERVER) return true
+      this.loading[result.provider] = false
       window.localStorage.setItem('trendjet', JSON.stringify(result))
       this.$store.commit('user', result.user)
       this.$message.show({ type: 'success', message: 'Login Successful' })
@@ -108,7 +108,7 @@ export default {
           this.modal() 
         })
         .catch((error) => { this.errors = true })
-        .then((result) => { this.loading = false })
+        .then((result) => { this.loading.email = false })
     },
     modal () {
       this.$modal.show({
