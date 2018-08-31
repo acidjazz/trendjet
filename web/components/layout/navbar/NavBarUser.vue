@@ -1,7 +1,7 @@
 <template lang="pug">
 .navbar-end
-  .navbar-item.has-dropdown(:class="{'is-active': active}")
-    a.navbar-link(@click="active = !active")
+  .navbar-item.has-dropdown.is-hoverable
+    a.navbar-link
       .level
         .level-left
           .level-item
@@ -11,23 +11,13 @@
             span {{ $store.state.user.name }}
     .navbar-dropdown.is-right
       hr.navbar-divider
-      NavBarLogout(:close="close")
+      NavBarLogout
 </template>
 
 <script>
 import NavBarLogout from '@/components/layout/navbar/NavBarLogout'
 export default {
   components: { NavBarLogout },
-  methods: {
-    close () {
-      this.active = false
-    },
-  },
-  data () {
-    return {
-      active: false,
-    }
-  },
 }
 </script>
 
