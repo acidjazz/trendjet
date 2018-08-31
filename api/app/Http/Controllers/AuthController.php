@@ -14,6 +14,10 @@ use Socialite;
 class AuthController extends \acidjazz\metapi\MetApiController
 {
 
+  public function sessions() {
+    return $this->render(Auth::user()->sessions);
+  }
+
   public function redirect(Request $request, $provider)
   {
 
