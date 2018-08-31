@@ -13,6 +13,12 @@ a.navbar-item(@click="logout")
 <script>
 import LoadingSpinner from '@/components/loading/LoadingSpinner'
 export default {
+  props: {
+    close: {
+      type: Function,
+      required: true,
+    },
+  },
   components: { LoadingSpinner },
   methods: {
     async logout () {
@@ -23,7 +29,8 @@ export default {
         this.$router.push('/')
         this.loading = false
         this.loggedout = true
-        setTimeout(() => this.$store.commit('user', null) , 200)
+        setTimeout(() => this.close(), 200)
+        setTimeout(() => this.$store.commit('user', null) , 400)
       }
     },
   },
