@@ -3,7 +3,7 @@
   .container
     section.section
       .content
-        code {{ cookies }}
+        // code {{ cookies }}
       .buttons.is-centered
         .button(@click="modal") show modal
         .button(@click="message") show message

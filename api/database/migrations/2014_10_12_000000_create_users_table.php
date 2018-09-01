@@ -18,6 +18,7 @@ public function up()
     $table->string('name');
     $table->string('email')->unique();
     $table->string('avatar')->nullable();
+    $table->string('role')->default('member');
     $table->timestamps();
   });
 
