@@ -1,13 +1,15 @@
 <template lang="pug">
 a.navbar-item(@click="logout")
-  .level
+  .level.is-mobile
     .level-left
-  LoadingSpinner(size="24px",v-if="loading")
-  span.icon.has-text-success(v-else-if="loggedout")
-    i.mdi.mdi-check
-  span.icon(v-else)
-    i.mdi.mdi-logout
-  span &nbsp;Logout
+      .level-item(style="width: 18px;")
+        LoadingSpinner(size="24px",v-if="loading")
+        span.icon.has-text-success(v-else-if="loggedout")
+          i.mdi.mdi-check
+        span.icon(v-else)
+          i.mdi.mdi-logout
+      .level-item
+        span Logout
 </template>
 
 <script>

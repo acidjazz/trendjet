@@ -17,7 +17,7 @@ return [
   'mailgun' => [
     'domain' => env('MAILGUN_DOMAIN'),
     'secret' => env('MAILGUN_SECRET'),
-],
+  ],
 
   'ses' => [
     'key' => env('SES_KEY'),
@@ -40,6 +40,12 @@ return [
     'client_id' => '393122115262-av4l4mjomlod4oc4rao0lv0m8o3fjqvm.apps.googleusercontent.com',
     'client_secret' => env('OAUTH_GOOGLE_SECRET'),
     'redirect' => env('APP_URL').'callback/google',
+  ],
+
+  'facebook' => [
+    'client_id' => '554714374948367',
+    'client_secret' => env('OAUTH_FACEBOOK_SECRET'),
+    'redirect' => env('APP_URL').'callback/facebook',
   ],
 
 ];

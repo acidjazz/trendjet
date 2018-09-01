@@ -51,23 +51,23 @@ class AuthController extends \acidjazz\metapi\MetApiController
     }
 
     if ($user == null || !in_array($provider, $user->providers->pluck('name')->toArray())) {
-      $provider = new Provider([
+      $providerModel = new Provider([
         'user_id' => $user->id,
         'name' => $provider,
         'avatar' => $oaUser->avatar_original ?? $oaUser->avatar,
         'payload' => $request->get('state'),
       ]);
-      if (!$provider->save()) {
+      if (!$providerModel->save()) {
         return $this->error('auth.provider_save', 'Error saving provider');
       }
 
       if ($user->avatar == null) {
-        $user->avatar = $provider->avatar;
+        $user->avatar = $providerModel->avatar;
         $user->save();
       }
     }
 
-    Auth::login($user);
+    Auth::login($user, $provider);
 
     return response(
       view('complete', [
@@ -92,9 +92,7 @@ class AuthController extends \acidjazz\metapi\MetApiController
     }
 
     $user = User::where('email', $request->email)->first();
-
     $attempt = Auth::attempt($user);
-
     $user->notify(new UserAttempt($attempt));
 
     return $this->render(['cookie' => $attempt->cookie]);

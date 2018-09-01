@@ -1,15 +1,22 @@
 <template lang="pug">
 .navbar-end
   .navbar-item.has-dropdown.is-hoverable
-    a.navbar-link
+    .navbar-link
       .level
         .level-left
           .level-item
-            figure.image.is-24x24
-              img.is-rounded(:src="$store.state.user.avatar")
+            figure.image.is-32x32
+              img.avatar.object-cover(:src="$store.state.user.avatar")
           .level-item
             span {{ $store.state.user.name }}
     .navbar-dropdown.is-right
+      nuxt-link.navbar-item(to="/admin")
+        .level.is-mobile
+          .level-left
+            .level-item
+              span.icon
+                i.mdi.mdi-security
+            .level-item Admin
       hr.navbar-divider
       NavBarLogout
 </template>
