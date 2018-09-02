@@ -13,10 +13,10 @@
     "precommit": "npm run lint",
     "css": "node-sass --output-style compressed assets/sass/framework.sass > static/framework.css",
     "mdi": "cp node_modules/@mdi/font/css/materialdesignicons.min.css static/mdi.css; cp node_modules/@mdi/font/fonts/* static/fonts/.; cp node_modules/@mdi/font/css/materialdesignicons.min.css.map static/.;",
-    "pm2start": "pm2 start yarn.js -- start --name \"web\"",
+    "pm2start": "HOST=0.0.0.0 pm2 start yarn.js -- start --name \"web\"",
     "pm2restart": "pm2 restart all",
     "staging-env": "aws s3 cp s3://trendjet-vault/envs/web-staging .env",
-    "staging": "yarn css; yarn mdi; yarn staging-env; git pull;yarn; yarn build; yarn pm2restart;",
+    "staging": "yarn mdi; yarn css; yarn mdi; yarn staging-env; git pull;yarn; yarn build; yarn pm2restart;",
     "test": "yarn lint"
   },
   "dependencies": {
