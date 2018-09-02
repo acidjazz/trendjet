@@ -19,7 +19,6 @@ export default async function (ctx) {
         return true
       }
     } catch (e) {
-      console.log('middleware auth', e)
       return true
     }
 

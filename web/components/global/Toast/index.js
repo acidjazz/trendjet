@@ -1,17 +1,17 @@
 import Vue from 'vue'
-import Message from './Message.vue'
+import Toast from './Toast.vue'
 import { spawn } from '@/utils/helpers.js'
 
-const MessageProgrammatic = {
+const ToastProgrammatic = {
   show (props) {
     if (typeof props === 'string') props = { message: props }
-    return spawn('messages', props, Vue, Message)
+    return spawn('toasts', props, Vue, Toast)
   }
 }
 
 const Plugin = {
   install(Vue) {
-    Vue.prototype['$message'] = MessageProgrammatic
+    Vue.prototype['$toast'] = ToastProgrammatic
   }
 }
 
