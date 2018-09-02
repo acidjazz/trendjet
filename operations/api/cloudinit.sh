@@ -14,7 +14,7 @@ chown -R ec2-user:ec2-user /home/ec2-user/.ssh
 
 yum -y update
 amazon-linux-extras install nginx1.12 php7.2
-yum -y install git php-pear php-devel gcc ImageMagick ImageMagick-devel php-mbstring php-bcmath
+yum -y install git php-pear php-devel gcc ImageMagick ImageMagick-devel php-mbstring php-bcmath php-pecl-zip
 pecl install imagick
 echo "extension=imagick.so" > /etc/php.d/30-imagick.ini
 
@@ -46,7 +46,7 @@ http {
     server_name  localhost;
     client_max_body_size 1000m;
     client_body_timeout 180s;
-    root         /var/www/html/trendjet/api/public/;
+    root         /usr/share/nginx/trendjet/api/public/;
     location / {
       if (!-e $request_filename) {
         rewrite ^(.*)$ /index.php;
@@ -64,8 +64,6 @@ http {
 }
 ' > /etc/nginx/nginx.conf
 
-chown -R ec2-user:ec2-user /var/www/html
-
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php -r "if (hash_file('SHA384', 'composer-setup.php') === '544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd586475ca9813a858088ffbc1f233e9b180f061') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 php composer-setup.php --install-dir=/usr/local/bin --filename=composer
@@ -73,16 +71,20 @@ php -r "unlink('composer-setup.php');"
 
 # setup the actual code and secrets
 
+mkdir /usr/share/nginx/trendjet
+chown -R ec2-user:ec2-user /usr/share/nginx/trendjet
+
 su ec2-user -c "
-cd /var/www/html
+cd /usr/share/nginx
 git clone git@github.com:acidjazz/trendjet.git
-cd trendjet/api
-composer update
+cd /usr/share/nginx/trendjet/api
 aws s3 cp s3://trendjet-vault/envs/api-staging .env
-chmod -R 777 storage/
+/usr/local/bin/composer install
+mkdir /usr/share/nginx/trendjet/api/storage/
+chmod -R 777 /usr/share/nginx/trendjet/api/storage/
 "
-service php-fpm start
-service nginx start
+service php-fpm restart
+service nginx restart
 
 ## TODO
 # FFMPEG and imagemagick

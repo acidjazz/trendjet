@@ -1,5 +1,5 @@
 <template lang="pug">
-nav.navbar.is-dark.is-fixed-top
+nav.navbar.is-fixed-top.is-dark
   .container
     .navbar-brand
       nuxt-link.navbar-item(to="/")
@@ -45,13 +45,15 @@ export default {
 
 .slide-fade-enter-active
   transition all .3s ease 0s
+  overflow hidden
 .slide-fade-leave-active 
   transition all .3s ease 0s
+  overflow hidden
 
 .slide-fade-enter
-  transform translate(0, -20px)
+  transform translate(0px, 0)
 .slide-fade-leave-to
-  transform translate(0, -20px)
+  transform translate(0px, 0)
 .slide-fade-enter, .slide-fade-leave-to
   opacity 0
 

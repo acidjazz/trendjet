@@ -1,14 +1,12 @@
 <template lang="pug">
-transition(name="animessage")
-  .message(:class="`is-${type}`",v-if="active")
-    .message-body
-      button.delete(@click="destroy")
-      .media
-        .media-left
-          span.icon.is-large(:class="`is-${type}`")
-            i.mdi.mdi-48px(:class="icon")
-        .media-content.align-self-center
-          span(v-html="message")
+transition(name="toast")
+  .box.notification(:class="`is-${type}`",v-if="active")
+    button.delete(@click="destroy")
+    .media
+      .media-left
+        span.icon.is-large.ani-slide-in-left.delay-2(:class="`is-${type}`")
+          i.mdi.mdi-48px(:class="icon")
+      .media-content.ani-slide-in-left.delay-3.align-self-center(v-html="message")
 </template>
 
 <script>
@@ -25,6 +23,11 @@ export default {
       required: false,
       validate: (type) => { return ['sucecss','info','danger', 'warning'].indexOf(type) !== -1 }
     },
+    delay: {
+      type: Number,
+      required: false,
+      default: 3,
+    },
   },
 
   methods: {
@@ -38,7 +41,7 @@ export default {
   },
   mounted () {
     this.active = true
-    setTimeout(() =>  this.destroy(), 3000)
+    if (this.delay > 0) setTimeout(() =>  this.destroy(), this.delay*1000)
   },
 
   computed: {
@@ -55,6 +58,9 @@ export default {
           break
         case 'warning' :
           return 'mdi-alert'
+          break
+        default :
+          return 'mdi-information'
           break
       }
     }
