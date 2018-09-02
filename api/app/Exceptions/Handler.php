@@ -52,6 +52,6 @@ class Handler extends ExceptionHandler
 
     protected function unauthenticated($request, AuthenticationException $exception)
     {
-      return response()->json(['errors' => ['not.auth' => 'Not Authenticated']], 500, [], JSON_PRETTY_PRINT);
+      return response()->json(['errors' => ['not.auth' => ['Not Authenticated']]], 500, [], JSON_PRETTY_PRINT);
     }
 }

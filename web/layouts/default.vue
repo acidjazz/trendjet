@@ -1,6 +1,6 @@
 <template lang="pug">
 #trendjet
-  #messages
+  #toasts
   #modals
   NavBar
   nuxt

@@ -2,8 +2,8 @@
 .navbar-end
   .navbar-item
     span.field.display-inline-block(:class="{'has-addons': prompt}")
-      p.control.ani-slide-in.delay-2.has-icons-left.has-icons-right(
-        :class="{'is-loading': loading.email}",
+      p.control.ani-slide-in-left.delay-2.has-icons-left.has-icons-right(
+        :class="{'is-loading': loading.email,'is-closing': closing}",
         v-if="prompt")
         input.input(
           type="text",
@@ -12,32 +12,32 @@
           ref="email",
           :class="{'is-danger': errors}",
           @keyup.enter="attempt")
-        span.icon.is-small.is-left.ani-slide-in.delay-3
+        span.icon.is-small.is-left.ani-slide-in-left.delay-3(:class="{'is-closing': closing}")
           i.mdi.mdi-email
         span.icon.is-small.is-right.has-text-danger(v-if="errors")
           i.mdi.mdi-alert
         span.icon.is-small.is-right.has-text-success(v-if="success.email")
           i.mdi.mdi-check
       p.control(v-if="prompt")
-        button.button.ani-slide-in.delay-1(
-          :class="{'is-loading': loading.facebook}",
+        button.button.ani-slide-in-left.delay-1(
+          :class="{'is-loading': loading.facebook,'is-closing': closing}",
           @click="oauth('facebook')")
           span.icon.has-text-success(v-if="success.facebook"): i.mdi.mdi-check
           span.icon(v-else): i.mdi.mdi-facebook
       p.control(v-if="prompt")
-        button.button.ani-slide-in(
-          :class="{'is-loading': loading.google}",
+        button.button.ani-slide-in-left(
+          :class="{'is-loading': loading.google,'is-closing': closing}",
           @click="oauth('google')")
           span.icon.has-text-success(v-if="success.google"): i.mdi.mdi-check
           span.icon(v-else): i.mdi.mdi-google
       p.control
         button.button(
+          :class="{'is-dark': !prompt || closing}",
           @click="attempt",
-          :class="{'is-dark': !prompt}",
           ref="loginButton")
-          span.icon
+          span.icon.ani-slide-in-left
             i.mdi.mdi-login-variant
-          span Log in
+          span Connect
         | &nbsp;
 </template>
 
@@ -82,7 +82,7 @@ export default {
       this.loading[result.provider] = false
       this.success[result.provider] = true
       window.localStorage.setItem('trendjet', JSON.stringify(result))
-      setTimeout( () => this.prompt = false, 300)
+      setTimeout( () => this.close(), 300)
       setTimeout( () => this.$store.commit('user', result.user), 340)
     },
 
@@ -95,7 +95,7 @@ export default {
       }
 
       if (this.email === '') {
-        this.prompt = false
+        this.close()
         this.errors = false
         return true
       }
@@ -104,6 +104,15 @@ export default {
       this.get(this.email)
 
     },
+
+    close () {
+      this.closing = true
+      setTimeout(() => {
+        this.closing = false
+        this.prompt = false
+      }, 200)
+    },
+
     get (email) {
       this.errors = false
       this.$axios.get('/attempt', {params: {email: this.email}})
@@ -138,6 +147,7 @@ export default {
 
   data () {
     return {
+      closing: false,
       loading: {
         email: false,
         facebook: false,
