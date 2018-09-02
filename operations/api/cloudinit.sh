@@ -64,6 +64,27 @@ http {
 }
 ' > /etc/nginx/nginx.conf
 
+echo '
+[www]
+user = ec2-user
+group = ec2-user
+listen = /run/php-fpm/www.sock
+listen.acl_users = apache,nginx,ec2-user
+listen.allowed_clients = 127.0.0.1
+
+pm = dynamic
+pm.max_children = 50
+pm.start_servers = 5
+pm.min_spare_servers = 5
+pm.max_spare_servers = 35
+slowlog = /var/log/php-fpm/www-slow.log
+php_admin_value[error_log] = /var/log/php-fpm/www-error.log
+php_admin_flag[log_errors] = on
+php_value[session.save_handler] = files
+php_value[session.save_path]    = /var/lib/php/session
+php_value[soap.wsdl_cache_dir]  = /var/lib/php/wsdlcache
+' > /etc/php-fpm.d/www.conf
+
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php -r "if (hash_file('SHA384', 'composer-setup.php') === '544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd586475ca9813a858088ffbc1f233e9b180f061') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 php composer-setup.php --install-dir=/usr/local/bin --filename=composer
@@ -75,13 +96,12 @@ mkdir /usr/share/nginx/trendjet
 chown -R ec2-user:ec2-user /usr/share/nginx/trendjet
 
 su ec2-user -c "
-cd /usr/share/nginx
+cd /home/ec2-user
 git clone git@github.com:acidjazz/trendjet.git
-cd /usr/share/nginx/trendjet/api
+cd /home/ec2-user/trendjet/api
 aws s3 cp s3://trendjet-vault/envs/api-staging .env
 /usr/local/bin/composer install
-mkdir /usr/share/nginx/trendjet/api/storage/
-chmod -R 777 /usr/share/nginx/trendjet/api/storage/
+chmod -R 777 /home/ec2-user/trendjet/api/storage/
 "
 service php-fpm restart
 service nginx restart
