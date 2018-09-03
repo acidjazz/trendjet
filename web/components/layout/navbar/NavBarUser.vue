@@ -11,12 +11,14 @@
             span {{ $store.state.user.name }}
     .navbar-dropdown.is-right
       nuxt-link.navbar-item(v-if="isAdmin",to="/admin")
-        .level.is-mobile
-          .level-left
-            .level-item
-              span.icon
-                i.mdi.mdi-security
-            .level-item Admin
+        span.icon
+          i.mdi.mdi-security
+        span Admin
+      hr.navbar-divider
+      nuxt-link.navbar-item(to="/guide")
+        span.icon
+          i.mdi.mdi-palette-swatch
+        span Style GUide
       hr.navbar-divider
       NavBarLogout(:close="close")
 </template>
