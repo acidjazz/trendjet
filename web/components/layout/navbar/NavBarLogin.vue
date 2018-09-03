@@ -9,7 +9,6 @@
           type="text",
           placeholder="E-mail address",
           v-model="email",
-          ref="email",
           :class="{'is-danger': errors}",
           @keyup.enter="attempt")
         span.icon.is-small.is-left.ani-slide-in-left.delay-3(:class="{'is-closing': closing}")
@@ -31,10 +30,7 @@
           span.icon.has-text-success(v-if="success.google"): i.mdi.mdi-check
           span.icon(v-else): i.mdi.mdi-google
       p.control
-        button.button(
-          :class="{'is-dark': !prompt || closing}",
-          @click="attempt",
-          ref="loginButton")
+        button.button(:class="{'is-dark': !prompt || closing}",@click="attempt")
           span.icon.ani-slide-in-left
             i.mdi.mdi-login-variant
           span Connect
@@ -90,7 +86,6 @@ export default {
 
       if (!this.prompt) {
         this.prompt = true
-        setTimeout( () => this.$refs.email.focus() , 200)
         return true
       }
 

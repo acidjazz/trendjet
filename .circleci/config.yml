@@ -1,0 +1,88 @@
+company: 1
+jobs:
+  api:
+    docker: 
+      - image: circleci/python:3.7.9-stretch-browsers
+    working_directory: ~/pub
+
+    steps:
+      - checkout
+
+      - run: 
+          name: Install Dependencies
+          command: |
+            pip install awscli --upgrade --user
+
+      - restore_cache:
+          key: dependency-cache-webapi-1
+          paths: 
+            - ~/.local
+
+      - save_cache:
+          key: dependency-cache-webapi-1
+          paths:
+            - ~/.local
+
+      - deploy:
+          name: Deploy web and API 
+          command: |
+            if [ "${CIRCLE_BRANCH}" = 'master' ] ||  [ "${CIRCLE_BRANCH}" = 'staging' ]; then
+              commandId=$(~/.local/bin/aws ssm send-command \
+                --region=us-east-1 \
+                --targets "Key=tag:SSM,Values=web-${CIRCLE_BRANCH}" \
+                --document-name "AWS-RunShellScript" \
+                --comment "Deploy Web to ${CIRCLE_BRANCH}" \
+                --parameters '{"commands": ["su - ec2-user -c \"cd ~/trendjet/web; yarn '"${CIRCLE_BRANCH}"' \""]}' \
+                --output text \
+                --query "Command.CommandId")
+              status="InProgress"
+              echo ["$commandId"] Status: "$status"
+              while  [ "$status" = InProgress ]
+              do
+                status=$(~/.local/bin/aws ssm list-commands \
+                  --region=us-east-1 \
+                  --command-id "$commandId" \
+                  --query "Commands[*].Status" \
+                  | tr -cd '[:alpha:]')
+                printf .
+              done
+              echo
+              echo ["$commandId"] Status: "$status"
+              ~/.local/bin/aws ssm list-command-invocations \
+                --region=us-east-1 \
+                --command-id "$commandId" \
+                --query="CommandInvocations[*].CommandPlugins[*].Output" \
+                --details \
+                | sed 1,2d | sed "s/^[ \t]*\"//" | sed 's/\\n/\'$'\n/g' | head -n -3
+
+              commandId=$(~/.local/bin/aws ssm send-command \
+                --region=us-east-1 \
+                --targets "Key=tag:SSM,Values=api-${CIRCLE_BRANCH}" \
+                --document-name "AWS-RunShellScript" \
+                --comment "Deploy API to ${CIRCLE_BRANCH}" \
+                --parameters '{"commands": ["su - ec2-user -c \"cd ~/trendjet/api; composer '"${CIRCLE_BRANCH}"'-deploy\""]}' \
+                --output text \
+                --query "Command.CommandId")
+              status="InProgress"
+              echo ["$commandId"] Status: "$status"
+              while  [ "$status" = InProgress ]
+              do
+                status=$(~/.local/bin/aws ssm list-commands \
+                  --region=us-east-1 \
+                  --command-id "$commandId" \
+                  --query "Commands[*].Status" \
+                  | tr -cd '[:alpha:]')
+                printf .
+              done
+              echo
+              echo ["$commandId"] Status: "$status"
+              ~/.local/bin/aws ssm list-command-invocations \
+                --region=us-east-1 \
+                --command-id "$commandId" \
+                --query="CommandInvocations[*].CommandPlugins[*].Output" \
+                --details \
+                | sed 1,2d | sed "s/^[ \t]*\"//" | sed 's/\\n/\'$'\n/g' | head -n -3
+            fi
+
+
+
