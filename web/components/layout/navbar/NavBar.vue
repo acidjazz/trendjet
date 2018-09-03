@@ -5,7 +5,7 @@ nav.navbar.is-fixed-top.is-dark
       nuxt-link.navbar-item(to="/")
         .logo
           include ../../../static/logo.svg
-        .title.has-text-primary.is-hidden-mobile trendjet
+        .title.is-hidden-mobile.has-text-white trendjet
       a.navbar-burger(@click="burger = !burger",:class="{'is-active': burger}")
         span
         span

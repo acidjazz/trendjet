@@ -10,7 +10,7 @@
           .level-item
             span {{ $store.state.user.name }}
     .navbar-dropdown.is-right
-      nuxt-link.navbar-item(to="/admin")
+      nuxt-link.navbar-item(v-if="isAdmin",to="/admin")
         .level.is-mobile
           .level-left
             .level-item
@@ -23,7 +23,9 @@
 
 <script>
 import NavBarLogout from '@/components/layout/navbar/NavBarLogout'
+import { mapGetters } from 'vuex'
 export default {
+  computed: { ...mapGetters(['isAdmin']), },
   components: { NavBarLogout },
 }
 </script>
