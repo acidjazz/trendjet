@@ -6,7 +6,7 @@
         .level-left
           .level-item
             figure.image.is-32x32
-              img.avatar.object-cover.ani-slide-in-left(:src="$store.state.user.avatar")
+              img.avatar.object-cover.ani-zoom-in(:src="$store.state.user.avatar")
           .level-item
             span {{ $store.state.user.name }}
     .navbar-dropdown.is-right
