@@ -31,7 +31,7 @@
           span.icon(v-else): i.mdi.mdi-google
       p.control
         button.button(:class="{'is-dark': !prompt || closing}",@click="attempt")
-          span.icon.ani-slide-in-left
+          span.icon.ani-zoom-in
             i.mdi.mdi-login-variant
           span Connect
         | &nbsp;
