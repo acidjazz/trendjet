@@ -18,7 +18,7 @@
                 i.mdi.mdi-security
             .level-item Admin
       hr.navbar-divider
-      NavBarLogout
+      NavBarLogout(:close="close")
 </template>
 
 <script>
@@ -27,6 +27,12 @@ import { mapGetters } from 'vuex'
 export default {
   computed: { ...mapGetters(['isAdmin']), },
   components: { NavBarLogout },
+  props: {
+    close: {
+      type: Function,
+      required: true,
+    }
+  }
 }
 </script>
 

@@ -39,6 +39,12 @@
 
 <script>
 export default {
+  props: {
+    close: {
+      type: Function,
+      required: true,
+    }
+  },
   methods:  {
 
     oauth(provider) {
@@ -78,8 +84,9 @@ export default {
       this.loading[result.provider] = false
       this.success[result.provider] = true
       window.localStorage.setItem('trendjet', JSON.stringify(result))
-      setTimeout( () => this.close(), 300)
+      setTimeout( () => this.compact(), 300)
       setTimeout( () => this.$store.commit('user', result.user), 340)
+      // setTimeout( () => this.close(), 1000)
     },
 
     attempt () {
@@ -90,7 +97,7 @@ export default {
       }
 
       if (this.email === '') {
-        this.close()
+        this.compact()
         this.errors = false
         return true
       }
@@ -100,7 +107,7 @@ export default {
 
     },
 
-    close () {
+    compact () {
       this.closing = true
       setTimeout(() => {
         this.closing = false
