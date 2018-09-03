@@ -2,7 +2,7 @@ company: 1
 jobs:
   web-and-api:
     docker: 
-      - image: circleci/python:3.7.0-stretch-browsers
+      - image: circleci/python:3.5.6-jessie-node
     working_directory: ~/pub
 
     steps:
