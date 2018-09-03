@@ -18,7 +18,7 @@
       nuxt-link.navbar-item(to="/guide")
         span.icon
           i.mdi.mdi-palette-swatch
-        span Style GUide
+        span Style Guide
       hr.navbar-divider
       NavBarLogout(:close="close")
 </template>
