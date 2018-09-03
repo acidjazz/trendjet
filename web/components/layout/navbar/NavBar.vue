@@ -1,22 +1,19 @@
 <template lang="pug">
-nav.navbar.is-fixed-top.is-dark
+nav.navbar.is-fixed-top.is-dark(v-on-clickaway="close")
   .container
     .navbar-brand
       nuxt-link.navbar-item(to="/")
         .logo
           include ../../../static/logo.svg
         .title.is-hidden-mobile.has-text-white trendjet
-      a.navbar-burger(
-        @click="burger = !burger",
-        :class="{'is-active': burger}"
-        v-on-clickaway="close")
+      a.navbar-burger(@click="burger = !burger",:class="{'is-active': burger}")
         span
         span
         span
     .navbar-menu(:class="{'is-active': burger}")
       transition(name="slide-fade",mode="out-in")
-        NavBarUser(v-if="auth")
-        NavBarLogin(v-else)
+        NavBarUser(v-if="auth",:close="close")
+        NavBarLogin(v-else,:close="close")
 </template>
 
 <script>
