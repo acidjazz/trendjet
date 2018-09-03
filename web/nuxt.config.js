@@ -49,7 +49,12 @@ module.exports = {
   ** Customize the progress-bar color
   */
   loading: { color: '#a3e3fd' },
-  loadingIndicator: 'folding-cube',
+
+  loadingIndicator: {
+    name: 'folding-cube',
+    color: '#a3e3fd',
+    background: 'white',
+  },
 
   /*
   ** Global CSS
