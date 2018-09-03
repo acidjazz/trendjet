@@ -10,12 +10,12 @@
           .level-item
             span {{ $store.state.user.name }}
     .navbar-dropdown.is-right
-      nuxt-link.navbar-item(v-if="isAdmin",to="/admin")
+      nuxt-link.navbar-item(v-if="isAdmin",to="/admin",@click.native="close")
         span.icon
           i.mdi.mdi-security
         span Admin
       hr.navbar-divider
-      nuxt-link.navbar-item(to="/guide")
+      nuxt-link.navbar-item(to="/guide",@click.native="close")
         span.icon
           i.mdi.mdi-palette-swatch
         span Style Guide
