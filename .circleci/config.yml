@@ -1,6 +1,6 @@
 company: 1
 jobs:
-  api:
+  web-and-api:
     docker: 
       - image: circleci/python:3.7.9-stretch-browsers
     working_directory: ~/pub
@@ -84,5 +84,8 @@ jobs:
                 | sed 1,2d | sed "s/^[ \t]*\"//" | sed 's/\\n/\'$'\n/g' | head -n -3
             fi
 
-
-
+workflows:
+  version: 2
+  web-and-api:
+    jobs:
+      - web-and-api
