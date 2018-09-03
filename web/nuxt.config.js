@@ -11,7 +11,7 @@ module.exports = {
   },
 
   router: {
-    middleware: [ 'auth' ],
+    middleware: [ 'ssl', 'auth' ],
   },
 
   /*
