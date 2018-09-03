@@ -1,1 +1,1 @@
-[![](web/static/logo64.png)]
+![](web/static/logo64.png)
