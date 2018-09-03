@@ -6,7 +6,10 @@ nav.navbar.is-fixed-top.is-dark
         .logo
           include ../../../static/logo.svg
         .title.is-hidden-mobile.has-text-white trendjet
-      a.navbar-burger(@click="burger = !burger",:class="{'is-active': burger}")
+      a.navbar-burger(
+        @click="burger = !burger",
+        :class="{'is-active': burger}"
+        v-on-clickaway="close")
         span
         span
         span
@@ -18,13 +21,20 @@ nav.navbar.is-fixed-top.is-dark
 
 <script>
 import { mapGetters } from 'vuex'
+import { mixin as clickaway } from 'vue-clickaway'
 import NavBarLogin from '@/components/layout/navbar/NavBarLogin'
 import NavBarUser from '@/components/layout/navbar/NavBarUser'
 export default {
+  mixins: [ clickaway ],
   computed: { ...mapGetters(['auth'])},
   components: { 
     NavBarLogin,
     NavBarUser,
+  },
+  methods: {
+    close () {
+      this.burger = false
+    },
   },
   data () {
     return {
