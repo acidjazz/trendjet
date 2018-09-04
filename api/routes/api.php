@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 
+use \Torann\GeoIP\Facades\GeoIP;
+
 require(base_path('routes/auth.php'));
 
 Route::get('/', 'TestController@routes');
