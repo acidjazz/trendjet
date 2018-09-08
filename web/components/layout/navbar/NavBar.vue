@@ -6,14 +6,14 @@ nav.navbar.is-fixed-top.is-dark(v-on-clickaway="close")
         .logo
           include ../../../static/logo.svg
         .title.is-hidden-mobile.has-text-white trendjet
-      a.navbar-burger(@click="burger = !burger",:class="{'is-active': burger}")
+      a.navbar-burger(@click="swap",:class="{'is-active': active}")
         span
         span
         span
-    .navbar-menu(:class="{'is-active': burger}")
+    .navbar-menu(:class="{'is-active': active}")
       transition(name="slide-fade",mode="out-in")
         NavBarUser(v-if="auth",:close="close")
-        NavBarLogin(v-else,:close="close")
+        NavBarLogin(v-else,:close="close",:active="active")
 </template>
 
 <script>
@@ -29,14 +29,11 @@ export default {
     NavBarUser,
   },
   methods: {
-    close () {
-      this.burger = false
-    },
+    open () { this.active = false },
+    close () { this.active = false },
+    swap () { this.active = !this.active },
   },
-  data () {
-    return {
-      burger: false,
-    }
+  data () { return { active: false, }
   },
 }
 </script>
