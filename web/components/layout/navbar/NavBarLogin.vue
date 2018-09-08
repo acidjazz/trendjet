@@ -1,7 +1,7 @@
 <template lang="pug">
 .navbar-end
-  .navbar-item
-    span.field.display-inline-block(:class="{'has-addons': prompt}")
+  .navbar-item.display-flex.justify-flex-end
+    span.field(:class="{'has-addons': prompt}")
       p.control.ani-slide-in-left.delay-2.has-icons-left.has-icons-right(
         :class="{'is-loading': loading.email,'is-closing': closing}",
         v-if="prompt")
@@ -30,21 +30,35 @@
           span.icon.has-text-success(v-if="success.google"): i.mdi.mdi-check
           span.icon(v-else): i.mdi.mdi-google
       p.control
-        button.button(:class="{'is-dark': !prompt || closing}",@click="attempt")
+        button.button(:class="{'is-dark': !prompt || closing}",@click="attempt").is-hidden-mobile
           span.icon.ani-zoom-in
             i.mdi.mdi-login-variant
           span Connect
-        | &nbsp;
+        button.button(@click="attempt").is-hidden-desktop
+          span.icon.ani-zoom-in
+            i.mdi.mdi-login-variant
+          span Connect
 </template>
 
 <script>
 export default {
   props: {
+    active: {
+      type: Boolean,
+      required: true,
+    },
     close: {
       type: Function,
       required: true,
     }
   },
+
+  watch: {
+    'active' (after, before) {
+      this.prompt = after
+    },
+  },
+
   methods:  {
 
     oauth(provider) {
