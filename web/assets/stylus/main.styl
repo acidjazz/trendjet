@@ -5,6 +5,9 @@
 @import helpers
 @import toasts
 
+.nuxt-progress
+  top 50px !important
+
 html, body
   background-color squeeze
 
@@ -32,3 +35,23 @@ html, body
 
 .navbar-item img.avatar
   max-height 32px !important
+
+.navbar-item, .button
+  user-select none
+
+
+.navbar-dropdown
+  animation zoom-in 0.1s ease 0s both
+  .navbar-item
+    animation slide-in-top 0.1s ease 0s both
+    for i in 1..10
+      &:nth-child({i})
+        animation-delay unit(0.02 * i, 's')
+  &.is-closing
+    animation zoom-out 0.1s ease 0.1s both
+    .navbar-item
+      animation-delay 0s !important
+      animation slide-out-top 0.1s ease 0s both
+
+
+
