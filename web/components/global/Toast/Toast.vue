@@ -1,6 +1,6 @@
 <template lang="pug">
 transition(name="toast")
-  .box.notification(:class="`is-${type}`",v-if="active")
+  .notification(:class="`is-${type}`",v-if="active")
     button.delete(@click="destroy")
     .media
       .media-left
