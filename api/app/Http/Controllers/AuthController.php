@@ -7,11 +7,11 @@ use App\Models\Provider;
 
 use Illuminate\Http\Request;
 use App\Notifications\UserAttempt;
-use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Auth;
 
 use Socialite;
 
-class AuthController extends \acidjazz\metapi\MetApiController
+class AuthController extends Controller
 {
 
   public function sessions() {
@@ -127,7 +127,7 @@ class AuthController extends \acidjazz\metapi\MetApiController
   {
 
     Auth::check();
-    
+
     if (($user = User::where('email', $email)->first()) == null) {
       return $this->error('notfound', 'E-mail address not found');
     }
