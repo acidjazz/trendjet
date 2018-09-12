@@ -46,7 +46,7 @@ http {
     server_name  localhost;
     client_max_body_size 1000m;
     client_body_timeout 180s;
-    root         /usr/share/nginx/trendjet/api/public/;
+    root         /home/ec2-user/trendjet/api/public/;
     location / {
       if (!-e $request_filename) {
         rewrite ^(.*)$ /index.php;
@@ -91,9 +91,6 @@ php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 php -r "unlink('composer-setup.php');"
 
 # setup the actual code and secrets
-
-mkdir /usr/share/nginx/trendjet
-chown -R ec2-user:ec2-user /usr/share/nginx/trendjet
 
 su ec2-user -c "
 cd /home/ec2-user
