@@ -31,7 +31,6 @@
 <script>
 import NavBarLogout from '@/components/layout/navbar/NavBarLogout'
 import { mapGetters } from 'vuex'
-import active from '@/mixins/active'
 import { mixin as clickaway } from 'vue-clickaway'
 export default {
   computed: { ...mapGetters(['isAdmin']), },
