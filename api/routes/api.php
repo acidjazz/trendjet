@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 */
 
 use \Torann\GeoIP\Facades\GeoIP;
+use App\Services\YouTubeService;
 
 require(base_path('routes/auth.php'));
 
@@ -21,6 +22,12 @@ Route::get('/', 'TestController@routes');
 Route::apiResource('user', 'UserController')->middleware('admin');
 Route::get('/loginas/{email}', 'AuthController@loginAs');
 
-// Route::get('/youtube', 'YouTubeController');
+Route::get('/youtube', 'YouTubeController');
+Route::apiResource('video', 'VideoController');
+
+Route::get('/test/{id}', function ($id) {
+  $ys = new YouTubeService();
+  dump($ys->getVideo($id));
+});
 
 require(base_path('routes/mailable.php'));
