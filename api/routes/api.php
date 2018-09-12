@@ -27,7 +27,8 @@ Route::apiResource('video', 'VideoController');
 
 Route::get('/test/{id}', function ($id) {
   $ys = new YouTubeService();
-  dump($ys->getVideo($id));
+  $video = $ys->getVideo($id);
+  dump($video);
 });
 
 require(base_path('routes/mailable.php'));

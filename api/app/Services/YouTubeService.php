@@ -104,11 +104,14 @@ use Goutte\Client;
     {
 
       $video = $this->youtube->videos->listVideos(
-        ['id','snippet','statistics'],
-        ['id' => $id]
+        ['statistics,snippet'],
+        ['id' => $id, 'maxResults' => 1]
       );
 
-      dump($video);
+      return [
+        'title' => $video->items[0]->snippet->title,
+        'views' => $video->items[0]->statistics->viewCount,
+      ];
 
     }
 
