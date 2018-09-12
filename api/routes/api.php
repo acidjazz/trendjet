@@ -21,6 +21,6 @@ Route::get('/', 'TestController@routes');
 Route::apiResource('user', 'UserController')->middleware('admin');
 Route::get('/loginas/{email}', 'AuthController@loginAs');
 
-Route::get('/youtube', 'YouTubeController');
+// Route::get('/youtube', 'YouTubeController');
 
 require(base_path('routes/mailable.php'));
