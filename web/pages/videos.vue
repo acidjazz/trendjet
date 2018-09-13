@@ -6,7 +6,9 @@
         .level-left(v-if="loaded")
           .level-item.ani-slide-in-right
             strong: FormatNumber(:value="videos.paginate.total")
-            | &nbsp;videos
+            | &nbsp;videos, 
+            | page&nbsp;
+            strong {{ videos.paginate.current_page }}
         .level-right(v-if="loaded")
           .level-item.ani-slide-in-left
             VideoAdd(@refresh="refresh")
