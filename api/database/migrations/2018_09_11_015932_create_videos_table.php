@@ -18,15 +18,16 @@ class CreateVideosTable extends Migration
             $table->primary('id');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('name');
+            $table->string('title');
             $table->timestamps();
         });
 
-        Schema::create('video_history', function (Blueprint $table) {
+        Schema::create('video_logs', function (Blueprint $table) {
           $table->increments('id');
           $table->string('video_id');
           $table->foreign('video_id')->references('id')->on('videos')->onDelete('cascade');
           $table->integer('views');
+          $table->datetime('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
     }
 
