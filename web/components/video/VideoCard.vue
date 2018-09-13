@@ -2,7 +2,15 @@
 .card
   .card-image
     figure.image.is-16by9.yt-bg(:style="`background-image: url(${video.cover});`")
-    .card-image-title.has-text-white {{ video.title }}
+    .card-image-title.has-text-white
+      span {{ video.title }}
+      .card-image-actions
+        .buttons.is-centered
+          a.button.is-outlined.is-warning(target="_new",:href="`https://www.youtube.com/watch/?v=${video.id}`")
+            span.icon
+              i.mdi.mdi-youtube
+            span Watch Video
+
   .card-content
     .field.is-grouped.is-grouped-multiline
       .control(v-if="video.current")
