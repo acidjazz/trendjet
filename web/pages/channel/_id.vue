@@ -5,17 +5,9 @@
       .level
         .level-left
           .level-item.ani-slide-in-right(v-if="loaded")
-            .subtitle.is-5
-              | Page 
-              strong {{ page }} 
-              | of 
-              strong {{ Math.floor(results.totalResults/9) }}
-              | &nbsp;- 
-              strong: FormatNumber(:value="results.totalResults")
-              |  
-              | videos for
-              |  
-              strong {{ results.channelTitle }}
+            strong: FormatNumber(:value="results.totalResults")
+            | &nbsp;videos for&nbsp;
+            strong {{ results.channelTitle }}
         .level-right
           .level-item
             nuxt-link.button(to="/videos").ani-slide-in-left
