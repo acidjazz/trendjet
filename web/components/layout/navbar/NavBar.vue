@@ -1,5 +1,5 @@
 <template lang="pug">
-nav.navbar.is-fixed-top.is-dark(v-on-clickaway="close")
+nav.navbar.is-fixed-top.is-dark(v-on-clickaway="away")
   .container
     .navbar-brand
       nuxt-link.navbar-item(to="/")
@@ -12,7 +12,7 @@ nav.navbar.is-fixed-top.is-dark(v-on-clickaway="close")
         span
     .navbar-menu(:class="{'is-active': active}")
       transition(name="slide-fade",mode="out-in")
-        NavBarUser(v-if="auth",:close="close")
+        NavBarUser(v-if="auth",:close="close",ref="user")
         NavBarLogin(v-else,:close="close",:active="active")
 </template>
 
@@ -32,8 +32,16 @@ export default {
     open () { this.active = false },
     close () { this.active = false },
     swap () { this.active = !this.active },
+    reflect () { this.$refs.user.off() },
+    away () { 
+      this.close(); 
+      this.reflect(); 
+    },
   },
-  data () { return { active: false, }
+  data () { 
+    return { 
+      active: false, 
+    }
   },
 }
 </script>
