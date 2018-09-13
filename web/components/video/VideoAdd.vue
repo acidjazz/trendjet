@@ -51,11 +51,14 @@ export default {
 
       this.loading = true
 
-      this.$axios.get('/youtube', { params: {url: this.url}})
+      this.$axios.get('/youtube/parse', { params: {url: this.url}})
       .then( (response) => {
 
         if (response.data.data.type === 'video') {
           this.add(response.data.data.id)
+        }
+        if (response.data.data.type === 'channel') {
+          this.$router.push(`/channel/${response.data.data.id}`)
         }
 
       }).catch( (error) => {
@@ -69,7 +72,7 @@ export default {
       this.$axios.post('/video', {ids: [id]})
       .then( (response) => {
         if (response.data && response.data.data.success) {
-          this.$toast.show({type: 'success', message: 'Video added successfully'}) 
+          this.$toast.show(response.data.data)
           this.url = ''
           this.compact()
           this.$emit('refresh')

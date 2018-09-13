@@ -1,6 +1,6 @@
 <template lang="pug">
 .navbar-end
-  .navbar-item.has-dropdown(:class="{'is-active': active }",v-on-clickaway="off")
+  .navbar-item.has-dropdown(:class="{'is-active': active }")
     .navbar-link(@click="swap")
       .level
         .level-left
@@ -10,6 +10,11 @@
           .level-item
             span {{ $store.state.user.name }}
     .navbar-dropdown.is-right(:class="{'is-closing': closing}")
+
+      nuxt-link.navbar-item(to="/",@click.native="off")
+        span.icon
+          i.mdi.mdi-home
+        span Home
 
       nuxt-link.navbar-item(to="/videos",@click.native="off")
         span.icon
@@ -31,18 +36,15 @@
 <script>
 import NavBarLogout from '@/components/layout/navbar/NavBarLogout'
 import { mapGetters } from 'vuex'
-import { mixin as clickaway } from 'vue-clickaway'
 export default {
   computed: { ...mapGetters(['isAdmin']), },
   components: { NavBarLogout },
-  mixins: [ clickaway ],
   props: {
     close: {
       type: Function,
       required: true,
-    }
+    },
   },
-
   methods: {
     swap () {
       if (this.active) {

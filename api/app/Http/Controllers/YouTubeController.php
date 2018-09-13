@@ -4,17 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Auth;
 use App\Services\YouTubeService;
 
 class YouTubeController extends Controller
 {
     /**
-     * Handle the incoming request.
+     * Parse a YouTube URL
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request)
+    public function parse(Request $request)
     {
 
         $this->option('url', 'required|url');
@@ -30,5 +31,19 @@ class YouTubeController extends Controller
         }
 
         return $this->render($result);
+    }
+
+    /**
+     * Grab channel info and video list from ID
+     *
+     * @param String $id
+     * @param \Illuminate\http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function channel(String $id, Request $request)
+    {
+      $this->option('pageToken', 'string|nullable');
+      $channel = (new YouTubeService)->getChannel($id, $request->pageToken, Auth::user());
+      return $this->render($channel);
     }
 }

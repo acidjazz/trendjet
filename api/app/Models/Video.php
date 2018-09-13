@@ -23,7 +23,7 @@ class Video extends Model
 
   public function getCoverAttribute ()
   {
-    return 'https://i.ytimg.com/vi/'.$this->id.'/hqdefault.jpg';
+    return YouTubeService::cover($this->id);
   }
 
   public function getCurrentAttribute()
