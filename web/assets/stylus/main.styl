@@ -39,7 +39,6 @@ html, body
 .navbar-item, .button
   user-select none
 
-
 .navbar-dropdown
   animation zoom-in 0.1s ease 0s both
   .navbar-item
@@ -53,5 +52,44 @@ html, body
       animation-delay 0s !important
       animation slide-out-top 0.1s ease 0s both
 
+.yt-bg
+  background-size cover
+  background-position 50% 50%
 
+.digits .digit
+  display inline-block
 
+.slide-fade-enter-active
+  transition all .3s ease .0s
+.slide-fade-leave-active 
+  transition all .3s ease .6s
+
+.slide-fade-enter
+  transform translate(0, -2px)
+.slide-fade-leave-to
+  transform translate(0, 2px)
+.slide-fade-enter, .slide-fade-leave-to
+  opacity 0.5
+
+.digits.fast
+  .slide-fade-enter-active ,.slide-fade-leave-active 
+    transition all .1s ease
+
+.card-image-title
+  top 0
+  left 0
+  right 0
+  bottom 0
+  padding 10px
+  position absolute
+  opacity 0
+  transition opacity 0.2s ease
+  background-color rgba(black, 0.6)
+.card-image:hover
+  .card-image-title
+    opacity 1
+
+for i in 1..9
+  .column:nth-child({i})
+    animation-delay unit(0.05 * i, 's')
+  

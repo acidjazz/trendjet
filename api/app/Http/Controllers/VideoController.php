@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Models\Video;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class VideoController extends Controller
      */
     public function index(Request $request)
     {
-        //
+      return $this->render($this->paginate(Video::where('user_id', Auth::user()->id)));
     }
 
     /**
@@ -26,11 +27,15 @@ class VideoController extends Controller
      */
     public function store(Request $request)
     {
-      $this->option('id', 'required|string');
+      $this->option('ids', 'required|array|unique:videos,id');
 
-      if (!$this->query()) {
-        return $ths->error();
+      if (!$this->verify()) {
+        return $this->error();
       }
+
+      Video::add(Auth::user(), $request->ids);
+
+      return $this->render(['success' => true]);
     }
 
     /**

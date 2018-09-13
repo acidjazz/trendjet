@@ -67,7 +67,8 @@ use Goutte\Client;
         if (strpos($parsed['path'], '/watch') === 0)
         {
             $type = 'video';
-            $id = explode('=', $parsed['query'])[1];
+            parse_str($parsed['query'], $query);
+            $id = $query['v'];
         }
 
         // https://youtu.be/aJX4ytfqw6k
@@ -95,24 +96,28 @@ use Goutte\Client;
 
 
     /**
-     * Get a YouTube video
+     * Get YouTube videos
      *
-     * @param String $id
+     * @param Array $ids
      * @return Object
      */
-    public function getVideo($id)
+    public function getVideos($ids)
     {
 
-      $video = $this->youtube->videos->listVideos(
+      $videos = [];
+      $list = $this->youtube->videos->listVideos(
         ['statistics,snippet'],
-        ['id' => $id, 'maxResults' => 1]
+        ['id' => implode(',', $ids), 'maxResults' => count($ids)]
       );
 
-      return [
-        'title' => $video->items[0]->snippet->title,
-        'views' => $video->items[0]->statistics->viewCount,
-      ];
+      foreach ($list->items as $item) {
+        $videos[$item->id] = [
+          'title' => $item->snippet->title,
+          'views' => $item->statistics->viewCount,
+        ];
+      }
 
+      return $videos;
     }
 
  }

@@ -23,12 +23,7 @@ Route::apiResource('user', 'UserController')->middleware('admin');
 Route::get('/loginas/{email}', 'AuthController@loginAs');
 
 Route::get('/youtube', 'YouTubeController');
-Route::apiResource('video', 'VideoController');
 
-Route::get('/test/{id}', function ($id) {
-  $ys = new YouTubeService();
-  $video = $ys->getVideo($id);
-  dump($video);
-});
+Route::apiResource('video', 'VideoController')->middleware('auth:api');
 
 require(base_path('routes/mailable.php'));
