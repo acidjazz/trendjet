@@ -18,7 +18,7 @@
         span.icon
           i.mdi.mdi-video-plus
         span(v-if="!prompt") Add Videos
-  p.help.is-danger(v-if="error") {{ error }}
+  p.help.is-danger(v-if="errors",v-for="error in errors") {{ error[0] }}
 
 </template>
 
@@ -53,16 +53,29 @@ export default {
 
       this.$axios.get('/youtube', { params: {url: this.url}})
       .then( (response) => {
-        console.log(response.data)
-        if (response.data.data.type === 'unknown') {
-          this.error = 'Unknown URL'
+
+        if (response.data.data.type === 'video') {
+          this.add(response.data.data.id)
         }
 
+      }).catch( (error) => {
+        this.errors = error.response.data.errors
       })
       .then( (response) => this.loading = false)
 
     },
 
+    add (id) {
+      this.$axios.post('/video', {ids: [id]})
+      .then( (response) => {
+        if (response.data && response.data.data.success) {
+          this.$toast.show({type: 'success', message: 'Video added successfully'}) 
+          this.url = ''
+          this.compact()
+          this.$emit('refresh')
+        }
+      })
+    },
   },
   data () {
     return {
@@ -70,7 +83,7 @@ export default {
       loading: false,
       closing: false,
       prompt: false,
-      error: false,
+      errors: [],
     }
   }
 }

@@ -4,15 +4,30 @@
     .container
       .level
         .level-left
-          .level-item 16 Videos
+          .level-item
+            b(v-if="videos.paginate"): FormatNumber(:value="videos.paginate.total")
+            | &nbsp;Videos
         .level-right
           .level-item
-            AddVideo
+            VideoAdd(@refresh="refresh")
+      VideoList(:videos="videos")
 </template>
 
 <script>
-import AddVideo from '@/components/video/AddVideo'
+import VideoAdd from '@/components/video/VideoAdd'
+import VideoList from '@/components/video/VideoList'
+import FormatNumber from '@/components/format/FormatNumber'
 export default {
-  components: { AddVideo }
+  components: { VideoAdd, VideoList, FormatNumber },
+  methods: {
+    refresh () { this.get() },
+    async get () { this.videos = (await this.$axios.get('/video')).data },
+  },
+  mounted () { this.get() },
+  data () {
+    return {
+      videos: {},
+    }
+  }
 }
 </script>
