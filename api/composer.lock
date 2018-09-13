@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cc81724aa6ca0a271bb9d733bd78f12a",
+    "content-hash": "2c02116049dcd07344cb72dbcc6b9245",
     "packages": [
         {
             "name": "acidjazz/geoip",
@@ -133,16 +133,16 @@
         },
         {
             "name": "acidjazz/metapi",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/acidjazz/metapi.git",
-                "reference": "cc2d86b9317fddd3ce459aac3e92e30cef723e87"
+                "reference": "0c85a6d9c56ed1ffbe449fa4af5003da0b35793e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acidjazz/metapi/zipball/cc2d86b9317fddd3ce459aac3e92e30cef723e87",
-                "reference": "cc2d86b9317fddd3ce459aac3e92e30cef723e87",
+                "url": "https://api.github.com/repos/acidjazz/metapi/zipball/0c85a6d9c56ed1ffbe449fa4af5003da0b35793e",
+                "reference": "0c85a6d9c56ed1ffbe449fa4af5003da0b35793e",
                 "shasum": ""
             },
             "require": {
@@ -183,7 +183,7 @@
                 "pagination",
                 "php"
             ],
-            "time": "2018-09-02T00:55:46+00:00"
+            "time": "2018-09-13T04:52:37+00:00"
         },
         {
             "name": "asm89/stack-cors",
