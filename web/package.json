@@ -23,6 +23,7 @@
     "@mdi/font": "^2.6.95",
     "@nuxtjs/axios": "^5.0.0",
     "bulma": "^0.7.1",
+    "bulma-tooltip": "^2.0.2",
     "dotenv": "^6.0.0",
     "node-sass": "^4.9.3",
     "nuxt": "^1.0.0",

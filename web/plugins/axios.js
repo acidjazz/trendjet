@@ -17,21 +17,22 @@ const ToastProgrammatic = {
 }
 
 export default function ({ $axios, app }, inject) {
-  inject('message', ToastProgrammatic)
+  inject('toast', ToastProgrammatic)
   $axios.onError(error => {
     const code = parseInt(error.response && error.response.status)
     if (error.response.data && error.response.data.errors) {
       for (let key in error.response.data.errors) {
         for (let index in error.response.data.errors[key]) {
           if (key === 'not.auth') return
-          app.$message.show({ type: 'danger', message: error.response.data.errors[key][index]})
+          app.$toast.show({ type: 'danger', message: error.response.data.errors[key][index]})
         }
       }
     }
     if (error.response.data && error.response.data.message) {
-      app.$message.show({
+      app.$toast.show({
         type: 'danger', 
         message: `<b>[${error.response.data.exception}]</b> ${error.response.data.message}`,
+        delay: 0,
       })
     }
   })

@@ -23,8 +23,12 @@ class YouTubeController extends Controller
             return $this->error();
         }
 
-        $ys = new YouTubeService();
+        $result = (new YouTubeService)->parse($request->url);
 
-        return $this->render((new YouTubeService)->parse($request->url));
+        if (!$result) {
+          return $this->error('Invalid URL');
+        }
+
+        return $this->render($result);
     }
 }
