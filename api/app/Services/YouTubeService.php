@@ -14,6 +14,7 @@ namespace App\Services;
 use Google_Client;
 use Google_Service_YouTube;
 use Goutte\Client;
+use App\Models\Video;
 
  class YouTubeService {
 
@@ -94,6 +95,59 @@ use Goutte\Client;
         return explode('/', $url)[4];
     }
 
+    /**
+     * Get list of videos from channel
+     *
+     * @param String $id
+     * @param String $pageToken
+     * @param App\Models\User $user
+     * @return Object
+     */
+    public function getChannel($id,$pageToken=null,$user=false)
+    {
+
+      $list = $this->youtube->search->listSearch(
+        ['snippet'],
+        ['channelId' => $id, 'maxResults' => 9,'pageToken' => $pageToken, 'order' => 'date']
+      );
+
+      $results = [];
+      $results['channelId'] = $list->items[0]->snippet->channelId;
+      $results['channelTitle'] = $list->items[0]->snippet->channelTitle;
+      $results['nextPageToken'] = $list->nextPageToken;
+      $results['prevPageToken'] = $list->prevPageToken;
+      $results['totalResults'] = $list->pageInfo->totalResults;
+
+      foreach ($list->items as $item) {
+        $results['videos'][$item->id->videoId] = [
+          'id' => $item->id->videoId,
+          'title' => $item->snippet->title,
+          'cover' => self::cover($item->id->videoId),
+          'added' => false,
+        ];
+      }
+
+      $added = Video::whereIn('id', array_keys($results['videos']))
+        ->where('user_id', $user->id)
+        ->get()
+        ->pluck('id');
+
+      foreach ($added as $id) {
+        $results['videos'][$id]['added'] = true;
+      }
+
+      return $results;
+
+    }
+
+    /**
+     * Return a video cover URL from its id
+     *
+     */
+    public static function cover($id)
+    {
+      return 'https://i.ytimg.com/vi/'.$id.'/hqdefault.jpg';
+    }
 
     /**
      * Get YouTube videos

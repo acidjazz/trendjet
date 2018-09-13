@@ -2,7 +2,7 @@
 #Home.page
   section.section
     .container
-      .box
+      .box.ani-zoom-in
         .level(style="width: 300px; margin: auto;")
           .level-left
             .level-item
