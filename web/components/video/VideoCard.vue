@@ -28,6 +28,19 @@
           i.mdi.mdi-video-plus
         span(v-if="!video.added") Add Video
         span(v-else) Video added
+  footer.card-footer
+    a.card-footer-item.has-text-info
+      span.icon
+        i.mdi.mdi-history
+      span Details
+    a.card-footer-item.has-text-primary
+      span.icon
+        i.mdi.mdi-rocket
+      span Boost 
+    a.card-footer-item.has-text-danger
+      span.icon
+        i.mdi.mdi-delete
+      span Delete 
 </template>
 
 <script>
