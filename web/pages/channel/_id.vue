@@ -36,9 +36,8 @@
 import VideoList from '@/components/video/VideoList'
 import FormatNumber from '@/components/format/FormatNumber'
 export default {
-
+  middleware: [ 'is-auth' ],
   components: { VideoList, FormatNumber },
-
   methods: {
     next () {
       this.page++
