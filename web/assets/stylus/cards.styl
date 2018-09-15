@@ -1,0 +1,25 @@
+.card-image-title
+  top 0
+  left 0
+  right 0
+  bottom 0
+  padding 10px
+  position absolute
+  opacity 0
+  transition opacity 0.2s ease
+  background-color rgba(black, 0.6)
+.card-image:hover
+  .card-image-title
+    opacity 1
+
+.card-image-actions
+  position absolute
+  transform translate3d(-50%, -50%, 0)
+  top 50%
+  left 50%
+  right 0
+  padding 10px
+
+for i in 1..9
+  .column:nth-child({i})
+    animation-delay unit(0.05 * i, 's')
