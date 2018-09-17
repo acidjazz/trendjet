@@ -5,6 +5,9 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use App\Auth\HumbleGuard;
 
+use App\Models\Video;
+use App\Policies\VideoPolicy;
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -14,6 +17,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
       'App\Model' => 'App\Policies\ModelPolicy',
+      Video::class => VideoPolicy::class,
     ];
 
     /**

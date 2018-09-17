@@ -61,11 +61,10 @@
 .ani-slide-in-top
   animation slide-in-top 0.2s ease 0s both
 
-
 .ani-zoom-in
   animation zoom-in 0.2s ease 0s both
-.ani-zoom-in-half
-  animation zoom-in-half 0.2s ease 0s both
+.ani-zoom-out
+  animation zoom-out 0.6s ease 0s both
 
 @keyframes zoom-in
   0%
@@ -83,25 +82,12 @@
     opacity 0
     transform scale(0.9)
 
-@keyframes zoom-in-half
-  0%
-    opacity 0.5
-    transform scale(0.95)
-  100%
-    opacity 1
-    transform scale(1)
-
-
-
-
 .ani-slide-in-left, .ani-slide-in-top
   for i in 1..10
     &.delay-{i}
       animation-delay unit(0.05 * i, 's')
 
 .is-loading
-  // background linear-gradient(to right, #eee 40%, #ddd 50%, #eee 40%)
-  // background: linear-gradient(to right, #eee 2%, #ddd 18%, #eee 33%);
   background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
   
   
