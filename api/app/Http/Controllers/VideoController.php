@@ -47,7 +47,8 @@ class VideoController extends Controller
      */
     public function show(Video $video)
     {
-        //
+      $this->authorize('view', $video);
+      return $this->render($video);
     }
 
     /**
@@ -59,6 +60,7 @@ class VideoController extends Controller
      */
     public function update(Request $request, Video $video)
     {
+      $this->authorize('update', $video);
         //
     }
 
@@ -70,6 +72,8 @@ class VideoController extends Controller
      */
     public function destroy(Video $video)
     {
-        //
+      $this->authorize('delete', $video);
+      $video->delete();
+      return $this->success('video.delete-success');
     }
 }

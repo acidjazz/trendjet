@@ -1,5 +1,5 @@
 <template lang="pug">
-.card
+.card(:class="{'ani-zoom-out': deleted}")
   .card-image
     figure.image.is-16by9.yt-bg(:style="`background-image: url(${video.cover});`")
     .card-image-title.has-text-white
@@ -37,7 +37,7 @@
       span.icon
         i.mdi.mdi-rocket
       span Boost 
-    a.card-footer-item.has-text-danger
+    a.card-footer-item.has-text-danger(@click="confirm",:class="{'is-loading': deleting}")
       span.icon
         i.mdi.mdi-delete
       span Delete 
@@ -69,12 +69,34 @@ export default {
           this.adding = false
         }
       })
-    }
+    },
+    confirm () {
+      this.deleting = true
+      this.$modal.show({
+        title: 'Video Removal',
+        body: `Are you sure you want to delete <strong>${this.video.title}</strong>`,
+        buttons: [{name: 'OK', class: 'is-primary', action: () => this.remove()}, {name: 'Cancel'}],
+      })
+
+    },
+    remove () {
+      this.$axios.delete(`/video/${this.video.id}`)
+      .then( (response) => {
+        if (response.data && response.data.data.success) {
+          this.$toast.show(response.data.data)
+          this.deleting = false
+          this.deleted = true
+          setTimeout( () => this.$emit('removed', this.video.id), 1000)
+        }
+      })
+    },
   },
 
   data () {
     return {
       adding: false,
+      deleting: false,
+      deleted: false,
     }
   },
 }

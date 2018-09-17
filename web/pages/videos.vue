@@ -16,10 +16,10 @@
             VideoAdd(@refresh="refresh")
 
       .columns.is-multiline(v-if="!loaded")
-        .column.is-one-third(v-for="n in 6")
+        .column.is-one-third(v-for="n in 9")
           VideoCardLoading
 
-      VideoList(:videos="videos.data",:channel="false")
+      VideoList(:videos="videos.data",:channel="false",@refresh="refresh")
       Paginate(v-if="loaded",:paginate="videos.paginate",:query="query")
 </template>
 
