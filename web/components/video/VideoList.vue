@@ -1,7 +1,7 @@
 <template lang="pug">
 .columns.is-multiline
-  .column(v-for="video in videos").is-one-third.ani-zoom-in-half
-    VideoCard(:video="video",:channel="channel")
+  .column(v-for="video in videos").is-one-third
+    VideoCard(:video="video",:channel="channel",@removed="removed")
 </template>
 
 <script>
@@ -17,7 +17,17 @@ export default {
       type: Boolean,
       required: true,
     },
-  }
+  },
+  methods: {
+    removed (id) {
+      for (let index in this.videos) {
+        if (this.videos[index].id === id) {
+          this.$delete(this.videos, index)
+          console.log('deleted', this.videos[index])
+        }
+      }
+    }
+  },
 }
 </script>
 
