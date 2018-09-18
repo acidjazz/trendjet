@@ -43,14 +43,14 @@ class YouTubeController extends Controller
      */
     public function channel(String $id, Request $request)
     {
-      $this->option('pageToken', 'string|nullable');
-      $channel = (new TubeStuff(config('services.google.api_key')))
-        ->getChannelVideos($id, $request->pageToken);
-      $added = Video::whereIn('id', array_keys($channel['videos']))
-        ->where('user_id', Auth::user()->id)->get()->pluck('id');
-      foreach ($added as $id) {
-        $channel['videos'][$id]['added'] = true;
-      }
-      return $this->render($channel);
+        $this->option('pageToken', 'string|nullable');
+        $channel = (new TubeStuff(config('services.google.api_key')))
+            ->getChannelVideos($id, $request->pageToken);
+        $added = Video::whereIn('id', array_keys($channel['videos']))
+            ->where('user_id', Auth::user()->id)->get()->pluck('id');
+        foreach ($added as $id) {
+            $channel['videos'][$id]['added'] = true;
+        }
+        return $this->render($channel);
     }
 }
