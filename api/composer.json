@@ -8,6 +8,7 @@
         "php": "^7.1.3",
         "acidjazz/humble": "^1.0.8",
         "acidjazz/metapi": "^1.1.1",
+        "acidjazz/tubestuff": "^0.0.5",
         "aws/aws-sdk-php": "^3.65",
         "barryvdh/laravel-cors": "^0.11.0",
         "barryvdh/laravel-debugbar": "^3.1",

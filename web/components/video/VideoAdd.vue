@@ -6,10 +6,10 @@
       :class="{'is-closing': closing, 'is-loading': loading}")
       input.input(
         type="text",
-        v-model="url",
+        v-model="string",
         ref="input",
         @keyup.enter="attempt",
-        placeholder="Channel or video link",
+        placeholder="Channel or video link or id",
       )
       span.icon.is-left
         i.mdi.mdi-link
@@ -43,7 +43,7 @@ export default {
         return true
       }
 
-      if (this.url === '') {
+      if (this.string === '') {
         this.compact()
         this.error = false
         return true
@@ -51,7 +51,7 @@ export default {
 
       this.loading = true
 
-      this.$axios.get('/youtube/parse', { params: {url: this.url}})
+      this.$axios.get('/youtube/parse', { params: {string: this.string}})
       .then( (response) => {
 
         if (response.data.data.type === 'video') {
@@ -73,7 +73,7 @@ export default {
       .then( (response) => {
         if (response.data && response.data.data.success) {
           this.$toast.show(response.data.data)
-          this.url = ''
+          this.string = ''
           this.compact()
           this.$emit('refresh')
         }
@@ -82,7 +82,7 @@ export default {
   },
   data () {
     return {
-      url: '',
+      string: '',
       loading: false,
       closing: false,
       prompt: false,
