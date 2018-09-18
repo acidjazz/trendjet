@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class VideoController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +17,7 @@ class VideoController extends Controller
      */
     public function index(Request $request)
     {
-      sleep(1);
-      return $this->render($this->paginate(Video::where('user_id', Auth::user()->id), 9));
+        return $this->render($this->paginate(Video::where('user_id', Auth::user()->id), 9));
     }
 
     /**
@@ -28,15 +28,15 @@ class VideoController extends Controller
      */
     public function store(Request $request)
     {
-      $this->option('ids', 'required|array|unique:videos,id');
+        $this->option('ids', 'required|array|unique:videos,id');
 
-      if (!$this->verify()) {
+        if (!$this->verify()) {
         return $this->error();
-      }
+        }
 
-      Video::add(Auth::user(), $request->ids);
+        Video::add(Auth::user(), $request->ids);
 
-      return $this->success('Video added successfully');
+        return $this->success('Video added successfully');
     }
 
     /**
@@ -47,8 +47,8 @@ class VideoController extends Controller
      */
     public function show(Video $video)
     {
-      $this->authorize('view', $video);
-      return $this->render($video);
+        $this->authorize('view', $video);
+        return $this->render($video);
     }
 
     /**
@@ -60,8 +60,7 @@ class VideoController extends Controller
      */
     public function update(Request $request, Video $video)
     {
-      $this->authorize('update', $video);
-        //
+        $this->authorize('update', $video);
     }
 
     /**
@@ -72,8 +71,8 @@ class VideoController extends Controller
      */
     public function destroy(Video $video)
     {
-      $this->authorize('delete', $video);
-      $video->delete();
-      return $this->success('video.delete-success');
+        $this->authorize('delete', $video);
+        $video->delete();
+        return $this->success('video.delete-success');
     }
 }
