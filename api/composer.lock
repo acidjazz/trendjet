@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "09f8d222fa6a57db1cce6707621391dc",
+    "content-hash": "617e49dfe9f7f101eb20d6241bb25284",
     "packages": [
         {
             "name": "acidjazz/geoip",
@@ -133,16 +133,16 @@
         },
         {
             "name": "acidjazz/metapi",
-            "version": "v1.1.1",
+            "version": "v1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/acidjazz/metapi.git",
-                "reference": "0c85a6d9c56ed1ffbe449fa4af5003da0b35793e"
+                "reference": "fd9b8f024745adcc45fd56f567ded84af7c58ba6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acidjazz/metapi/zipball/0c85a6d9c56ed1ffbe449fa4af5003da0b35793e",
-                "reference": "0c85a6d9c56ed1ffbe449fa4af5003da0b35793e",
+                "url": "https://api.github.com/repos/acidjazz/metapi/zipball/fd9b8f024745adcc45fd56f567ded84af7c58ba6",
+                "reference": "fd9b8f024745adcc45fd56f567ded84af7c58ba6",
                 "shasum": ""
             },
             "require": {
@@ -183,7 +183,7 @@
                 "pagination",
                 "php"
             ],
-            "time": "2018-09-13T04:52:37+00:00"
+            "time": "2018-09-18T22:38:24+00:00"
         },
         {
             "name": "acidjazz/tubestuff",
