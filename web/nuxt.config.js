@@ -11,7 +11,7 @@ module.exports = {
   },
 
   router: {
-    middleware: [ 'ssl', 'auth' ],
+    middleware: [ 'auth' ],
   },
 
   /*
@@ -91,8 +91,9 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    'plugins/global-components.js',
-    'plugins/axios.js',
+    '@/plugins/ssl.js',
+    '@/plugins/axios.js',
+    '@/plugins/global-components.js',
   ],
 
 
