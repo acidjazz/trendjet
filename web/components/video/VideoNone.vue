@@ -2,7 +2,7 @@
 section.section
   .box.container-480
     .content
-      p.has-text-centered Click <strong>Add Videos</strong> above and give us a YouTube:
+      p.has-text-centered Click <strong>Add Videos</strong> above and enter a YouTube
       dl
         dt Channel Link
         dd.is-size-7.has-text-grey ex: https://www.youtube.com/channel/UCsvn_Po0SmunchJYOWpOxMg
