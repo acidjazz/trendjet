@@ -13,10 +13,10 @@
 
   .card-content
     .field.is-grouped.is-grouped-multiline
-      .control(v-if="video.current")
+      .control(v-if="video.views")
         .tags.has-addons
           span.tag.is-dark Views
-          span.tag.is-info: FormatNumber(:value="video.current")
+          span.tag.is-info: FormatNumber(:value="video.views")
       .control(v-if="video.created_at")
         .tags.has-addons
           span.tag.is-dark Added

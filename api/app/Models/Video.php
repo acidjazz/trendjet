@@ -4,16 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\VideoLog;
-use App\Services\YouTubeService;
+use acidjazz\tubestuff\TubeStuff;
 
 use App\Scopes\OrderScope;
 
 class Video extends Model
 {
 
-  protected $fillable = [ 'id', 'user_id', 'title'];
+  protected $fillable = [ 'id', 'user_id', 'title', 'views'];
   public $incrementing = false;
-  protected $appends = [ 'cover', 'current'];
+  protected $appends = [ 'cover'];
 
   protected static function boot()
   {
@@ -23,12 +23,7 @@ class Video extends Model
 
   public function getCoverAttribute ()
   {
-    return YouTubeService::cover($this->id);
-  }
-
-  public function getCurrentAttribute()
-  {
-    return $this->logs->first()['views'];
+    return TubeStuff::cover($this->id);
   }
 
   public function logs()
@@ -45,16 +40,12 @@ class Video extends Model
    */
   public static function add($user, $ids) {
 
-    $ys = new YouTubeService();
-    $videos = $ys->getVideos($ids);
+    $ts = new TubeStuff(config('services.google.api_key'));
+    $videos = $ts->getVideos($ids);
 
     foreach ($videos as $id=>$video) {
-      $row = self::create([
-        'id' => $id, 
-        'user_id' => $user->id,
-        'title' => $video['title'], 
-      ]);
-
+      $video['user_id'] = $user->id;
+      $row = self::create($video);
       $row->logs()->create(['views' => $video['views']]);
     }
   }

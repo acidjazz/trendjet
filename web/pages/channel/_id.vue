@@ -30,14 +30,18 @@
                   i.mdi.mdi-arrow-right
 
       VideoList(v-if="loaded",:videos="results.videos",:channel="true")
+      .columns.is-multiline(v-if="!loaded")
+        .column.is-one-third(v-for="n in 9")
+          VideoCardLoading
 </template>
 
 <script>
 import VideoList from '@/components/video/VideoList'
+import VideoCardLoading from '@/components/video/VideoCardLoading'
 import FormatNumber from '@/components/format/FormatNumber'
 export default {
   middleware: [ 'is-auth' ],
-  components: { VideoList, FormatNumber },
+  components: { VideoList, FormatNumber, VideoCardLoading },
   methods: {
     next () {
       this.page++

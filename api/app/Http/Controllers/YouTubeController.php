@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Auth;
-use App\Services\YouTubeService;
+use App\Models\Video;
+use acidjazz\tubestuff\TubeStuff;
 
 class YouTubeController extends Controller
 {
@@ -18,13 +19,13 @@ class YouTubeController extends Controller
     public function parse(Request $request)
     {
 
-        $this->option('url', 'required|url');
+        $this->option('string', 'required|string');
 
         if (!$this->verify()) {
             return $this->error();
         }
 
-        $result = (new YouTubeService)->parse($request->url);
+        $result = (new TubeStuff)->parse($request->string);
 
         if (!$result) {
           return $this->error('Invalid URL');
@@ -43,7 +44,13 @@ class YouTubeController extends Controller
     public function channel(String $id, Request $request)
     {
       $this->option('pageToken', 'string|nullable');
-      $channel = (new YouTubeService)->getChannel($id, $request->pageToken, Auth::user());
+      $channel = (new TubeStuff(config('services.google.api_key')))
+        ->getChannelVideos($id, $request->pageToken);
+      $added = Video::whereIn('id', array_keys($channel['videos']))
+        ->where('user_id', Auth::user()->id)->get()->pluck('id');
+      foreach ($added as $id) {
+        $channel['videos'][$id]['added'] = true;
+      }
       return $this->render($channel);
     }
 }

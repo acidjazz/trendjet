@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2c02116049dcd07344cb72dbcc6b9245",
+    "content-hash": "4a7c0f613d9d2a41e60602e8bd002f55",
     "packages": [
         {
             "name": "acidjazz/geoip",
@@ -184,6 +184,50 @@
                 "php"
             ],
             "time": "2018-09-13T04:52:37+00:00"
+        },
+        {
+            "name": "acidjazz/tubestuff",
+            "version": "v0.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/acidjazz/tubestuff.git",
+                "reference": "ab65abb0f65414e119069c50aad197dc696c2701"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/acidjazz/tubestuff/zipball/ab65abb0f65414e119069c50aad197dc696c2701",
+                "reference": "ab65abb0f65414e119069c50aad197dc696c2701",
+                "shasum": ""
+            },
+            "require": {
+                "google/apiclient": "^2.2",
+                "illuminate/support": "5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.* || 5.6.* || 5.7.*",
+                "php": "~7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "acidjazz\\tubestuff\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Olson",
+                    "email": "acidjazz@gmail.com"
+                }
+            ],
+            "description": "YouTube URL and API helpers for Laravel",
+            "keywords": [
+                "api",
+                "laravel",
+                "php",
+                "youtube"
+            ],
+            "time": "2018-09-18T17:53:35+00:00"
         },
         {
             "name": "asm89/stack-cors",
