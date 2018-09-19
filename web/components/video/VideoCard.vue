@@ -29,18 +29,18 @@
         span(v-if="!video.added") Add Video
         span(v-else) Video added
   footer.card-footer
-    a.card-footer-item.has-text-info
+    nuxt-link.card-footer-item.has-text-info(:to="`/video/${video.id}`")
       span.icon
         i.mdi.mdi-history
       span Details
     a.card-footer-item.has-text-primary
       span.icon
         i.mdi.mdi-rocket
-      span Boost 
+      span Boost
     a.card-footer-item.has-text-danger(@click="confirm",:class="{'is-loading': deleting}")
       span.icon
         i.mdi.mdi-delete
-      span Delete 
+      span Delete
 </template>
 
 <script>
