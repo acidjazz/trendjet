@@ -30,8 +30,8 @@ export default function ({ $axios, app }, inject) {
     }
     if (error.response.data && error.response.data.message) {
       app.$toast.show({
-        type: 'danger', 
-        message: `<b>[${error.response.data.exception}]</b> ${error.response.data.message}`,
+        type: 'danger',
+        message: `<b>[${error.response.data.exception}]</b> <br /> ${error.response.data.message}`,
         delay: 0,
       })
     }

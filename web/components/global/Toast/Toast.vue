@@ -6,7 +6,7 @@ transition(name="toast")
       .media-left
         span.icon.is-large.ani-slide-in-left.delay-2(:class="`is-${type}`")
           i.mdi.mdi-48px(:class="icon")
-      .media-content.ani-slide-in-left.delay-3.align-self-center(v-html="message")
+      .media-content.ani-slide-in-left.delay-3.align-self-center.break-word(v-html="message")
 </template>
 
 <script>
