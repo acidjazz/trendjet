@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Provider;
+use acidjazz\Humble\Models\Session;
 
 use Illuminate\Http\Request;
 use App\Notifications\UserAttempt;
@@ -86,12 +87,12 @@ class AuthController extends Controller
 
     $this->option('email', 'required|email');
     $this->option('to', 'string');
+    $this->verify();
 
-    if (!$this->verify()) {
-      return $this->error();
+    if (!$user = User::where('email', $request->email)->first()) {
+        return $this->render(['cookie' => Session::hash()]);
     }
 
-    $user = User::where('email', $request->email)->first();
     $attempt = Auth::attempt($user);
     $user->notify(new UserAttempt($attempt));
 

@@ -20,8 +20,8 @@
         span.icon
           i.mdi.mdi-youtube
         span My Videos
- 
-      nuxt-link.navbar-item(v-if="isAdmin",to="/admin",@click.native="off")
+
+      nuxt-link.navbar-item(v-if="admin",to="/admin",@click.native="off")
         span.icon
           i.mdi.mdi-security
         span Admin
@@ -37,7 +37,7 @@
 import NavBarLogout from '@/components/layout/navbar/NavBarLogout'
 import { mapGetters } from 'vuex'
 export default {
-  computed: { ...mapGetters(['isAdmin']), },
+  computed: { ...mapGetters(['admin']), },
   components: { NavBarLogout },
   props: {
     close: {

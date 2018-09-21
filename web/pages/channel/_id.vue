@@ -54,7 +54,8 @@ export default {
     async get (pageToken) {
       this.loaded = false
       delete this.results.videos
-      this.results = (await this.$axios.get(`/youtube/channel/${this.$route.params.id}`, {params: {pageToken: pageToken}})).data.data
+      this.results = (await this.$axios.get(`/youtube/channel/${this.$route.params.id}`,
+        {params: {pageToken: pageToken}})).data.data
       this.loaded = true
     },
   },

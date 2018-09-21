@@ -36,17 +36,10 @@ export default {
           this.$store.commit('user', response.data.data.user)
           this.state = 'success'
           window.Cookies.remove('attempt')
-          setTimeout( () => {
-            this.$message.show({
-              type: 'success', 
-              message: 'Login Successful'
-            })
-            this.$router.push('/')
-          }
-            , 2000)
+          setTimeout( () => this.$router.push('/'), 2000)
         })
-        .catch( (error) => { 
-          this.state = 'error' 
+        .catch( (error) => {
+          this.state = 'error'
         })
         .then( () => this.checked = true)
 
