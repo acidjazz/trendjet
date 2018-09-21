@@ -71,7 +71,7 @@ export default {
       let top = window.screen.height / 2 - (height / 2)
 
       let win = window.open(process.env.API_URL + 'redirect/' + provider, 'Log in',
-        `toolbar=no, location=no, directories=no, status=no, menubar=no, scollbars=no, 
+        `toolbar=no, location=no, directories=no, status=no, menubar=no, scollbars=no,
         resizable=no, copyhistory=no, width=${width},height=${height},top=${top},left=${left}`
       )
 
@@ -123,6 +123,7 @@ export default {
 
     compact () {
       this.closing = true
+      this.email = ''
       setTimeout(() => {
         this.closing = false
         this.prompt = false
@@ -132,10 +133,11 @@ export default {
     get (email) {
       this.errors = false
       this.$axios.get('/attempt', {params: {email: this.email}})
-        .then((response) => { 
+        .then((response) => {
           this.success.email = true
           window.Cookies.set('attempt', response.data.data.cookie, { expires: 1})
-          this.modal() 
+          this.modal()
+          this.compact()
         })
         .catch((error) => { this.errors = true })
         .then((result) => { this.loading.email = false })
@@ -147,7 +149,7 @@ export default {
           <hr />
           <p>You may <b>close this window</b> now since clicking the link will open a new one!</p>`,
         buttons: [
-          {name: 'Close'}, 
+          {name: 'Close'},
         ],
       })
     },

@@ -11,7 +11,7 @@ nav.navbar.is-fixed-top.is-dark(v-on-clickaway="away")
         span
         span
     .navbar-menu(:class="{'is-active': active}")
-      transition(name="slide-fade",mode="out-in")
+      transition(name="login",mode="out-in")
         NavBarUser(v-if="auth",:close="close",ref="user")
         NavBarLogin(v-else,:close="close",:active="active")
 </template>
@@ -24,7 +24,7 @@ import NavBarUser from '@/components/layout/navbar/NavBarUser'
 export default {
   mixins: [ clickaway ],
   computed: { ...mapGetters(['auth'])},
-  components: { 
+  components: {
     NavBarLogin,
     NavBarUser,
   },
@@ -33,14 +33,14 @@ export default {
     close () { this.active = false },
     swap () { this.active = !this.active },
     reflect () { this.$refs.user.off() },
-    away () { 
-      this.close(); 
-      this.reflect(); 
+    away () {
+      this.close();
+      this.reflect();
     },
   },
-  data () { 
-    return { 
-      active: false, 
+  data () {
+    return {
+      active: false,
     }
   },
 }
@@ -55,18 +55,18 @@ export default {
 .navbar-brand  a.navbar-burger:hover
   color picton
 
-.slide-fade-enter-active
+.login-enter-active
   transition all .3s ease 0s
   overflow hidden
-.slide-fade-leave-active 
+.login-leave-active
   transition all .3s ease 0s
   overflow hidden
 
-.slide-fade-enter
-  transform translate(0px, 0)
-.slide-fade-leave-to
-  transform translate(0px, 0)
-.slide-fade-enter, .slide-fade-leave-to
+.login-enter
+  transform translate(0px, -10px)
+.login-leave-to
+  transform translate(0px, -10px)
+.login-enter, .login-leave-to
   opacity 0
 
 

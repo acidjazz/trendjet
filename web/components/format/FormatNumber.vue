@@ -1,6 +1,6 @@
 <template lang="pug">
 span.digits(:class="this.speed")
-  transition(name="slide-fade",mode="out-in",v-for="char in arrayed",:key="char")
+  transition(name="digit",mode="out-in",v-for="char in arrayed",:key="char")
     span.digit(:key="char") {{ char }}
 </template>
 

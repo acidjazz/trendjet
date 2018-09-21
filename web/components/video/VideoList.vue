@@ -23,7 +23,6 @@ export default {
       for (let index in this.videos) {
         if (this.videos[index].id === id) {
           this.$delete(this.videos, index)
-          console.log('deleted', this.videos[index])
         }
       }
     }
