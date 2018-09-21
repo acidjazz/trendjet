@@ -68,7 +68,7 @@ export default {
           this.video.added = true
           this.adding = false
         }
-      })
+      }).catch(() => {}).then(() => this.adding = false)
     },
     confirm () {
       this.deleting = true

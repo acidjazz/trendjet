@@ -19,7 +19,7 @@ const store = () => new Vuex.Store({
     user (state) {
       return state.user
     },
-    isAdmin (state) {
+    admin (state) {
       if (!state.user || state.user.role !== 'admin') {
         return false
       }

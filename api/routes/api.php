@@ -26,5 +26,6 @@ Route::get('/youtube/parse', 'YouTubeController@parse')->middleware('auth:api');
 Route::get('/youtube/channel/{id}', 'YouTubeController@channel')->middleware('auth:api');
 
 Route::apiResource('video', 'VideoController')->middleware('auth:api');
+Route::get('testy', 'VideoController@store')->middleware('auth:api');
 
 require(base_path('routes/mailable.php'));
