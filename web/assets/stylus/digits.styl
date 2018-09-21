@@ -1,0 +1,16 @@
+.digits .digit
+  display inline-flex
+
+.digits
+  display block
+  overflow hidden
+  .digit-enter-active ,.digit-leave-active
+    transition all .2s ease
+.digit-enter
+  transform translate(0, -60%)
+.digit-leave-to
+  transform translate(0, 60%)
+.digit-enter
+  opacity 0
+.digit-leave-to
+  opacity 0.5

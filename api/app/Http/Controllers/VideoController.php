@@ -17,6 +17,7 @@ class VideoController extends Controller
      */
     public function index(Request $request)
     {
+        sleep(2);
         return $this->render($this->paginate(Video::where('user_id', Auth::user()->id), 9));
     }
 
@@ -28,15 +29,15 @@ class VideoController extends Controller
      */
     public function store(Request $request)
     {
-        $this->option('ids', 'required|array|unique:videos,id');
+        $this->option('ids', 'required|array|in:videos,id');
+        $this->verify();
 
-        if (!$this->verify()) {
-        return $this->error();
+        if (Video::whereIn('id', $request->ids)->count()) {
+            return $this->error('video.exists');
         }
 
         Video::add(Auth::user(), $request->ids);
-
-        return $this->success('Video added successfully');
+        return $this->success('video.add-success');
     }
 
     /**
