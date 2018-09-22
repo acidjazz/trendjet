@@ -13,7 +13,7 @@ export default async function (ctx) {
     if (blocked.indexOf(ctx.route.name) !== -1) return true
 
     try {
-      const result = await ctx.$axios.get('/me')
+      const result = await ctx.$axios.get('/me', { progress: false })
       if (result.data && result.data.data) {
         ctx.store.commit('user', result.data.data)
         return true
