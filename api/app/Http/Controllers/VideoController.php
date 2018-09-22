@@ -29,7 +29,7 @@ class VideoController extends Controller
      */
     public function store(Request $request)
     {
-        $this->option('ids', 'required|array|in:videos,id');
+        $this->option('ids', 'required|array');
         $this->verify();
 
         if (Video::whereIn('id', $request->ids)->count()) {
