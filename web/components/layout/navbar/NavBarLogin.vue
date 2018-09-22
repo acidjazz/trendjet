@@ -94,11 +94,11 @@ export default {
       this.success[result.provider] = true
       window.localStorage.setItem('trendjet', JSON.stringify(result))
       setTimeout( () => this.compact(), 300)
-      setTimeout( () => this.$store.commit('user', result.user), 340)
-      // setTimeout( () => this.close(), 1000)
+      setTimeout( () => this.$store.commit('user', result.user), 600)
     },
 
     prompting (toggle) {
+      console.log('prompting', toggle)
       this.$emit('prompt', toggle)
       this.prompt = toggle
     },
