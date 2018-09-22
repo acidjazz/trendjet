@@ -98,7 +98,6 @@ export default {
     },
 
     prompting (toggle) {
-      console.log('prompting', toggle)
       this.$emit('prompt', toggle)
       this.prompt = toggle
     },
