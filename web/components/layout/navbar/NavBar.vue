@@ -65,9 +65,6 @@ export default {
       this.connecting = toggle
     },
   },
-  mounted () {
-    setInterval(() => console.log(window.innerWidth), 1000)
-  },
   data () {
     return {
       active: false,
