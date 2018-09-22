@@ -52,7 +52,7 @@ export default {
   },
 
   mounted () {
-    setTimeout(this.rando, 2000)
+    setInterval(this.rando, 2000)
   },
 
 

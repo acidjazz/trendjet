@@ -11,9 +11,26 @@ nav.navbar.is-fixed-top.is-dark(v-on-clickaway="away")
         span
         span
     .navbar-menu(:class="{'is-active': active}")
-      transition(name="login",mode="out-in")
-        NavBarUser(v-if="auth",:close="close",ref="user")
-        NavBarLogin(v-else,:close="close",:active="active")
+      .navbar-end
+        nuxt-link.navbar-item(
+          @click.native="close",
+          v-if="!connecting || mobile",
+          to="/",
+          :class="{'is-active': $route.name == 'index'}")
+          span.icon
+            i.mdi.mdi-home
+          span Home
+        nuxt-link.navbar-item(
+          @click.native="close",
+          v-if="!connecting || mobile",
+          to="/plans",
+          :class="{'is-active': $route.name == 'plans'}")
+          span.icon
+            i.mdi.mdi-cart
+          span Plans
+        transition(name="login",mode="out-in")
+          NavBarUser(v-if="auth",:close="close",ref="user")
+          NavBarLogin(v-else,:active="active",@prompt="prompt")
 </template>
 
 <script>
@@ -23,7 +40,12 @@ import NavBarLogin from '@/components/layout/navbar/NavBarLogin'
 import NavBarUser from '@/components/layout/navbar/NavBarUser'
 export default {
   mixins: [ clickaway ],
-  computed: { ...mapGetters(['auth'])},
+  computed: {
+    ...mapGetters(['auth']),
+    mobile () {
+      return window && window.innerWidth <= 1080
+    },
+  },
   components: {
     NavBarLogin,
     NavBarUser,
@@ -35,12 +57,21 @@ export default {
     reflect () { this.$refs.user.off() },
     away () {
       this.close();
-      this.reflect();
+      if (this.$refs.user) {
+        this.reflect();
+      }
     },
+    prompt (toggle) {
+      this.connecting = toggle
+    },
+  },
+  mounted () {
+    setInterval(() => console.log(window.innerWidth), 1000)
   },
   data () {
     return {
       active: false,
+      connecting: false,
     }
   },
 }
