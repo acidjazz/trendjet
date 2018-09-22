@@ -62,7 +62,6 @@ export default {
       }
     },
     prompt (toggle) {
-      console.log('prompt emited', toggle)
       this.connecting = toggle
     },
   },

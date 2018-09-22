@@ -22,8 +22,8 @@
         h2 Fonts
         hr.divider.has-background-primary
         .box
-          p trendjet uses Google's 
-            a(href="https://fonts.google.com/specimen/Roboto") roboto 
+          p trendjet uses Google's
+            a(href="https://fonts.google.com/specimen/Roboto") roboto
             | font
             ul
               li(v-for="n in 7",:class="`is-size-${n}`") size {{ n }}
@@ -38,7 +38,7 @@
         h3 Detailed Modal
         pre: code.language-js.
           this.$modal.show({
-            title: 'title', 
+            title: 'title',
             body: 'this is the body',
             buttons: [
               {name: 'OK', class: 'is-primary'},
@@ -56,7 +56,7 @@
           let types = ['default','success','info','danger']
           let type = types[Math.floor(Math.random() * types.length)]
           this.$toast.show({
-            type: type, 
+            type: type,
             message: `this toast is type ${type}`})
         .button(@click="toastDetailed") show toast
 
@@ -71,7 +71,7 @@ export default {
     },
     modalDetailed () {
       this.$modal.show({
-        title: 'title', 
+        title: 'title',
         body: 'this is the body',
         buttons: [
           {name: 'OK', class: 'is-primary'},
@@ -86,13 +86,8 @@ export default {
       let types = ['default','success','info','danger']
       let type = types[Math.floor(Math.random() * types.length)]
       this.$toast.show({
-        type: type, 
+        type: type,
         message: `this toast is type ${type}`})
-    },
-
-    async loginas () {
-      let response = await this.$axios.get('/loginas/acidjazz@gmail.com')
-      console.log(response.headers)
     },
   },
 
@@ -124,7 +119,7 @@ export default {
   head () {
     return {
       link: [
-        { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/themes/prism.min.css' }, 
+        { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/themes/prism.min.css' },
         { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/themes/prism-okaidia.min.css' },
       ],
       script: [
