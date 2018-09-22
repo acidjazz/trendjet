@@ -82,15 +82,15 @@
     opacity 0
     transform scale(0.9)
 
-.ani-slide-in-left, .ani-slide-in-top
+.ani-slide-in-left, .ani-slide-in-top, .ani-zoom-in
   for i in 1..10
     &.delay-{i}
       animation-delay unit(0.05 * i, 's')
 
 .is-gradient-loading
   background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
-  
-  
+
+
   background-size 400% 400% !important
   animation loading 1.7s linear infinite
 

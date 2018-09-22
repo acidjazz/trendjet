@@ -1,43 +1,42 @@
 <template lang="pug">
-.navbar-end
-  .navbar-item.display-flex.justify-flex-end
-    span.field(:class="{'has-addons': prompt}")
-      p.control.ani-slide-in-left.delay-2.has-icons-left.has-icons-right(
-        :class="{'is-loading': loading.email,'is-closing': closing}",
-        v-if="prompt")
-        input.input(
-          type="text",
-          placeholder="E-mail address",
-          v-model="email",
-          :class="{'is-danger': errors}",
-          @keyup.enter="attempt")
-        span.icon.is-small.is-left.ani-slide-in-left.delay-3(:class="{'is-closing': closing}")
-          i.mdi.mdi-email
-        span.icon.is-small.is-right.has-text-danger(v-if="errors")
-          i.mdi.mdi-alert
-        span.icon.is-small.is-right.has-text-success(v-if="success.email")
-          i.mdi.mdi-check
-      p.control(v-if="prompt")
-        button.button.ani-slide-in-left.delay-1(
-          :class="{'is-loading': loading.facebook,'is-closing': closing}",
-          @click="oauth('facebook')")
-          span.icon.has-text-success(v-if="success.facebook"): i.mdi.mdi-check
-          span.icon(v-else): i.mdi.mdi-facebook
-      p.control(v-if="prompt")
-        button.button.ani-slide-in-left(
-          :class="{'is-loading': loading.google,'is-closing': closing}",
-          @click="oauth('google')")
-          span.icon.has-text-success(v-if="success.google"): i.mdi.mdi-check
-          span.icon(v-else): i.mdi.mdi-google
-      p.control
-        button.button(:class="{'is-dark': !prompt || closing}",@click="attempt").is-hidden-mobile
-          span.icon.ani-zoom-in
-            i.mdi.mdi-login-variant
-          span Connect
-        button.button(@click="attempt").is-hidden-desktop
-          span.icon.ani-zoom-in
-            i.mdi.mdi-login-variant
-          span Connect
+.navbar-item.display-flex.justify-flex-end
+  span.field(:class="{'has-addons': prompt}")
+    p.control.ani-slide-in-left.delay-2.has-icons-left.has-icons-right(
+      :class="{'is-loading': loading.email,'is-closing': closing}",
+      v-if="prompt")
+      input.input(
+        type="text",
+        placeholder="E-mail address",
+        v-model="email",
+        :class="{'is-danger': errors}",
+        @keyup.enter="attempt")
+      span.icon.is-small.is-left.ani-slide-in-left.delay-3(:class="{'is-closing': closing}")
+        i.mdi.mdi-email
+      span.icon.is-small.is-right.has-text-danger(v-if="errors")
+        i.mdi.mdi-alert
+      span.icon.is-small.is-right.has-text-success(v-if="success.email")
+        i.mdi.mdi-check
+    p.control(v-if="prompt")
+      button.button.ani-slide-in-left.delay-1(
+        :class="{'is-loading': loading.facebook,'is-closing': closing}",
+        @click="oauth('facebook')")
+        span.icon.has-text-success(v-if="success.facebook"): i.mdi.mdi-check
+        span.icon(v-else): i.mdi.mdi-facebook
+    p.control(v-if="prompt")
+      button.button.ani-slide-in-left(
+        :class="{'is-loading': loading.google,'is-closing': closing}",
+        @click="oauth('google')")
+        span.icon.has-text-success(v-if="success.google"): i.mdi.mdi-check
+        span.icon(v-else): i.mdi.mdi-google
+    p.control
+      button.button(:class="{'is-dark': !prompt || closing}",@click="attempt").is-hidden-mobile
+        span.icon.ani-zoom-in
+          i.mdi.mdi-login-variant
+        span Connect
+      button.button(@click="attempt").is-hidden-desktop
+        span.icon.ani-zoom-in
+          i.mdi.mdi-login-variant
+        span Connect
 </template>
 
 <script>
@@ -47,15 +46,11 @@ export default {
       type: Boolean,
       required: true,
     },
-    close: {
-      type: Function,
-      required: true,
-    }
   },
 
   watch: {
     'active' (after, before) {
-      this.prompt = after
+      this.prompting(after)
     },
   },
 
@@ -103,10 +98,15 @@ export default {
       // setTimeout( () => this.close(), 1000)
     },
 
+    prompting (toggle) {
+      this.$emit('prompt', toggle)
+      this.prompt = toggle
+    },
+
     attempt () {
 
       if (!this.prompt) {
-        this.prompt = true
+        this.prompting(true)
         return true
       }
 
@@ -126,7 +126,7 @@ export default {
       this.email = ''
       setTimeout(() => {
         this.closing = false
-        this.prompt = false
+        this.prompting(false)
       }, 200)
     },
 

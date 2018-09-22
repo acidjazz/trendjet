@@ -1,5 +1,5 @@
 <template lang="pug">
-span.digits(:class="this.speed")
+span.digits
   transition(name="digit",mode="out-in",v-for="char in arrayed",:key="char")
     span.digit(:key="char") {{ char }}
 </template>
@@ -13,9 +13,6 @@ export default {
     },
     value: {
       required: true,
-    },
-    speed: {
-      default: 'fast'
     },
   },
   computed: {
