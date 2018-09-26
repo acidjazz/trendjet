@@ -27,16 +27,17 @@
     "bulma-tooltip": "^2.0.2",
     "dotenv": "^6.0.0",
     "node-sass": "^4.9.3",
-    "nuxt": "^1.0.0",
+    "nuxt": "^2.0.0",
     "pug": "^2.0.3",
+    "pug-plain-loader": "^1.0.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "vue-clickaway": "^2.2.2"
   },
   "devDependencies": {
-    "babel-eslint": "^8.2.1",
+    "babel-eslint": "^9.0.0",
     "cross-env": "^5.0.1",
-    "eslint": "^5.0.1",
+    "eslint": "^5.6.0",
     "eslint-loader": "^2.0.0",
     "eslint-plugin-vue": "^4.0.0"
   }
