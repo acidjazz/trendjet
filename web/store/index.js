@@ -2,6 +2,11 @@ import Vuex from 'vuex'
 
 const store = () => new Vuex.Store({
 
+  actions: {
+    async refresh({ commit }) {
+      commit('user', (await this.$axios.get('/me')).data.data)
+    }
+  },
   state: {
     user: null,
   },
