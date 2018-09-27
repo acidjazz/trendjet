@@ -3,14 +3,11 @@
 namespace App\Http\Controllers;
 
 use Auth;
-use App\Models\User;
 use App\Models\Plan;
-use App\Models\Video;
 use App\Models\Purchase;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class UserController extends \acidjazz\metapi\MetApiController
+class PurchaseController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +16,7 @@ class UserController extends \acidjazz\metapi\MetApiController
      */
     public function index()
     {
-      return $this->render($this->paginate(User::paginate(20)));
+        //
     }
 
     /**
@@ -30,16 +27,26 @@ class UserController extends \acidjazz\metapi\MetApiController
      */
     public function store(Request $request)
     {
-        //
+        $this->option('plan_id', 'required|exists:plans,id');
+        $this->verify();
+
+        $plan = Plan::find($request->plan_id);
+        if (Purchase::create([
+            'plan_id' => $plan->id,
+            'user_id' => Auth::user()->id,
+        ])) {
+            $this->success('purchase.success', ['title' => $plan->title]);
+        }
+        return $this->error();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Purchase  $purchase
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Purchase $purchase)
     {
         //
     }
@@ -48,10 +55,10 @@ class UserController extends \acidjazz\metapi\MetApiController
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Purchase  $purchase
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Purchase $purchase)
     {
         //
     }
@@ -59,21 +66,11 @@ class UserController extends \acidjazz\metapi\MetApiController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Purchase  $purchase
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Purchase $purchase)
     {
         //
-    }
-
-    /**
-     * User statistics
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function stats(Request $request)
-    {
-        return $this->render(Auth::user()->stats());
     }
 }
