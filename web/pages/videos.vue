@@ -6,16 +6,16 @@
         .level-left
           .level-item.ani-slide-in-right
             strong(v-if="videos.paginate"): FormatNumber(:value="videos.paginate.total")
-            strong(v-else) 0
+            strong.has-text-grey(v-else) ..
             | &nbsp;videos
         .level-right
           .level-item.ani-slide-in-left
             VideoAdd(@refresh="refresh")
 
       .columns.is-multiline(v-if="!loaded")
-        .column.is-one-third(v-for="n in 9")
+        .column.is-one-third(v-for="n in videostat")
           VideoCardLoading
-      
+
       VideoNone(v-if="loaded && videos.data.length == 0")
       VideoList(v-else,:videos="videos.data",:channel="false",@refresh="refresh")
       Paginate(v-if="loaded",:paginate="videos.paginate",:query="query")
@@ -34,10 +34,10 @@ export default {
   components: { VideoAdd, VideoList, VideoNone, FormatNumber, Paginate, VideoCardLoading },
   methods: {
     refresh () { this.get() },
-    async get (query) { 
+    async get (query) {
       this.loaded = false
       this.videos = {}
-      this.videos = (await this.$axios.get('/video', {params: query})).data 
+      this.videos = (await this.$axios.get('/video', {params: query})).data
       this.loaded = true
     },
     query (params) {
@@ -47,6 +47,12 @@ export default {
     },
   },
   mounted () { this.get(this.$route.query) },
+  computed: {
+    videostat() {
+      return this.$store.state.user.stats.videos < 10 ? this.$store.state.user.stats.videos : 9
+    }
+  },
+
   data () {
     return {
       videos: {},

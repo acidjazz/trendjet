@@ -3,13 +3,11 @@
 namespace App\Models;
 
 use App\Models\Provider;
+use App\Models\Purchase;
 
 use acidjazz\Humble\Traits\Humble;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
-// use Laravel\Passport\HasApiTokens;
-
 
 class User extends Authenticatable
 {
@@ -29,4 +27,23 @@ class User extends Authenticatable
       return $this->hasMany(Provider::class);
     }
 
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
+    }
+
+    public function getStatsAttribute()
+    {
+        $videos = Video::where('user_id', $this->id)->count();
+        $views = [
+            'purchased' => (integer)
+                Purchase::where('user_id', $this->id)
+                ->join('plans', ['plan_id' => 'plans.id'])->sum('plans.views')
+        ];
+
+        return [
+            'videos' => $videos,
+            'views' => $views,
+        ];
+    }
 }

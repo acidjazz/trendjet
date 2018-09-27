@@ -28,7 +28,7 @@
           i.mdi.mdi-video-plus
         span(v-if="!video.added") Add Video
         span(v-else) Video added
-  footer.card-footer
+  footer.card-footer(v-if="!channel")
     nuxt-link.card-footer-item.has-text-info(:to="`/video/${video.id}`")
       span.icon
         i.mdi.mdi-history
@@ -65,6 +65,7 @@ export default {
       .then( (response) => {
         if (response.data && response.data.data.success) {
           this.$toast.show(response.data.data)
+          this.$store.dispatch('refresh')
           this.video.added = true
           this.adding = false
         }
