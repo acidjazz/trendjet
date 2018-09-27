@@ -4,7 +4,6 @@
     .container
       .box
         .pricing-table
-
           .pricing-plan.ani-zoom-in(
             v-for="plan, index in plans",
             :class="[`${styles[plan.title]} delay-${index+1}`, {'is-active': index === active}]")
@@ -19,18 +18,29 @@
                 | &nbsp;Views
               .plan-item SmartView Guarantee
             .plan-footer
-              button.button.is-fullwidth Purchase
+              ButtonLongPress(
+                label="Boost",
+                :action="() => { purchase(plan.id); }",
+                :theme="plan.title === 'Tester' ? 'dark' : 'light'")
 </template>
 
 <script>
 import FormatNumber from '@/components/format/FormatNumber'
+import ButtonLongPress from '@/components/buttons/ButtonLongPress'
 export default {
 
-  components: { FormatNumber },
+  components: { FormatNumber, ButtonLongPress },
 
   methods: {
     async get () {
       this.plans = (await this.$axios.get('/plan')).data.data
+    },
+    purchase (id) {
+      this.$axios.post('/purchase', {plan_id: id})
+        .then( (response) => {
+          this.$toast.show(response.data.data)
+          this.$store.dispatch('refresh')
+        })
     },
   },
 

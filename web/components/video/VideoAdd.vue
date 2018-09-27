@@ -75,6 +75,7 @@ export default {
           this.$toast.show(response.data.data)
           this.string = ''
           this.compact()
+          this.$store.dispatch('refresh')
           this.$emit('refresh')
         }
       })

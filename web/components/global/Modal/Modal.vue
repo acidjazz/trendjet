@@ -14,8 +14,9 @@ transition(name="animodal",v-if="title")
             v-for="button, index in buttons",
             :autofocus="index === 0",
             :class="button.class",
-            @click="action(button)")
-            span {{ button.name }}
+            ref="button",
+            @click="action(button)"): span {{ button.name }}
+
 transition(name="animodal",v-else)
   .modal.is-active(v-if="active")
     .modal-background(@click="destroy")
@@ -45,8 +46,8 @@ export default {
       default: () => false,
     }
   },
-  methods: {
 
+  methods: {
     destroy () {
       this.active = false
       setTimeout( () => {
@@ -54,18 +55,21 @@ export default {
         removeElement(this.$el)
       }, 500)
     },
-
     action (button) {
       if (button.action && typeof button.action === 'function') {
         button.action()
       }
       return this.destroy()
     },
-
   },
 
   mounted () {
     this.active = true
+    setTimeout(() => {
+      if (this.$refs && this.$refs.button) {
+        this.$refs.button[0].focus()
+      }
+    }, 300)
   },
 
   data () {
@@ -75,4 +79,3 @@ export default {
   }
 }
 </script>
-
