@@ -6,29 +6,29 @@
       span {{ video.title }}
       .card-image-actions
         .buttons.is-centered
-          a.button.is-outlined.is-warning(target="_new",:href="`https://www.youtube.com/watch/?v=${video.id}`")
+          a.button.is-outlined(target="_new",:href="`https://www.youtube.com/watch/?v=${video.id}`")
             span.icon
               i.mdi.mdi-youtube
             span Watch Video
 
   .card-content
-    .field.is-grouped.is-grouped-multiline
-      .control(v-if="video.views")
+    .field.is-grouped.is-grouped-multiline(v-if="is_video")
+      .control
         .tags.has-addons
           span.tag.is-dark Views
           span.tag.is-info: FormatNumber(:value="video.views")
-      .control(v-if="video.created_at")
+      .control
         .tags.has-addons
           span.tag.is-dark Added
           span.tag.is-info: FormatDate(:value="video.created_at")
 
-    .buttons.is-centered(v-if="channel",@click="add")
+    .buttons.is-centered(v-if="is_channel",@click="add")
       button.button.is-primary(:disabled="video.added || adding",:class="{'is-loading': adding}")
         span.icon
           i.mdi.mdi-video-plus
         span(v-if="!video.added") Add Video
         span(v-else) Video added
-  footer.card-footer(v-if="!channel")
+  footer.card-footer(v-if="is_video")
     nuxt-link.card-footer-item.has-text-info(:to="`/video/${video.id}`")
       span.icon
         i.mdi.mdi-history
@@ -49,14 +49,20 @@ import FormatDate from '@/components/format/FormatDate'
 export default {
   components: { FormatNumber, FormatDate },
   props: {
-    channel: {
-      type: Boolean,
+    type: {
+      type: String,
       required: true,
     },
     video: {
       type: Object,
       required: true,
     }
+  },
+
+  computed: {
+    is_channel () { return this.type === 'channel' },
+    is_video () { return this.type === 'video' },
+    is_boost () { return this.type === 'boost' },
   },
   methods: {
     add () {

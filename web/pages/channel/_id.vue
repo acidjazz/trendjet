@@ -29,7 +29,7 @@
                 span.icon
                   i.mdi.mdi-arrow-right
 
-      VideoList(v-if="loaded",:videos="results.videos",:channel="true")
+      VideoList(v-if="loaded",:videos="results.videos",type="channel")
       .columns.is-multiline(v-if="!loaded")
         .column.is-one-third(v-for="n in 9")
           VideoCardLoading

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
-use App\Models\Plan;
+use App\Models\Package;
 use App\Models\Purchase;
 use Illuminate\Http\Request;
 
@@ -27,12 +27,12 @@ class PurchaseController extends Controller
      */
     public function store(Request $request)
     {
-        $this->option('plan_id', 'required|exists:plans,id');
+        $this->option('package_id', 'required|exists:packages,id');
         $this->verify();
 
-        $plan = Plan::find($request->plan_id);
+        $plan = Package::find($request->package_id);
         if (Purchase::create([
-            'plan_id' => $plan->id,
+            'package_id' => $plan->id,
             'user_id' => Auth::user()->id,
         ])) {
             $this->success('purchase.success', ['title' => $plan->title]);
