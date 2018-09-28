@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\Plan;
+use App\Models\Package;
 
-class PlanSeeder extends Seeder
+class PackageSeeder extends Seeder
 {
   /**
    * Run the database seeds.
@@ -37,7 +37,7 @@ class PlanSeeder extends Seeder
     ];
 
     foreach ($plans as $plan) {
-      Plan::create($plan);
+      Package::create($plan);
     }
   }
 }

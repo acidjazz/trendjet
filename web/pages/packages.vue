@@ -5,23 +5,23 @@
       .box
         .pricing-table
           .pricing-plan.ani-zoom-in(
-            v-for="plan, index in plans",
-            :class="[`${styles[plan.title]} delay-${index+1}`, {'is-active': index === active}]")
-            .plan-header {{ plan.title }}
+            v-for="pkg, index in packages",
+            :class="[`${styles[pkg.title]} delay-${index+1}`, {'is-active': index === active}]")
+            .plan-header {{ pkg.title }}
             .plan-price
               span.plan-price-amount
                 span.plan-price-currency $
-                FormatNumber(:value="plan.price")
+                FormatNumber(:value="pkg.price")
             .plan-items
               .plan-item
-                FormatNumber(:value="plan.views")
+                FormatNumber(:value="pkg.views")
                 | &nbsp;Views
               .plan-item SmartView Guarantee
             .plan-footer
               ButtonLongPress(
                 label="Boost",
-                :action="() => { purchase(plan.id); }",
-                :theme="plan.title === 'Tester' ? 'dark' : 'light'")
+                :action="() => { purchase(pkg.id); }",
+                :theme="pkg.title === 'Tester' ? 'dark' : 'light'")
 </template>
 
 <script>
@@ -33,10 +33,10 @@ export default {
 
   methods: {
     async get () {
-      this.plans = (await this.$axios.get('/plan')).data.data
+      this.packages = (await this.$axios.get('/package')).data.data
     },
     purchase (id) {
-      this.$axios.post('/purchase', {plan_id: id})
+      this.$axios.post('/purchase', {package_id: id})
         .then( (response) => {
           this.$toast.show(response.data.data)
           this.$store.dispatch('refresh')
@@ -50,7 +50,7 @@ export default {
 
   data () {
     return {
-      plans: [],
+      packages: [],
       active: 1,
       styles: {
         Tester: '',

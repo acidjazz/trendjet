@@ -23,11 +23,11 @@ nav.navbar.is-fixed-top.is-dark(v-on-clickaway="away")
         nuxt-link.navbar-item(
           @click.native="close",
           v-if="!connecting || mobile",
-          to="/plans",
+          to="/packages",
           :class="{'is-active': $route.name == 'plans'}")
           span.icon
             i.mdi.mdi-cart
-          span Plans
+          span Packages
         transition(name="login",mode="out-in")
           NavBarUser(v-if="auth",:close="close",ref="user")
           NavBarLogin(v-else,:active="active",@prompt="prompt")
