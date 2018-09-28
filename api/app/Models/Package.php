@@ -4,9 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Purchase;
 use App\Scopes\ActiveScope;
 
-class Plan extends Model
+class Package extends Model
 {
     protected $fillable = [
         'title','price','views',
@@ -16,5 +17,10 @@ class Plan extends Model
     {
         parent::boot();
         static::addGlobalScope(new ActiveScope);
+    }
+
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
     }
 }

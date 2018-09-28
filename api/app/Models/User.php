@@ -3,7 +3,10 @@
 namespace App\Models;
 
 use App\Models\Provider;
+use App\Models\Package;
 use App\Models\Purchase;
+
+use App\Scopes\ActiveScope;
 
 use acidjazz\Humble\Traits\Humble;
 use Illuminate\Notifications\Notifiable;
@@ -38,8 +41,9 @@ class User extends Authenticatable
         $views = [
             'purchased' => (integer)
                 Purchase::where('user_id', $this->id)
-                ->join('plans', ['plan_id' => 'plans.id'])->sum('plans.views')
+                ->join('packages', ['package_id' => 'packages.id'])->sum('packages.views'),
         ];
+        $views['available'] = $views['purchased'];
 
         return [
             'videos' => $videos,
