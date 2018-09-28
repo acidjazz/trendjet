@@ -39,9 +39,9 @@ class CreateViewsTables extends Migration
         });
 
         /**
-         * Varioius plan packages with view count and price
+         * Varioius packages with view count and price
          */
-        Schema::create('plans', function (Blueprint $table) {
+        Schema::create('packages', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
             $table->decimal('price', 8, 2);
@@ -51,12 +51,12 @@ class CreateViewsTables extends Migration
         });
 
        /**
-         * Plan purchases
+         * Package purchases
          */
         Schema::create('purchases', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('plan_id')->unsigned();
-            $table->foreign('plan_id')->references('id')->on('plans')->onDelete('cascade');
+            $table->integer('package_id')->unsigned();
+            $table->foreign('package_id')->references('id')->on('packages')->onDelete('cascade');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
@@ -88,8 +88,8 @@ class CreateViewsTables extends Migration
          */
         Schema::create('views', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('plan_id')->unsigned();
-            $table->foreign('plan_id')->references('id')->on('plans')->onDelete('cascade');
+            $table->integer('package_id')->unsigned();
+            $table->foreign('package_id')->references('id')->on('packages')->onDelete('cascade');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('views');
@@ -105,7 +105,7 @@ class CreateViewsTables extends Migration
     public function down()
     {
         Schema::dropIfExists('videos');
-        Schema::dropIfExists('plans');
+        Schema::dropIfExists('packages');
         Schema::dropIfExists('purchases');
         Schema::dropIfExists('boosts');
         Schema::dropIfExists('views');

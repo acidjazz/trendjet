@@ -1,7 +1,7 @@
 <template lang="pug">
 .columns.is-multiline
   .column(v-for="video in videos").is-one-third
-    VideoCard(:video="video",:channel="channel",@removed="removed")
+    VideoCard(:video="video",:type="type",@removed="removed")
 </template>
 
 <script>
@@ -13,8 +13,8 @@ export default {
     videos: {
       type: [Object,Array],
     },
-    channel: {
-      type: Boolean,
+    type: {
+      type: String,
       required: true,
     },
   },
