@@ -3,7 +3,6 @@ button.button.button-longpress(
   @mousedown="start",
   @touchstart="start",
   @touchend="end")
-  .button-longpress-action
   .button-longpress-action(v-if="actioning")
   .button-longpress-slot
     slot
