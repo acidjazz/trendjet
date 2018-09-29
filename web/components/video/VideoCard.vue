@@ -1,15 +1,15 @@
 <template lang="pug">
-.card(:class="{'ani-zoom-out': deleted}")
+.card
   .card-image
     figure.image.is-16by9.yt-bg(:style="`background-image: url(${video.cover});`")
     .card-image-title.has-text-white
       span {{ video.title }}
       .card-image-actions
         .buttons.is-centered
-          a.button.is-outlined(target="_new",:href="`https://www.youtube.com/watch/?v=${video.id}`")
+          a.button.is-inverted.is-outlined.is-dark(target="_new",:href="`https://www.youtube.com/watch/?v=${video.id}`")
             span.icon
               i.mdi.mdi-youtube
-            span Watch Video
+            span Watch Video on YouTube
 
   .card-content
     .field.is-grouped.is-grouped-multiline(v-if="is_video")
@@ -22,8 +22,18 @@
           span.tag.is-dark Added
           span.tag.is-info: FormatDate(:value="video.created_at")
 
+    ButtonBoost(v-if="is_boost",:id="video.id")
+
+      .control
+        button.button.is-primary
+          span.icon
+            i.mdi.mdi-rocket
+          span Boost this Video!
+
     .buttons.is-centered(v-if="is_channel",@click="add")
-      button.button.is-primary(:disabled="video.added || adding",:class="{'is-loading': adding}")
+      button.button.is-primary(
+        :disabled="video.added || adding",
+        :class="{'is-loading': adding, 'is-success': video.added}")
         span.icon
           i.mdi.mdi-video-plus
         span(v-if="!video.added") Add Video
@@ -33,7 +43,7 @@
       span.icon
         i.mdi.mdi-history
       span Details
-    a.card-footer-item.has-text-primary
+    a.card-footer-item.has-text-primary(@click="boost")
       span.icon
         i.mdi.mdi-rocket
       span Boost
@@ -44,10 +54,11 @@
 </template>
 
 <script>
+import ButtonBoost from '@/components/buttons/ButtonBoost'
 import FormatNumber from '@/components/format/FormatNumber'
 import FormatDate from '@/components/format/FormatDate'
 export default {
-  components: { FormatNumber, FormatDate },
+  components: { FormatNumber, FormatDate, ButtonBoost },
   props: {
     type: {
       type: String,
@@ -64,7 +75,18 @@ export default {
     is_video () { return this.type === 'video' },
     is_boost () { return this.type === 'boost' },
   },
+  filters: {
+    numeral (value) {
+      if (process.browser)
+        return window.numeral(value).format('0,0')
+      return value
+    },
+  },
+
   methods: {
+    boost () {
+      this.$emit('boost', this.video)
+    },
     add () {
       this.adding = true
       this.$axios.post('video', {ids: [this.video.id]})
