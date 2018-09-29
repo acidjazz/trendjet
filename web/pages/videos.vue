@@ -57,8 +57,6 @@ export default {
       this.get(this.$route.query)
     },
     async get (query) {
-      this.loaded = false
-      this.videos = {}
       this.videos = (await this.$axios.get('/video', {params: query})).data
       this.loaded = true
     },
