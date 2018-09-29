@@ -44,7 +44,7 @@ export default {
       this.width = this.width+1
       if (this.width >= 100) {
         this.actioning = true
-        setTimeout(() => this.action(), 200)
+        setTimeout(() => this.action(), 300)
         this.end()
       }
     },
