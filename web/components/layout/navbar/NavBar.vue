@@ -18,15 +18,15 @@ nav.navbar.is-fixed-top.is-dark(v-on-clickaway="away")
           to="/",
           :class="{'is-active': $route.name == 'index'}")
           span.icon
-            i.mdi.mdi-home
-          span Home
+            i.mdi.mdi-view-dashboard
+          span Dashboard
         nuxt-link.navbar-item(
           @click.native="close",
           v-if="!connecting || mobile",
           to="/packages",
           :class="{'is-active': $route.name == 'plans'}")
           span.icon
-            i.mdi.mdi-cart
+            i.mdi.mdi-package-variant
           span Packages
         transition(name="login",mode="out-in")
           NavBarUser(v-if="auth",:close="close",ref="user")

@@ -1,26 +1,32 @@
 <template lang="pug">
-button.button.button-longpress.is-fullwidth(
+button.button.button-longpress(
   @mousedown="start",
   @touchstart="start",
   @touchend="end")
-  .button-longpress-inner(:style="`width: ${width}%`",:class="`theme-${theme}`"): span {{ label }}
+  .button-longpress-slot
+    slot
+  .button-longpress-inner(
+    :style="`width: ${width}%`",
+    :class="`theme-${theme} position-${position}`"
+  )
 </template>
 
 <script>
 export default {
   props: {
-    label: {
-      type: String,
-      required: true,
-    },
     action: {
       type: Function,
       required: true,
     },
+    position: {
+      type: String,
+      required: false,
+      default: 'left',
+    },
     theme: {
       type: String,
       required: false,
-      default: 'dark',
+      default: 'light',
     }
   },
 
