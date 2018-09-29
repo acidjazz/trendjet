@@ -1,5 +1,6 @@
 <template lang="pug">
-span.digits
+span(v-if="text") {{ formatted }}
+span.digits(v-else)
   transition(name="digit",mode="out-in",v-for="char in arrayed",:key="char")
     span.digit(:key="char") {{ char }}
 </template>
@@ -13,6 +14,11 @@ export default {
     },
     value: {
       required: true,
+    },
+    text: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   computed: {

@@ -1,10 +1,10 @@
 <template lang="pug">
 transition(name="animodal")
   .modal.is-active
-    .modal-background
+    .modal-background(@click="cancel")
     .modal-content
       VideoCard(:video="video",type="boost")
-    button.modal-close.is-large(autofocus)
+    button.modal-close.is-large(autofocus,@click="cancel")
 </template>
 
 <script>
@@ -16,6 +16,11 @@ export default {
       type: Object,
       required: true,
     }
+  },
+  methods: {
+    cancel () {
+      this.$emit('cancel')
+    },
   },
 }
 </script>

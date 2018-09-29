@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\VideoLog;
+use App\Models\Boost;
 use acidjazz\tubestuff\TubeStuff;
 
 use App\Scopes\OrderScope;
@@ -28,7 +29,12 @@ class Video extends Model
 
   public function logs()
   {
-    return $this->hasMany(VideoLog::class)->orderBy('created_at', 'DESC');
+    return $this->hasMany(VideoLog::class);
+  }
+
+  public function boosts()
+  {
+    return $this->hasMany(Boost::class);
   }
 
   /**

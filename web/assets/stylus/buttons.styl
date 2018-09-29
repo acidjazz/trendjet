@@ -1,12 +1,24 @@
+.button-longpress
+  overflow hidden
+.button-longpress-slot
+  z-index 2
+
 .button-longpress-inner
   display flex
   position absolute
   width 0%
   height 100%
+  top 0
   justify-content center
   align-items center
+  &.position-left
+    left 0
+  &.position-right
+    right 0
   &.theme-dark
-    background-color rgba(picton, 0.2)
+    background-color rgba(black, 0.4)
   &.theme-light
-    background-color rgba(sail, 0.2)
+    background-color rgba(white, 0.4)
 
+.button
+  transition background-color .1s ease

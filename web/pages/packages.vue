@@ -19,9 +19,13 @@
               .plan-item SmartView Guarantee
             .plan-footer
               ButtonLongPress(
-                label="Boost",
                 :action="() => { purchase(pkg.id); }",
+                position="center",
                 :theme="pkg.title === 'Tester' ? 'dark' : 'light'")
+                span.icon
+                  i.mdi.mdi-rocket
+                span Get Package
+
 </template>
 
 <script>
