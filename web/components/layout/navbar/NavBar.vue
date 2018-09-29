@@ -1,5 +1,7 @@
 <template lang="pug">
-nav.navbar.is-fixed-top.is-dark(v-on-clickaway="away")
+nav.navbar.is-fixed-top.is-dark(
+  v-on-clickaway="away"
+  :class="{'has-nav-shadow': shadow}")
   .container
     .navbar-brand
       nuxt-link.navbar-item(to="/")
@@ -64,38 +66,37 @@ export default {
     prompt (toggle) {
       this.connecting = toggle
     },
+
+    scroll (event) {
+      if (window.scrollY >= 100 && this.shadow == false) {
+        this.shadow = true
+      }
+      if (window.scrollY <= 60 && this.shadow == true) {
+        this.shadow = false
+      }
+    },
+
   },
+
+  created () {
+    if (process.browser) {
+      window.addEventListener('scroll', this.scroll)
+      this.scroll()
+   }
+  },
+
+  destroyed () {
+    if (process.browser) {
+      window.removeEventListener('scroll', this.scroll)
+    }
+  },
+
   data () {
     return {
+      shadow: false,
       active: false,
       connecting: false,
     }
   },
 }
 </script>
-
-<style lang="stylus">
-@import '../../../assets/stylus/includes/*'
-.navbar-brand .navbar-item .logo
-  width 30px
-  height 30px
-  margin-right 10px
-.navbar-brand  a.navbar-burger:hover
-  color picton
-
-.login-enter-active
-  transition all .3s ease 0s
-  overflow hidden
-.login-leave-active
-  transition all .3s ease 0s
-  overflow hidden
-
-.login-enter
-  transform translate(0px, -10px)
-.login-leave-to
-  transform translate(0px, -10px)
-.login-enter, .login-leave-to
-  opacity 0
-
-
-</style>
