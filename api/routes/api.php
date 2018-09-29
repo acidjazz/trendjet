@@ -30,7 +30,8 @@ Route::apiResource('package', 'PackageController');
 
 Route::apiResource('video', 'VideoController')->middleware('auth:api');
 Route::apiResource('purchase', 'PurchaseController')->middleware('auth:api');
-Route::get('/purchasey', 'PurchaseController@store')->middleware('auth:api');
+Route::apiResource('boost', 'BoostController')->middleware('auth:api');
+Route::get('boosty', 'BoostController@store')->middleware('auth:api');
 
 require(base_path('routes/mailable.php'));
 

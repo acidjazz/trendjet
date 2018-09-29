@@ -24,7 +24,7 @@ export default function ({ $axios, app }, inject) {
       for (let key in error.response.data.errors) {
         for (let index in error.response.data.errors[key]) {
           if (key === 'not.auth') return
-          app.$toast.show({ type: 'danger', message: error.response.data.errors[key][index]})
+          app.$toast.show({ type: 'danger', message: error.response.data.errors[key][index], delay: 0})
         }
       }
     }

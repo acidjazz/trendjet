@@ -1,7 +1,13 @@
 <template lang="pug">
 .columns.is-multiline
-  .column(v-for="video in videos").is-one-third
-    VideoCard(:video="video",:type="type",@removed="removed")
+  .column.is-one-third(
+    v-for="video in videos"
+    :class="{'ani-zoom-out': deleted === video.id}")
+    VideoCard(
+      :video="video"
+      :type="type"
+      @removed="removed"
+      @boost="boost")
 </template>
 
 <script>
@@ -17,16 +23,27 @@ export default {
       type: String,
       required: true,
     },
+    refresh: {
+      type: Function,
+      required: false,
+    },
   },
   methods: {
     removed (id) {
-      for (let index in this.videos) {
-        if (this.videos[index].id === id) {
-          this.$delete(this.videos, index)
-        }
-      }
-    }
+      this.deleted = id
+      this.$store.dispatch('refresh')
+      // this.$emit('refresh')
+    },
+    boost (video) {
+      this.$emit('boost', video)
+    },
   },
+
+  data () {
+    return {
+      deleted: false,
+    }
+  }
 }
 </script>
 
