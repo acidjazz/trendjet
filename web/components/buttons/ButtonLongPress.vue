@@ -3,6 +3,8 @@ button.button.button-longpress(
   @mousedown="start",
   @touchstart="start",
   @touchend="end")
+  .button-longpress-action
+  .button-longpress-action(v-if="actioning")
   .button-longpress-slot
     slot
   .button-longpress-inner(
@@ -37,12 +39,14 @@ export default {
     end () {
       clearInterval(this.interval)
       this.width = 0
+      setTimeout(() => this.actioning = false, 1000)
     },
     count () {
       this.width = this.width+1
       if (this.width >= 100) {
+        this.actioning = true
+        setTimeout(() => this.action(), 200)
         this.end()
-        this.action()
       }
     },
   },
@@ -59,6 +63,7 @@ export default {
     return {
       interval: {},
       width: 0,
+      actioning: false,
     }
   }
 }
