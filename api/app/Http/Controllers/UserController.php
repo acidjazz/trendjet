@@ -10,7 +10,7 @@ use App\Models\Purchase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class UserController extends \acidjazz\metapi\MetApiController
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +19,7 @@ class UserController extends \acidjazz\metapi\MetApiController
      */
     public function index()
     {
-      return $this->render($this->paginate(User::paginate(20)));
+        return $this->render($this->paginate(User::select(), 9));
     }
 
     /**
