@@ -13,26 +13,42 @@ nav.navbar.is-fixed-top.is-dark(
         span
         span
     .navbar-menu(:class="{'is-active': active}")
+      .navbar-start
+        NavBarItem(
+          route="packages",
+          icon="package-variant",
+          :connecting="connecting",
+          :mobile="mobile",
+          :close="close")
+        //nuxt-link.navbar-item(
+          @click.native="close",
+          v-if="!connecting || mobile",
+          to="/packages",
+          :class="{'is-active': $route.name == 'plans'}")
+          span.icon: i.mdi.mdi-package-variant
+          span Packages
+        nuxt-link.navbar-item(
+          @click.native="close",
+          v-if="!connecting || mobile",
+          to="/about",
+          :class="{'is-active': $route.name == 'about'}")
+          span.icon: i.mdi.mdi-cogs
+          span How it works
       .navbar-end
+
         nuxt-link.navbar-item(
           @click.native="close",
           v-if="!connecting || mobile",
           to="/",
           :class="{'is-active': $route.name == 'index'}")
-          span.icon
-            i.mdi.mdi-view-dashboard
+          span.icon: i.mdi.mdi-view-dashboard
           span Dashboard
-        nuxt-link.navbar-item(
-          @click.native="close",
-          v-if="!connecting || mobile",
-          to="/packages",
-          :class="{'is-active': $route.name == 'plans'}")
-          span.icon
-            i.mdi.mdi-package-variant
-          span Packages
+
+
         transition(name="login",mode="out-in")
           NavBarUser(v-if="auth",:close="close",ref="user")
           NavBarLogin(v-else,:active="active",@prompt="prompt")
+
 </template>
 
 <script>
@@ -40,6 +56,7 @@ import { mapGetters } from 'vuex'
 import { mixin as clickaway } from 'vue-clickaway'
 import NavBarLogin from '@/components/layout/navbar/NavBarLogin'
 import NavBarUser from '@/components/layout/navbar/NavBarUser'
+import NavBarItem from '@/components/layout/navbar/NavBarItem'
 export default {
   mixins: [ clickaway ],
   computed: {
@@ -51,6 +68,7 @@ export default {
   components: {
     NavBarLogin,
     NavBarUser,
+    NavBarItem,
   },
   methods: {
     open () { this.active = false },

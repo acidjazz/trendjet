@@ -2,7 +2,7 @@
 #Plans.page
   section.section
     .container
-      .box
+      .box(style="min-height: 347px;")
         .pricing-table
           .pricing-plan.ani-zoom-in(
             v-for="pkg, index in packages",

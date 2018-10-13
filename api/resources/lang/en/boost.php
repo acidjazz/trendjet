@@ -12,5 +12,5 @@
 return [
     'created' => 'Boost created successfully',
     'unauthorized' => 'You are not authorized to boost this video',
-    'exists' => 'You cannot boost a video that has existing incomplete boosts',
+    'exists' => 'You cannot boost a video that has currently active boosts',
 ];
