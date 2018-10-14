@@ -28,6 +28,8 @@ Route::get('/youtube/channel/{id}', 'YouTubeController@channel')->middleware('au
 
 Route::apiResource('package', 'PackageController');
 
+Route::apiResource('session', 'SessionController')->middleware('auth:api');
+
 Route::apiResource('video', 'VideoController')->middleware('auth:api');
 Route::apiResource('purchase', 'PurchaseController')->middleware('auth:api');
 Route::apiResource('boost', 'BoostController')->middleware('auth:api');
