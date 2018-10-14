@@ -36,13 +36,11 @@
         td
           span {{ session.location.city }}, {{ session.location.state }}
           span &nbsp;
-          a.button.is-small(
+          a.button.is-small.is-text(
             :href="`https://www.google.com/maps/@${session.location.lat},${session.location.lon},15z`"
-            target="new",
-            )
+            target="new")
             span.icon
               i.mdi.mdi-google-maps
-          // img(:src="`https://maps.googleapis.com/maps/api/staticmap?size=64x64&zoom=8&center=${session.location.lat},${session.location.lon}&format=png&style=feature:road.highway%7Celement:geometry%7Cvisibility:simplified%7Ccolor:0xc280e9&style=feature:transit.line%7Cvisibility:simplified%7Ccolor:0xbababa&style=feature:road.highway%7Celement:labels.text.stroke%7Cvisibility:on%7Ccolor:0xb06eba&style=feature:road.highway%7Celement:labels.text.fill%7Cvisibility:on%7Ccolor:0xffffff&key=${GOOGLE_API_KEY}`")
         td
           span.has-text-success(disabled,v-if="session.current") This Device
           button.button.is-danger.is-small(
