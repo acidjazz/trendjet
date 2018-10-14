@@ -10,11 +10,6 @@
           span {{ $store.state.user.name }}
   .navbar-dropdown.is-right(:class="{'is-closing': closing}")
 
-    nuxt-link.navbar-item(to="/videos",@click.native="off")
-      span.icon
-        i.mdi.mdi-youtube
-      span Videos
-
     nuxt-link.navbar-item(to="/profile",@click.native="off")
       span.icon
         i.mdi.mdi-account-card-details

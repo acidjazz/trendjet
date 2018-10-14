@@ -12,10 +12,19 @@ class SessionController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+
+        $this->option('all', 'boolean');
+        $this->verify();
+
+        if ($request->all == true && Auth::user()->role === 'admin') {
+            return $this->render($this->paginate(Session::with('user'), 9));
+        }
+
         return $this->render(Auth::user()->sessions);
     }
 

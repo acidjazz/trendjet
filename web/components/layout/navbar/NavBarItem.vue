@@ -1,11 +1,10 @@
 <template lang="pug">
 nuxt-link.navbar-item(
   @click.native="close",
-  v-if="!connecting || mobile",
-  to="/packages",
-  :class="{'is-active': $route.name == 'plans'}")
-  span.icon: i.mdi.mdi-package-variant
-  span Packages
+  :to="`/${route}`",
+  :class="{'is-active': $route.name == route}")
+  span.icon: i.mdi(:class="`mdi-${icon}`")
+  span {{ label }}
 </template>
 
 <script>
@@ -15,16 +14,12 @@ export default {
       type: String,
       required: true,
     },
-    icon: {
+    label: {
       type: String,
       required: true,
     },
-    connecting: {
-      type: Boolean,
-      required: true,
-    },
-    mobile: {
-      type: Boolean,
+    icon: {
+      type: String,
       required: true,
     },
     close: {

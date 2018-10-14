@@ -17,33 +17,29 @@ nav.navbar.is-fixed-top.is-dark(
         NavBarItem(
           route="packages",
           icon="package-variant",
-          :connecting="connecting",
-          :mobile="mobile",
+          label="Packages",
           :close="close")
-        //nuxt-link.navbar-item(
-          @click.native="close",
-          v-if="!connecting || mobile",
-          to="/packages",
-          :class="{'is-active': $route.name == 'plans'}")
-          span.icon: i.mdi.mdi-package-variant
-          span Packages
-        nuxt-link.navbar-item(
-          @click.native="close",
-          v-if="!connecting || mobile",
-          to="/about",
-          :class="{'is-active': $route.name == 'about'}")
-          span.icon: i.mdi.mdi-cogs
-          span How it works
+
+        NavBarItem(
+          route="about",
+          icon="cogs",
+          label="How it works",
+          :close="close")
+
       .navbar-end
 
-        nuxt-link.navbar-item(
-          @click.native="close",
-          v-if="!connecting || mobile",
-          to="/",
-          :class="{'is-active': $route.name == 'index'}")
-          span.icon: i.mdi.mdi-view-dashboard
-          span Dashboard
-
+        NavBarItem(
+          v-if="auth && !connecting",
+          route="dashboard",
+          icon="view-dashboard",
+          label="Dashboard",
+          :close="close")
+        NavBarItem(
+          v-if="auth && !connecting",
+          route="videos",
+          icon="youtube",
+          label="My Videos",
+          :close="close")
 
         transition(name="login",mode="out-in")
           NavBarUser(v-if="auth",:close="close",ref="user")

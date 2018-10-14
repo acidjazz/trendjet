@@ -3,13 +3,13 @@
   section.section
     .container
       h2.subtitle Connected Devices
-      UserActivity
+      ConnectedDevices
 </template>
 
 <script>
-import UserActivity from '@/components/pages/profile/UserActivity'
+import ConnectedDevices from '@/components/pages/profile/ConnectedDevices'
 export default {
   middleware: [ 'is-auth' ],
-  components: { UserActivity },
+  components: { ConnectedDevices },
 }
 </script>
