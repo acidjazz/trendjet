@@ -23,6 +23,8 @@
               span.icon.tooltip(:data-tooltip="session.device.platform")
                 i.mdi.mdi-apple(v-if="session.device.platform.includes('macOS')")
                 i.mdi.mdi-windows(v-if="session.device.platform.includes('Windows')")
+                i.mdi.mdi-android(v-if="session.device.platform.includes('Android')")
+                i.mdi.mdi-ios(v-if="session.device.platform.includes('iOS')")
 
               span.icon.tooltip(:data-tooltip="session.device.browser")
                 i.mdi.mdi-google-chrome(v-if="session.device.browser.includes('Chrome')")
