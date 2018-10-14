@@ -158,4 +158,23 @@ class AuthController extends Controller
     {
         return $this->render(Auth::logout())->cookie('token', false, 0, '', config('app.domain'));
     }
+
+    /**
+     * Log In as a specified user
+     *
+     * @param Illuminate\Http\Request
+     * @return Illuminate\Http\Response
+     */
+    public function loginAs(Request $request, User $user)
+    {
+        Auth::login($user);
+        return $this
+            ->render([
+                'token' => Auth::token(),
+                'user' => Auth::user(),
+                'success' => true,
+                'type' => 'success',
+                'message' => __('auth.success'),
+            ])->cookie('token',Auth::token(), 0, '', config('app.domain'));
+    }
 }
