@@ -9,8 +9,8 @@
         th Device
         th Location
         th Actions
-    tbody(v-for="session in sessions.data")
-      tr
+    tbody
+      tr(v-for="session in sessions.data")
         td
           span.icon
             i.mdi.mdi-facebook(v-if="session.source === 'facebook'")
