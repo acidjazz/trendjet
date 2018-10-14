@@ -16,20 +16,17 @@
             td: FormatDate(:value="session.created_at")
             td: FormatDate(:value="session.updated_at")
             td
-              span.icon(v-if="session.device.mobile")
-                i.mdi.mdi-cellphone
-              span.icon(v-if="session.device.desktop")
-                i.mdi.mdi-monitor
+              span.icon.tooltip(:data-tooltip="session.device.platform")
+                i.mdi.mdi-cellphone(v-if="session.device.mobile")
+                i.mdi.mdi-monitor(v-if="session.device.desktop")
 
-              span.icon(v-if="session.device.platform.includes('macOS')")
-                i.mdi.mdi-apple
-              span.icon(v-if="session.device.platform.includes('Windows')")
-                i.mdi.mdi-windows
+              span.icon.tooltip(:data-tooltip="session.device.platform")
+                i.mdi.mdi-apple(v-if="session.device.platform.includes('macOS')")
+                i.mdi.mdi-windows(v-if="session.device.platform.includes('Windows')")
 
-              span.icon(v-if="session.device.browser.includes('Chrome')")
-                i.mdi.mdi-google-chrome
-              span.icon(v-if="session.device.browser.includes('Safari')")
-                i.mdi.mdi-apple-safari
+              span.icon.tooltip(:data-tooltip="session.device.browser")
+                i.mdi.mdi-google-chrome(v-if="session.device.browser.includes('Chrome')")
+                i.mdi.mdi-apple-safari(v-if="session.device.browser.includes('Safari')")
             td
               div {{ session.location.city }}, {{ session.location.state }}
               // img(:src="`https://maps.googleapis.com/maps/api/staticmap?size=64x64&zoom=8&center=${session.location.lat},${session.location.lon}&format=png&style=feature:road.highway%7Celement:geometry%7Cvisibility:simplified%7Ccolor:0xc280e9&style=feature:transit.line%7Cvisibility:simplified%7Ccolor:0xbababa&style=feature:road.highway%7Celement:labels.text.stroke%7Cvisibility:on%7Ccolor:0xb06eba&style=feature:road.highway%7Celement:labels.text.fill%7Cvisibility:on%7Ccolor:0xffffff&key=${GOOGLE_API_KEY}`")
