@@ -5,7 +5,7 @@ import { spawn } from '@/utils/helpers.js'
 // programmatic functions available
 const ModalProgrammatic = {
   show (props) {
-    if (typeof props === 'string') props = { body: props }
+    if (typeof props === 'string') props = { body: props, title: false }
     return spawn('modals', props, Vue, Modal)
   }
 }
