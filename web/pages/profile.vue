@@ -2,7 +2,7 @@
 #Profile.page
   section.section
     .container
-      h2.subtitle Activity
+      h2.subtitle Connected Devices
       UserActivity
 </template>
 

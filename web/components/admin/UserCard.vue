@@ -11,12 +11,13 @@
             strong {{ user.name }} &nbsp;
           div
             small {{ user.email }}
-          div
-            strong created &nbsp;
-            FormatDate(:value="user.created_at")
-          div
-            strong updated &nbsp;
-            FormatDate(:value="user.updated_at")
+    .content
+      div
+        strong created &nbsp;
+        FormatDate(:value="user.created_at")
+      div
+        strong updated &nbsp;
+        FormatDate(:value="user.updated_at")
   footer.card-footer
     a.card-footer-item
       span.icon
@@ -29,7 +30,7 @@
     a.card-footer-item.has-text-info
       span.icon
         i.mdi.mdi-login
-      span Log In
+      span Login As
 
 </template>
 
