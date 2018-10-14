@@ -3,6 +3,7 @@
   table.table.is-striped.is-fullwidth
     thead
       tr
+        th(v-if="admin") User
         th Type
         th Created
         th Updated
@@ -11,6 +12,12 @@
         th Actions
     tbody
       tr(v-for="session in sessions.data")
+        td(v-if="admin")
+          article.media
+            figure.media-left
+              p.image.is-24x24
+                img(:src="session.user.avatar")
+            .media-content {{ session.user.name }}
         td
           span.icon
             i.mdi.mdi-facebook(v-if="session.source === 'facebook'")
@@ -53,15 +60,28 @@
 </template>
 
 <script>
+
 import FormatDate from '@/components/format/FormatDate'
 import query from '@/mixins/query'
 import envs from '@/mixins/envs'
+
 export default {
+  props: {
+    admin: {
+      type: Boolean,
+      required: false,
+      default: false,
+    }
+  },
   mixins: [ query ],
   components: { FormatDate },
   methods: {
     async get (query) {
-      this.sessions = (await this.$axios.get('/session', {params: query})).data
+      if (this.admin) {
+        this.sessions = (await this.$axios.get('/session/?all=1', {params: query})).data
+      } else {
+        this.sessions = (await this.$axios.get('/session', {params: query})).data
+      }
     },
 
     async confirm (session) {

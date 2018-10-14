@@ -27,7 +27,7 @@
       span.icon
         i.mdi.mdi-delete
       span Delete
-    a.card-footer-item.has-text-info
+    a.card-footer-item.has-text-info(@click="loginAs")
       span.icon
         i.mdi.mdi-login
       span Login As
@@ -43,6 +43,17 @@ export default {
       type: Object,
       required: true,
     }
-  }
+  },
+
+  methods: {
+    async loginAs () {
+      let response = await this.$axios.get(`/login/${this.user.id}`)
+      if (response.data && response.data.data.success) {
+        this.$toast.show(response.data.data)
+        setTimeout( () => window.location = '/dashboard', 1000)
+      }
+    },
+  },
+
 }
 </script>
