@@ -10,18 +10,16 @@
 <script>
 import UserCard from '@/components/admin/UserCard'
 import Paginate from '@/components/buttons/Paginate'
+import query from '@/mixins/query'
 export default {
   components: { UserCard, Paginate },
   middleware: ['is-admin'],
+  mixins: [ query ],
   methods: {
     async get (query) {
+      this.users = {}
       this.users = (await this.$axios.get('/user', {params: query})).data
-    },
-    query (params) {
-      let query = Object.assign({}, this.$route.query, params)
-      this.$router.push({ query: query })
-      this.get(query)
-    },
+    }
   },
   mounted () {
     this.get(this.$route.query)
