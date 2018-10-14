@@ -16,6 +16,10 @@ nav.navbar.navbar-second.is-link
           span.icon
             i.mdi.mdi-account-multiple
           span Users
+        nuxt-link.navbar-item(to="/admin/sessions",:class="{'is-active': page === 'sessions'}")
+          span.icon
+            i.mdi.mdi-laptop
+          span Sessions
 </template>
 
 <script>
