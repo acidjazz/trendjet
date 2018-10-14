@@ -153,6 +153,7 @@ class AuthController extends Controller
      */
     public function me(Request $request)
     {
+        Auth::user()->session->touch();
         return $this->render(Auth::user()->append('stats'));
     }
 

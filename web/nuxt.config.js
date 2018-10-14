@@ -7,6 +7,7 @@ module.exports = {
 
   env: {
     API_URL: process.env.API_URL || 'https://api.trendjet.io/',
+    GOOGLE_API_KEY: process.env.GOOGLE_API_KEY || '',
     ENV: process.env.ENV || 'undefined',
   },
 

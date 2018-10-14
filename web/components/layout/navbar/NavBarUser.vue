@@ -13,7 +13,14 @@
     nuxt-link.navbar-item(to="/videos",@click.native="off")
       span.icon
         i.mdi.mdi-youtube
-      span My Videos
+      span Videos
+
+    nuxt-link.navbar-item(to="/profile",@click.native="off")
+      span.icon
+        i.mdi.mdi-account-card-details
+      span Profile
+
+    hr.navbar-divider
 
     nuxt-link.navbar-item(v-if="admin",to="/admin",@click.native="off")
       span.icon
