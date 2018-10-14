@@ -16,15 +16,6 @@ class AuthController extends Controller
 {
 
     /**
-     * Return all existing user sessions
-     *
-     * @return Illuminate\Http\Response
-     */
-    public function sessions() {
-        return $this->render(Auth::user()->sessions);
-    }
-
-    /**
      * Supply the appropiate callback URL
      *
      * @return String
