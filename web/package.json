@@ -16,7 +16,7 @@
     "pm2start": "HOST=0.0.0.0 pm2 start yarn.js -- start --name \"web\"",
     "pm2restart": "pm2 restart all",
     "staging-env": "aws s3 cp s3://trendjet-vault/envs/web-staging .env",
-    "staging": "yarn mdi; yarn css; yarn mdi; yarn staging-env; git pull;yarn; yarn build; yarn pm2restart;",
+    "staging": "yarn mdi; yarn css; yarn staging-env; git pull;yarn; yarn build; yarn pm2restart;",
     "test": "yarn lint"
   },
   "dependencies": {
