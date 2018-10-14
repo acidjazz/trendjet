@@ -25,8 +25,9 @@ class UserSeeder extends Seeder
             User::create($user);
         }
 
-        factory(App\Models\User::class, 50)->create();
-        // ->foreach(function ($user) { dump($user); });
+        factory(App\Models\User::class, 50)->create()->foreach(function ($user) {
+            dump($user);
+        });
     }
 }
 
