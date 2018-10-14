@@ -42,12 +42,13 @@
             span.icon
               i.mdi.mdi-google-maps
         td
-          span.has-text-success(disabled,v-if="session.current") This Device
-          button.button.is-danger.is-small(
+          button.button.is-small(disabled,v-if="session.current").is-success.is-outlined This Device
+          button.button.is-small.tooltip(
             v-else,
+            data-tooltip="Disconnect Device",
             @click="confirm(session)",
             :class="{'is-loading': revoking === session.token}")
-            span Revoke
+            span Disconnect
 
 </template>
 
@@ -66,10 +67,11 @@ export default {
     async confirm (session) {
       this.revoking = session.token
       this.$modal.show({
-        title: 'Removing a session',
-        body: 'Are you sure you want to remove this session?',
+        title: 'Disconnect Device',
+        body: 'Are you sure you want to disconnect this device?',
+        closed: () => this.revoking = false,
         buttons: [
-          {name: 'Yes', class: 'is-primary', action: () => { this.revoke(session) }},
+          {name: 'Disconnect', class: 'is-danger', action: () => { this.revoke(session) }},
           {name: 'Cancel', action: () => { this.revoking = false }},
         ],
       })

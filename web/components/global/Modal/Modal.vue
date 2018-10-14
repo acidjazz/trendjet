@@ -1,5 +1,5 @@
 <template lang="pug">
-transition(name="animodal",v-if="title")
+transition(name="animodal",v-if="title !== false")
   .modal.is-active(v-if="active")
     .modal-background(@click="destroy")
     .modal-card
@@ -37,14 +37,18 @@ export default {
     },
     title:  {
       type: [String, Boolean],
-      required: false,
-      default: false,
+      required: true,
     },
     buttons: {
       type: [Array, Boolean],
       required: false,
       default: () => false,
-    }
+    },
+    closed: {
+      type: Function,
+      required: false,
+      default: () => {},
+    },
   },
 
   methods: {
@@ -53,6 +57,7 @@ export default {
       setTimeout( () => {
         this.$destroy()
         removeElement(this.$el)
+        if (this.closed) this.closed()
       }, 500)
     },
     action (button) {
