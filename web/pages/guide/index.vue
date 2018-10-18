@@ -22,11 +22,11 @@
         h2 Fonts
         hr.divider.has-background-primary
         .box
-          p trendjet uses Google's
+          p trendjet uses Google's&nbsp;
             a(href="https://fonts.google.com/specimen/Roboto") roboto
-            | font
-            ul
-              li(v-for="n in 7",:class="`is-size-${n}`") size {{ n }}
+            | &nbsp;font
+            .level
+              .level-item(v-for="n in 7",:class="`is-size-${n}`") size-{{ n }}
         h2 Global Programmatic Components
         hr.divider.has-background-primary
 
@@ -59,7 +59,6 @@
             type: type,
             message: `this toast is type ${type}`})
         .button(@click="toastDetailed") show toast
-
 
 </template>
 
