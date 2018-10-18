@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "puppeteer-core": "^1.9.0",
+    "user-agents": "^1.0.45"
+  },
+  "devDependencies": {
+    "puppeteer": "^1.9.0"
+  }
+}

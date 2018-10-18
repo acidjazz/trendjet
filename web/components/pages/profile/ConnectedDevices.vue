@@ -16,7 +16,7 @@
           article.media
             figure.media-left
               p.image.is-24x24
-                img(:src="session.user.avatar")
+                img.avatar.object-cover(:src="session.user.avatar")
             .media-content {{ session.user.name }}
         td
           span.icon
