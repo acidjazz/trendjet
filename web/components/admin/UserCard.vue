@@ -3,8 +3,8 @@
   .card-content
     article.media
       figure.media-left
-        p.image.is-64x64
-          img(:src="user.avatar")
+        figure.image.is-64x64
+          .avatar.is-rounded(:style="`background-image: url(${user.avatar})`")
       .media-content
         .content
           div
