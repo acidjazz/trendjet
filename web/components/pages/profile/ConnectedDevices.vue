@@ -15,8 +15,8 @@
         td(v-if="admin")
           article.media
             figure.media-left
-              p.image.is-24x24
-                img.avatar.object-cover(:src="session.user.avatar")
+              figure.image.is-24x24
+                .avatar.is-rounded(:style="`background-image: url(${session.user.avatar})`")
             .media-content {{ session.user.name }}
         td
           span.icon

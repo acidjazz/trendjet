@@ -5,7 +5,7 @@
       .level-left
         .level-item
           figure.image.is-32x32
-            img.avatar.object-cover.ani-zoom-in(:src="$store.state.user.avatar")
+            .avatar.is-rounded(:style="`background-image: url(${$store.state.user.avatar})`")
         .level-item
           span {{ $store.state.user.name }}
   .navbar-dropdown.is-right(:class="{'is-closing': closing}")
