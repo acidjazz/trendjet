@@ -24,3 +24,9 @@ web/static/framework.css
 web/static/mdi.css
 web/static/materialdesignicons.min.css.map
 web/static/fonts
+
+/driver/vendor
+/driver/vendor/*.png
+/driver/server
+
+/puppet/body.html

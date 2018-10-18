@@ -1,0 +1,6 @@
+{
+    "require": {
+        "facebook/webdriver": "^1.6",
+        "campo/random-user-agent": "^1.3"
+    }
+}
