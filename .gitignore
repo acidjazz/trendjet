@@ -26,7 +26,7 @@ web/static/materialdesignicons.min.css.map
 web/static/fonts
 
 /driver/vendor
-/driver/vendor/*.png
+/driver/vendor/*.jpg
 /driver/server
 
 /puppet/body.html
