@@ -51,7 +51,7 @@ class BoostController extends Controller
         }
 
         if ($request->views > Auth::user()->views) {
-            return $this->error('boost.not_enough');
+            return $this->error('boost.not-enough');
         }
 
         $boost = Boost::create([
@@ -61,6 +61,9 @@ class BoostController extends Controller
             'delivered' => 0,
             'status' => Boost::PENDING,
         ]);
+
+        Auth::user()->views -= $request->views;
+        Auth::user()->save();
 
         Activity::log('boost', Auth::user(), [
             'boost' => $boost,

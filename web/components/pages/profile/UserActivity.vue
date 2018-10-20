@@ -1,5 +1,5 @@
 <template lang="pug">
-.timeline.is-centered
+.timeline.is-centered(v-if="activity.data")
   header.timeline-header
     span.tag.is-medium.is-primary Start
   .timeline-item.is-primary(v-for="item in activity.data")
