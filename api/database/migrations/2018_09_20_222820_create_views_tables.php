@@ -59,6 +59,7 @@ class CreateViewsTables extends Migration
             $table->foreign('package_id')->references('id')->on('packages')->onDelete('cascade');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('views');
             $table->timestamps();
         });
 
@@ -82,17 +83,15 @@ class CreateViewsTables extends Migration
             $table->timestamps();
         });
 
-        /*
-         *
+        /**
          * Views user has purchased and left over
          */
-        Schema::create('views', function (Blueprint $table) {
+        Schema::create('activities', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('package_id')->unsigned();
-            $table->foreign('package_id')->references('id')->on('packages')->onDelete('cascade');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('views');
+            $table->string('action');
+            $table->text('payload');
             $table->timestamps();
         });
     }

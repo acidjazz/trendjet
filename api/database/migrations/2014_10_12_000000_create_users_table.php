@@ -19,6 +19,7 @@ public function up()
     $table->string('email')->unique();
     $table->string('avatar')->nullable();
     $table->string('role')->default('member');
+    $table->integer('views')->default(0);
     $table->timestamps();
   });
 

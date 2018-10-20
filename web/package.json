@@ -24,6 +24,7 @@
     "@nuxtjs/axios": "^5.0.0",
     "bulma": "^0.7.1",
     "bulma-pricingtable": "^0.2.0",
+    "bulma-timeline": "^3.0.0",
     "bulma-tooltip": "^2.0.2",
     "dotenv": "^6.0.0",
     "node-sass": "^4.9.3",

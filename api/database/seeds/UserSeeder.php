@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use App\Models\Activity;
 
 class UserSeeder extends Seeder
 {
@@ -22,11 +23,11 @@ class UserSeeder extends Seeder
         ];
 
         foreach ($users as $user) {
-            User::create($user);
+            Activity::log('register', User::create($user), $user);
         }
 
-        factory(App\Models\User::class, 50)->create()->foreach(function ($user) {
-            dump($user);
+        factory(App\Models\User::class, 50)->create()->each(function ($user) {
+            // dump($user);
         });
     }
 }

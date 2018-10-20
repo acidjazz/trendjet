@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\Models\Package;
 use App\Models\Purchase;
+use App\Models\Activity;
 use Illuminate\Http\Request;
 
 class PurchaseController extends Controller
@@ -30,12 +31,17 @@ class PurchaseController extends Controller
         $this->option('package_id', 'required|exists:packages,id');
         $this->verify();
 
-        $plan = Package::find($request->package_id);
-        if (Purchase::create([
-            'package_id' => $plan->id,
+        $package = Package::find($request->package_id);
+
+        if ($purchase = Purchase::create([
+            'package_id' => $package->id,
             'user_id' => Auth::user()->id,
+            'views' => $package->views,
         ])) {
-            $this->success('purchase.success', ['title' => $plan->title]);
+            Activity::log('purchase', Auth::user(), $package);
+            Auth::user()->views += $package->views;
+            Auth::user()->save();
+            $this->success('purchase.success', ['title' => $package->title]);
         }
         return $this->error();
     }

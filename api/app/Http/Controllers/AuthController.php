@@ -31,15 +31,17 @@ class AuthController extends Controller
     /**
      * Process and result the oAUth providers callback
      *
-     * @response Illuminate\Http\Response
+     * @param Illuminate\Http\Request
+     * @param String
+     * @return Illuminate\Http\Response
      */
-    public function callback(Request $request, String $provider)
+    public function callback(Request $request, String $type)
     {
-        if (!in_array($provider, Provider::$allowed)) {
+        if (!in_array($type, Provider::$allowed)) {
             return $this->error('auth.provider.allowed', 'Auth Provider is not allowed');
         }
 
-        $oaUser = Socialite::driver($provider)->stateless()->user();
+        $oaUser = Socialite::driver($type)->stateless()->user();
 
         $user = User::where('email', $oaUser->email)->first();
 
@@ -54,29 +56,29 @@ class AuthController extends Controller
             }
         }
 
-        if ($user == null || !in_array($provider, $user->providers->pluck('name')->toArray())) {
-            $providerModel = new Provider([
+        if ($user == null || !in_array($type, $user->providers->pluck('name')->toArray())) {
+            $provider = new Provider([
                 'user_id' => $user->id,
-                'name' => $provider,
+                'name' => $type,
                 'avatar' => $oaUser->avatar_original ?? $oaUser->avatar,
                 'payload' => $request->get('state'),
             ]);
-            if (!$providerModel->save()) {
+            if (!$provider->save()) {
                 return $this->error('auth.provider_save', 'Error saving provider');
             }
 
             if ($user->avatar == null) {
-                $user->avatar = $providerModel->avatar;
+                $user->avatar = $provider->avatar;
                 $user->save();
             }
         }
 
-        Auth::login($user, $provider);
+        Auth::login($user, $type);
 
         return response(
             view('complete', [
                 'json' => json_encode([
-                'provider' => $provider,
+                'provider' => $type,
                 'token' => Auth::token(),
                 'user' => Auth::user()->append('stats'),
                 'to' => Auth::session()->to,
