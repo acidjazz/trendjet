@@ -4,11 +4,11 @@
     .container
       h2.subtitle Connected Devices
       ConnectedDevices
-
   section.section
     .container
       h2.subtitle Activity
-      UserActivity
+      .box
+        UserActivity
 </template>
 
 <script>

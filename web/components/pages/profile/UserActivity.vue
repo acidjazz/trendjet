@@ -16,10 +16,16 @@
         | with&nbsp;
         strong: FormatNumber(:value="item.payload.views")
         | &nbsp;views.
-
-  pre
+      p(v-if="item.action == 'boost'")
+        | Boosted video&nbsp;
+        strong.tooltip(:data-tooltip="item.payload.video.title") {{ item.payload.video.id }}
+        | &nbsp;with&nbsp;
+        strong: FormatNumber(:value="item.payload.boost.views")
+        | &nbsp;views
+  .timeline-header
+    span.tag.is-medium.is-primary End
+  // pre
     code {{ this.activity }}
-
 </template>
 
 <script>
@@ -41,6 +47,9 @@ export default {
         case 'purchase':
           return 'mdi-currency-usd'
           break;
+        case 'boost':
+          return 'mdi-rocket'
+          break;
       }
     },
   },
@@ -48,7 +57,6 @@ export default {
   mounted () {
     this.get(this.$route.query)
   },
-
 
   data () {
     return {

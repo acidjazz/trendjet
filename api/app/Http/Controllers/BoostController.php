@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\Models\Boost;
 use App\Models\Video;
+use App\Models\Activity;
 use App\Http\Requests\StoreBoost;
 use Illuminate\Http\Request;
 
@@ -32,10 +33,12 @@ class BoostController extends Controller
         $this->option('views', 'required|in:'.join(',', Boost::options));
         $this->verify();
 
-        if (Video
+        $video = Video
             ::where('id', $request->video_id)
             ->where('user_id', Auth::user()->id)
-            ->count() < 1) {
+            ->first();
+
+        if ($video == null) {
             return $this->error('boost.unauthorized');
         }
 
@@ -47,12 +50,21 @@ class BoostController extends Controller
             return $this->error('boost.exists');
         }
 
-        Boost::create([
+        if ($request->views > Auth::user()->views) {
+            return $this->error('boost.not_enough');
+        }
+
+        $boost = Boost::create([
             'user_id' => Auth::user()->id,
             'video_id' => $request->video_id,
             'views' => $request->views,
             'delivered' => 0,
             'status' => Boost::PENDING,
+        ]);
+
+        Activity::log('boost', Auth::user(), [
+            'boost' => $boost,
+            'video' => $video,
         ]);
 
         $this->success('boost.created');
