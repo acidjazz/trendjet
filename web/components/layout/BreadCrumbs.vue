@@ -1,7 +1,7 @@
 <template lang="pug">
 .page-breadcrumbs.has-background-white
   .container
-    nav.breadcrumb.is-medium.has-bullet-separator
+    nav.breadcrumb.is-medium.has-arrow-separator
       ul
         li(v-for="crumb in crumbs",:class="{'is-active': crumb.active}")
           nuxt-link(:to="crumb.to ? crumb.to : ''")
