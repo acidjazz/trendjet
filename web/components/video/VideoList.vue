@@ -1,7 +1,8 @@
 <template lang="pug">
 .columns.is-multiline
   .column.is-one-third(
-    v-for="video in videos"
+    v-for="video, index in videos"
+    :key="index",
     :class="{'ani-zoom-out': deleted === video.id}")
     VideoCard(
       :video="video"
@@ -31,8 +32,7 @@ export default {
   methods: {
     removed (id) {
       this.deleted = id
-      this.$store.dispatch('refresh')
-      // this.$emit('refresh')
+      setTimeout( () => this.$emit('refresh'), 1000)
     },
     boost (video) {
       this.$emit('boost', video)

@@ -1,5 +1,6 @@
 <template lang="pug">
-#Home.page
+#Dashboard.page
+  BreadCrumbs(:crumbs="crumbs")
   section.section
     .container
       .columns
@@ -28,13 +29,14 @@
 
 
 <script>
+import BreadCrumbs from '@/components/layout/BreadCrumbs'
 import FormatNumber from '@/components/format/FormatNumber'
 import { mapGetters } from 'vuex'
 
 export default {
   middleware: [ 'is-auth' ],
   computed: { ...mapGetters(['auth']), },
-  components: { FormatNumber },
+  components: { BreadCrumbs, FormatNumber },
   methods: {
     rando () {
       this.dashboard.videos = Math.random() * 100000
@@ -54,7 +56,15 @@ export default {
         videos: 0,
         views: 0,
         boosts: 0,
-      }
+      },
+      crumbs: [
+        {
+          name: 'Dashboard',
+          icon: 'view-dashboard',
+          to: '/dashboard',
+          active: true,
+        },
+      ]
     }
   }
 }

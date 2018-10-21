@@ -10,7 +10,6 @@
             span.icon
               i.mdi.mdi-youtube
             span Watch Video on YouTube
-
   .card-content
     .field.is-grouped.is-grouped-multiline(v-if="is_video")
       .control
@@ -21,15 +20,12 @@
         .tags.has-addons
           span.tag.is-dark Added
           span.tag.is-info: FormatDate(:value="video.created_at")
-
     ButtonBoost(v-if="is_boost",:id="video.id")
-
       .control
         button.button.is-primary
           span.icon
             i.mdi.mdi-rocket
           span Boost this Video!
-
     .buttons.is-centered(v-if="is_channel",@click="add")
       button.button.is-primary(
         :disabled="video.added || adding",

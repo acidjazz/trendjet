@@ -1,5 +1,6 @@
 <template lang="pug">
 #Videos.page
+  BreadCrumbs(:crumbs="crumbs")
   section.section
     .container
       .level
@@ -31,6 +32,8 @@
 
 <script>
 
+import BreadCrumbs from '@/components/layout/BreadCrumbs'
+
 import LoadingSpinner from '@/components/loading/LoadingSpinner'
 import VideoCardLoading from '@/components/video/VideoCardLoading'
 import VideoAdd from '@/components/video/VideoAdd'
@@ -39,6 +42,7 @@ import VideoNone from '@/components/video/VideoNone'
 import FormatNumber from '@/components/format/FormatNumber'
 import Paginate from '@/components/buttons/Paginate'
 import BoostModal from '@/components/modals/BoostModal'
+
 
 export default {
   middleware: [ 'is-auth' ],
@@ -50,7 +54,8 @@ export default {
     FormatNumber,
     Paginate,
     VideoCardLoading,
-    LoadingSpinner
+    LoadingSpinner,
+    BreadCrumbs,
   },
   methods: {
     refresh () {
@@ -86,6 +91,14 @@ export default {
       videos: {},
       loaded: false,
       boosting: false,
+      crumbs: [
+        {
+          name: 'My Videos',
+          icon: 'youtube',
+          to: '/videos',
+          active: true,
+        },
+      ],
     }
   }
 }

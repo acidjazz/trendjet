@@ -1,5 +1,6 @@
 <template lang="pug">
-#Plans.page
+#Packages.page
+  BreadCrumbs(:crumbs="crumbs")
   section.section
     .container
       .box(style="min-height: 347px;")
@@ -29,11 +30,12 @@
 </template>
 
 <script>
+import BreadCrumbs from '@/components/layout/BreadCrumbs'
 import FormatNumber from '@/components/format/FormatNumber'
 import ButtonLongPress from '@/components/buttons/ButtonLongPress'
 export default {
 
-  components: { FormatNumber, ButtonLongPress },
+  components: { BreadCrumbs, FormatNumber, ButtonLongPress },
 
   methods: {
     async get () {
@@ -62,6 +64,14 @@ export default {
         Growing: 'is-success',
         Enterprise: 'is-primary',
       },
+      crumbs: [
+        {
+          name: 'Packages',
+          icon: 'package-variant',
+          to: '/packages',
+          active: true,
+        },
+      ],
     }
   }
 

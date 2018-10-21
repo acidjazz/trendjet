@@ -7,33 +7,26 @@
       i.mdi(:class="icon(item.action)")
     .timeline-content
       p.heading: FormatDate(:value="item.created_at")
-      p(v-if="item.action == 'register'")
-        | Created account&nbsp;
+      p(v-if="item.action === 'register'")
+        span Created account&nbsp;
         strong {{ item.payload.name }}
-      p(v-if="item.action == 'purchase'")
-        | Purchased&nbsp;
-        strong {{ item.payload.title }}&nbsp;
-        | with&nbsp;
-        strong: FormatNumber(:value="item.payload.views")
-        | &nbsp;views.
-      p(v-if="item.action == 'boost'")
-        | Boosted video&nbsp;
-        strong.tooltip(:data-tooltip="item.payload.video.title") {{ item.payload.video.id }}
-        | &nbsp;with&nbsp;
-        strong: FormatNumber(:value="item.payload.boost.views")
-        | &nbsp;views
+      p(v-if="item.action === 'purchase'")
+        UserActivityPurchase(:value="item")
+      p(v-if="item.action === 'boost'")
+        UserActivityBoost(:value="item")
   .timeline-header
     span.tag.is-medium.is-primary End
-  // pre
-    code {{ this.activity }}
 </template>
 
 <script>
 import FormatDate from '@/components/format/FormatDate'
 import FormatNumber from '@/components/format/FormatNumber'
+
+import UserActivityBoost from '@/components/pages/profile/UserActivityBoost'
+import UserActivityPurchase from '@/components/pages/profile/UserActivityPurchase'
 export default {
 
-  components: { FormatDate, FormatNumber },
+  components: { FormatDate, FormatNumber, UserActivityBoost, UserActivityPurchase },
 
   methods: {
     async get (query) {
