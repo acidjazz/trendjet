@@ -41,6 +41,7 @@ export default {
         },
         {
           name: '..',
+          icon: false,
           to: false,
           active: true,
         },
