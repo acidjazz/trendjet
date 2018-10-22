@@ -18,7 +18,7 @@ class BoostController extends Controller
      */
     public function index()
     {
-        return $this->render($this->paginate(Boost::where('user_id', Auth::user()->id), 9));
+        return $this->render($this->paginate(Boost::where('user_id', Auth::user()->id)->with(['user','video']), 9));
     }
 
     /**

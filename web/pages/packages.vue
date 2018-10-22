@@ -30,18 +30,27 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import BreadCrumbs from '@/components/layout/BreadCrumbs'
 import FormatNumber from '@/components/format/FormatNumber'
 import ButtonLongPress from '@/components/buttons/ButtonLongPress'
 export default {
 
   components: { BreadCrumbs, FormatNumber, ButtonLongPress },
-
+  computed: {
+    ...mapGetters(['auth']),
+  },
   methods: {
     async get () {
       this.packages = (await this.$axios.get('/package')).data.data
     },
     purchase (id) {
+      if (!this.auth) {
+        return this.$toast.show({
+          type: 'danger',
+          message: 'Please connect before purchasing a package.',
+        })
+      }
       this.$axios.post('/purchase', {package_id: id})
         .then( (response) => {
           this.$toast.show(response.data.data)

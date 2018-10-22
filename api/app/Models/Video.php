@@ -14,7 +14,7 @@ class Video extends Model
 
   protected $fillable = [ 'id', 'user_id', 'title', 'views'];
   public $incrementing = false;
-  protected $appends = [ 'cover'];
+  protected $appends = ['cover'];
 
   protected static function boot()
   {

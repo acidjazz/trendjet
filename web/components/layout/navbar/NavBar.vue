@@ -39,14 +39,14 @@ nav.navbar.is-fixed-top.is-dark(
           v-if="auth && !connecting",
           route="videos",
           icon="youtube",
-          label="My Videos",
+          label="Videos",
           :close="close")
 
         NavBarItem(
           v-if="auth && !connecting",
           route="boosts",
           icon="rocket",
-          label="My Boosts",
+          label="Boosts",
           :close="close")
 
         transition(name="login",mode="out-in")

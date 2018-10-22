@@ -1,16 +1,16 @@
 <template lang="pug">
 #Boosts.page
   BreadCrumbs(:crumbs="crumbs")
-  section.section
+  section.section(v-if="boosts.data")
     .container
-      pre
-        code {{ boosts.data }}
+      BoostList(:boosts="boosts.data")
 </template>
 
 <script>
 import BreadCrumbs from '@/components/layout/BreadCrumbs'
+import BoostList from '@/components/boost/BoostList'
 export default {
-  components: { BreadCrumbs },
+  components: { BreadCrumbs, BoostList },
 
   methods: {
     async get (query) {
@@ -18,8 +18,8 @@ export default {
     },
   },
 
-  mounted () {
-    this.get(this.$route.query)
+  async mounted () {
+    await this.get(this.$route.query)
   },
 
   data () {

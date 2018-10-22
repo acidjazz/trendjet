@@ -1,15 +1,6 @@
 <template lang="pug">
 .card
-  .card-image
-    figure.image.is-16by9.yt-bg(:style="`background-image: url(${video.cover});`")
-    .card-image-title.has-text-white
-      span {{ video.title }}
-      .card-image-actions
-        .buttons.is-centered
-          a.button.is-inverted.is-outlined.is-dark(target="_new",:href="`https://www.youtube.com/watch/?v=${video.id}`")
-            span.icon
-              i.mdi.mdi-youtube
-            span Watch Video on YouTube
+  VideoCardCover(:video="video")
   .card-content
     .field.is-grouped.is-grouped-multiline(v-if="is_video")
       .control
@@ -50,11 +41,12 @@
 </template>
 
 <script>
+import VideoCardCover from '@/components/video/VideoCardCover'
 import ButtonBoost from '@/components/buttons/ButtonBoost'
 import FormatNumber from '@/components/format/FormatNumber'
 import FormatDate from '@/components/format/FormatDate'
 export default {
-  components: { FormatNumber, FormatDate, ButtonBoost },
+  components: { VideoCardCover, FormatNumber, FormatDate, ButtonBoost },
   props: {
     type: {
       type: String,
