@@ -30,3 +30,4 @@ web/static/fonts
 /driver/server
 
 /puppet/body.html
+/puppet/*.jpg
