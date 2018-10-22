@@ -6,7 +6,8 @@
         .level-left
           .level-item.ani-slide-in-right(v-if="loaded")
             strong: FormatNumber(:value="results.totalResults")
-            | &nbsp;videos for&nbsp;
+            span(v-if="results.totalResults == 1") &nbsp;video for&nbsp;
+            span(v-else) &nbsp;videos for&nbsp;
             strong {{ results.channelTitle }}
         .level-right
           .level-item
