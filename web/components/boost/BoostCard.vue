@@ -1,11 +1,11 @@
 <template lang="pug">
 .card
   VideoCardCover(:video="boost.video")
-  ProgressBar(:total="boost.views",:progress="boost.delivered",:height="20",:on="boost.status !== 'pending'")
+  ProgressBar(:total="boost.views",:progress="boost.delivered",:height="30",:on="boost.status !== 'pending'")
   .card-content
     .content
       BoostCardStatus(:status="boost.status")
-      table
+      table.table.is-striped
         tr
           td Total Views
           td

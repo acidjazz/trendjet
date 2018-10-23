@@ -1,6 +1,6 @@
 <template lang="pug">
 .progress-bar(:style="`height: ${this.height}px;`")
-  .progress-bar-gradient(v-if="this.on")
+  .progress-bar-gradient(:class="{'on': on, 'off': !on}")
   .progress-bar-complete(:style="`width: ${this.complete}%;`")
 </template>
 

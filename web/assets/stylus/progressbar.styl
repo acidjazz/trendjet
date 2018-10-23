@@ -19,7 +19,10 @@
     width 100%
     height 100%
     background linear-gradient(90deg, rgba(zircon, 1), rgba(white, 0.5))
-    animation progress-bar-gradient 2s 0s ease-in-out infinite
+    &.on
+      animation progress-bar-gradient 2s 0s ease-in-out infinite
+    &.off
+      animation progress-bar-gradient 4s 0s ease-in-out infinite
 
 @keyframes progress-bar-gradient
   from

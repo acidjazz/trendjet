@@ -13,35 +13,40 @@ namespace App\Services;
 
 use Aws\Ec2\Ec2Client;
 
+use App\Models\Boost;
+
 class PuppetService {
 
-    const IMAGE_ID = 'ami-03577c2f4765ee608';
+    const IMAGE_ID = 'ami-0aa2cacdc4fcb1340';
     const IAM_ARN = 'arn:aws:iam::751311555268:instance-profile/api';
 
-    private $ids = [];
-    private $imploded;
+    private $boost_ids;
+    private $video_ids;
+    private $machines;
     private $client;
+    private $endpoint_boost;
+    private $endpoint_shot;
 
     /**
      * Create instance
      *
      * @param Array $ids
      */
-    public function __construct($ids)
+    public function __construct($boost_ids,$machines=1)
     {
-        $this->ids = $ids;
-        $this->imploded = implode(',', $this->ids);
+        $this->boost_ids = $boost_ids;
+        $this->video_ids = Boost::whereIn('id', $this->boost_ids)->pluck('video_id')->toArray();
+
+        $this->boost_str = implode(',', $this->boost_ids);
+        $this->video_str = implode(',', $this->video_ids);
+
+        $this->machines = $machines;
 
         $this->client = new Ec2Client([
             'region' => 'us-east-1',
             'version' => '2016-11-15',
             'profile' => 'default',
         ]);
-    }
-
-    private function endpoint()
-    {
-        return config('app.url').'/boost?apikey='.config('app.apikey');
     }
 
     /**
@@ -51,30 +56,36 @@ class PuppetService {
     private function userData()
     {
 
-        return <<<EOT
+        $endpoint = config('app.url').'shot?apikey='.config('app.apikey');
+
+        $userData = <<<EOT
 #!/bin/bash
 aws iam attach-role-policy --role-name api --policy-arn arn:aws:iam::aws:policy/service-role/AWSConfigRole
-echo {$this->imploded} > /tmp/ids.txt
 su - ec2-user -c "
 cd ~/.
-node index.js `cat /tmp/ids.txt`
-"
+node index.js {$this->video_str} {$this->boost_str} "
 for file in /home/ec2-user/*.jpg; do
   aws s3 cp \$file s3://trendjet-shots/ --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
+  curl -X POST -d file=\$file {$endpoint}
 done
 EOT;
-    }
 
+        foreach ($this->boost_ids as $id) {
+            $endpoint = config('app.url').'boost/'.$id.'/?apikey='.config('app.apikey');
+            $userData .= "\ncurl -X PUT {$endpoint}\n";
+        }
+
+        return $userData;
+
+    }
 
     public function deploy()
     {
 
-        dd($this->endpoint());
-
         $result = $this->client->runInstances([
             'ImageId'    => self::IMAGE_ID,
-            'MinCount'  => 1,
-            'MaxCount'   => 1,
+            'MinCount'  => $this->machines,
+            'MaxCount'   => $this->machines,
             'IamInstanceProfile' => [
                 'Arn' => self::IAM_ARN,
             ],

@@ -7,14 +7,16 @@ const before = new Date().getTime();
 
 let mobile = false;
 let el = '.ytp-large-play-button';
-let ids = process.argv[2].split(',');
+let video_ids = process.argv[2].split(',');
+let boost_ids = process.argv[3].split(',');
+let index = 0;
 
 (async() => {
 
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
-  for (let id of ids) {
+  for (let id of video_ids) {
 
     let agent = new useragent({ deviceCategory: 'desktop'}).toString();
     page.setUserAgent(agent);
@@ -32,7 +34,9 @@ let ids = process.argv[2].split(',');
     await page.waitForSelector(el);
     await page.click(el);
     await page.waitFor(3000);
-    await page.screenshot({type: 'jpeg', quality: 1, path: `shot-${id}-${new Date().getTime()}.jpg`});
+    await page.screenshot({type: 'jpeg', quality: 1, path: `shot-${id}-${boost_ids[index]}-${new Date().getTime()}.jpg`});
+
+    index++;
 
   }
 

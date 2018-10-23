@@ -71,6 +71,7 @@ class CreateViewsTables extends Migration
 
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
             $table->string('video_id');
             $table->foreign('video_id')->references('id')->on('videos')->onDelete('cascade');
 
@@ -80,6 +81,23 @@ class CreateViewsTables extends Migration
             $table->integer('delivered');
             $table->integer('remaining')->storedAs('views - delivered');
 
+            $table->timestamps();
+        });
+
+
+        /**
+         * Shots, screenshots of views
+         */
+        Schema::create('shots', function (Blueprint $table) {
+            $table->increments('id');
+
+            $table->string('video_id');
+            $table->foreign('video_id')->references('id')->on('videos')->onDelete('cascade');
+
+            $table->integer('boost_id')->unsigned();
+            $table->foreign('boost_id')->references('id')->on('boosts')->onDelete('cascade');
+
+            $table->string('file');
             $table->timestamps();
         });
 
@@ -107,6 +125,5 @@ class CreateViewsTables extends Migration
         Schema::dropIfExists('packages');
         Schema::dropIfExists('purchases');
         Schema::dropIfExists('boosts');
-        Schema::dropIfExists('views');
     }
 }

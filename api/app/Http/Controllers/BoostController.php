@@ -11,6 +11,12 @@ use Illuminate\Http\Request;
 
 class BoostController extends Controller
 {
+    public function __construct(Request $request)
+    {
+        $this->middleware('auth:api')->only(['index', 'store']);
+        $this->middleware('apikey')->only('update');
+        parent::__construct($request);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -29,6 +35,8 @@ class BoostController extends Controller
      */
     public function store(Request $request)
     {
+        $this->middleware('auth:api');
+
         $this->option('video_id', 'required|exists:videos,id');
         $this->option('views', 'required|in:'.join(',', Boost::options));
         $this->verify();
@@ -94,7 +102,9 @@ class BoostController extends Controller
      */
     public function update(Request $request, Boost $boost)
     {
-        //
+        $boost->delivered++;
+        $boost->save();
+        return $this->render($boost);
     }
 
     /**

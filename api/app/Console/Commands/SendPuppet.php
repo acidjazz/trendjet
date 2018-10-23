@@ -14,14 +14,14 @@ class SendPuppet extends Command
      *
      * @var string
      */
-    protected $signature = 'send:puppet {videos}';
+    protected $signature = 'send:puppet {boost_ids}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Send a puppet to watch a video';
+    protected $description = 'Send a puppet to watch a video, then report back';
 
     /**
      * Create a new command instance.
@@ -40,7 +40,7 @@ class SendPuppet extends Command
      */
     public function handle()
     {
-        $puppet = new PuppetService(explode(',', $this->argument('videos')));
+        $puppet = new PuppetService(explode(',', $this->argument('boost_ids')));
         $puppet->deploy();
         $this->info('Puppet instance launched successfully');
     }

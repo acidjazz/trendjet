@@ -33,8 +33,9 @@ Route::apiResource('activity', 'ActivityController')->middleware('auth:api');
 
 Route::apiResource('video', 'VideoController')->middleware('auth:api');
 Route::apiResource('purchase', 'PurchaseController')->middleware('auth:api');
-Route::apiResource('boost', 'BoostController')->middleware('auth:api');
-Route::get('boosty', 'BoostController@store')->middleware('auth:api');
+
+Route::apiResource('boost', 'BoostController');
+Route::apiResource('shot', 'ShotController');
 
 require(base_path('routes/mailable.php'));
 
