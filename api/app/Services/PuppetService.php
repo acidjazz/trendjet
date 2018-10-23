@@ -17,8 +17,8 @@ use App\Models\Boost;
 
 class PuppetService {
 
-    const IMAGE_ID = 'ami-0aa2cacdc4fcb1340';
     const IAM_ARN = 'arn:aws:iam::751311555268:instance-profile/api';
+    const REGION = 'us-east-2';
 
     private $boost_ids;
     private $video_ids;
@@ -26,6 +26,18 @@ class PuppetService {
     private $client;
     private $endpoint_boost;
     private $endpoint_shot;
+
+
+    private $regions = [
+        'us-east-1' => [
+            'SubnetId' => 'subnet-a3ceaefa',
+            'ImageId' => 'ami-0aa2cacdc4fcb1340',
+        ],
+        'us-east-2' => [
+            'SubnetId' => 'subnet-3ce31955',
+            'ImageId' => 'ami-0d47f338706391f70',
+        ],
+    ];
 
     /**
      * Create instance
@@ -43,10 +55,44 @@ class PuppetService {
         $this->machines = $machines;
 
         $this->client = new Ec2Client([
-            'region' => 'us-east-1',
+            'region' => self::REGION,
             'version' => '2016-11-15',
             'profile' => 'default',
         ]);
+    }
+
+    public function deploy()
+    {
+
+        $result = $this->client->runInstances([
+            'ImageId'    => $this->regions[self::REGION]['ImageId'],
+            'MinCount'  => $this->machines,
+            'MaxCount'   => $this->machines,
+            'IamInstanceProfile' => [
+                'Arn' => self::IAM_ARN,
+            ],
+            'InstanceInitiatedShutdownBehavior' => 'terminate',
+            'InstanceType'  => 't2.nano',
+            // 'KeyName'   => 'sugar',
+            'SubnetId' => $this->regions[self::REGION]['SubnetId'],
+            // 'SecurityGroups'    => ['default'],
+            'UserData' => base64_encode($this->userData()),
+        ]);
+
+        $ids = [];
+        foreach ($result['Instances'] as $instance) {
+            $ids[] = $instance['InstanceId'];
+        }
+
+        $this->client->createTags([
+            'Resources' => $ids,
+            'Tags' => [[
+                'Key' => 'Name',
+                'Value' => 'puppet',
+                ]],
+        ]);
+
+        return $result;
     }
 
     /**
@@ -79,39 +125,5 @@ EOT;
 
         return $userData;
 
-    }
-
-    public function deploy()
-    {
-
-        $result = $this->client->runInstances([
-            'ImageId'    => self::IMAGE_ID,
-            'MinCount'  => $this->machines,
-            'MaxCount'   => $this->machines,
-            'IamInstanceProfile' => [
-                'Arn' => self::IAM_ARN,
-            ],
-            'InstanceInitiatedShutdownBehavior' => 'terminate',
-            'InstanceType'  => 't2.nano',
-            'KeyName'   => 'sugar',
-            'SubnetId' => 'subnet-a3ceaefa',
-            // 'SecurityGroups'    => ['default'],
-            'UserData' => base64_encode($this->userData()),
-        ]);
-
-        $ids = [];
-        foreach ($result['Instances'] as $instance) {
-            $ids[] = $instance['InstanceId'];
-        }
-
-        $this->client->createTags([
-            'Resources' => $ids,
-            'Tags' => [[
-                'Key' => 'Name',
-                'Value' => 'puppet',
-                ]],
-        ]);
-
-        return $result;
     }
 }
