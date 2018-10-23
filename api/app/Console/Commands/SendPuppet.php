@@ -14,7 +14,9 @@ class SendPuppet extends Command
      *
      * @var string
      */
-    protected $signature = 'send:puppet {boost_ids} {machines=1}';
+    protected $signature = 'send:puppet
+        {boost_ids : Comma seperated list of Boost ids}
+        {machines=1 : Amount of machines to spawn}';
 
     /**
      * The console command description.
