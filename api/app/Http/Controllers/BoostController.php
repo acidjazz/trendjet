@@ -90,7 +90,7 @@ class BoostController extends Controller
      */
     public function show(Boost $boost)
     {
-        //
+        return $this->render($boost->load(['user','video']));
     }
 
     /**

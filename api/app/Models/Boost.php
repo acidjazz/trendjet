@@ -3,6 +3,7 @@
 namespace App\Models;
 use App\Models\User;
 use App\Models\Video;
+use App\Models\Shot;
 
 use Illuminate\Database\Eloquent\Model;
 

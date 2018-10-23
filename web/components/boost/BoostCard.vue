@@ -18,6 +18,20 @@
           td Remaining Views
           td
             strong: FormatNumber(:value="boost.remaining") {{ boost.remaining }}
+  footer.card-footer
+    nuxt-link.card-footer-item.has-text-info(:to="`/boost/${boost.id}`")
+      span.icon
+        i.mdi.mdi-history
+      span Details
+    //a.card-footer-item.has-text-danger(v-if="boost.status == 'active'")(disabled)
+      span.icon
+        i.mdi.mdi-stop-circle
+      span Stop
+    //a.card-footer-item.has-text-success(v-if="boost.status != 'active'")(disabled)
+      span.icon
+        i.mdi.mdi-play-circle
+      span Start
+
 </template>
 
 <script>
