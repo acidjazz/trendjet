@@ -75,6 +75,8 @@ EOT;
             $userData .= "\ncurl -X PUT {$endpoint}\n";
         }
 
+        $userData.= "\nshutdown -h now\n";
+
         return $userData;
 
     }
@@ -97,8 +99,13 @@ EOT;
             'UserData' => base64_encode($this->userData()),
         ]);
 
+        $ids = [];
+        foreach ($result['Instances'] as $instance) {
+            $ids[] = $instance['InstanceId'];
+        }
+
         $this->client->createTags([
-            'Resources' => [$result['Instances'][0]['InstanceId']],
+            'Resources' => $ids,
             'Tags' => [[
                 'Key' => 'Name',
                 'Value' => 'puppet',

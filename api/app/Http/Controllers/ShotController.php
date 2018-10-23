@@ -31,11 +31,13 @@ class ShotController extends Controller
 
         $ids = explode('-', basename($request->file));
 
-        return $this->render(Shot::create([
+        Shot::create([
             'video_id' => $ids[1],
             'boost_id' => $ids[2],
             'file' => basename($request->file),
-        ]));
+        ]);
+
+        return $this->success('shot.created');
     }
 
     /**

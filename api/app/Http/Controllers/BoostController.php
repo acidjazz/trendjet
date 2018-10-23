@@ -102,9 +102,8 @@ class BoostController extends Controller
      */
     public function update(Request $request, Boost $boost)
     {
-        $boost->delivered++;
-        $boost->save();
-        return $this->render($boost);
+        $boost->increment('delivered');
+        return $this->success('boost.updated');
     }
 
     /**
