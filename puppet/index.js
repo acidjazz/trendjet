@@ -1,7 +1,12 @@
 'use strict'
+
+require('dotenv').config()
+
 const fs = require('fs');
 const puppeteer = require('puppeteer');
 const useragent = require('user-agents');
+const axios = require('axios');
+const exec = require('child_process').exec;
 
 const before = new Date().getTime();
 
@@ -34,7 +39,11 @@ let index = 0;
     await page.waitForSelector(el);
     await page.click(el);
     await page.waitFor(3000);
-    await page.screenshot({type: 'jpeg', quality: 1, path: `shot-${id}-${boost_ids[index]}-${new Date().getTime()}.jpg`});
+    let file = `shot-${id}-${boost_ids[index]}-${new Date().getTime()}.jpg`;
+    await page.screenshot({type: 'jpeg', quality: 1, path: file});
+    exec(`aws s3 cp ${file} s3://trendjet-shots/ --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers`);
+    await axios.put(`${process.env.APP_URL}boost/${boost_ids[index]}/?apikey=${process.env.API_KEY}`);
+    await axios.post(`${process.env.APP_URL}shot/?apikey=${process.env.API_KEY}`, {file:file});
 
     index++;
 
