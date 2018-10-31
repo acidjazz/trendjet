@@ -27,7 +27,6 @@ class PuppetService {
     private $endpoint_boost;
     private $endpoint_shot;
 
-
     private $regions = [
         'us-east-1' => [
             'SubnetId' => 'subnet-a3ceaefa',
