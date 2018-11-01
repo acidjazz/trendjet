@@ -10,20 +10,20 @@
               .level-item.has-text-centered
                 div
                   p.heading Videos
-                  p.title: FormatNumber(:value="dashboard.videos")
+                  p.title: FormatNumber(:value="$store.state.user.stats.videos")
         .column.is-one-third
           .box.ani-zoom-in
             nav.level
               .level-item.has-text-centered
                 div
-                  p.heading Views
-                  p.title: FormatNumber(:value="dashboard.views")
+                  p.heading remaining views
+                  p.title: FormatNumber(:value="$store.state.user.views")
         .column.is-one-third
           .box.ani-zoom-in
             nav.level
               .level-item.has-text-centered
                 div
-                  p.heading Boosts
+                  p.heading total boosts
                   p.title: FormatNumber(:value="dashboard.boosts")
 </template>
 
@@ -37,16 +37,8 @@ export default {
   middleware: [ 'is-auth' ],
   computed: { ...mapGetters(['auth']), },
   components: { BreadCrumbs, FormatNumber },
-  methods: {
-    rando () {
-      this.dashboard.videos = Math.random() * 100000
-      this.dashboard.views = Math.random() * 100000
-      this.dashboard.boosts = Math.random() * 100000
-    }
-  },
 
   mounted () {
-    setInterval(this.rando, 2000)
   },
 
 

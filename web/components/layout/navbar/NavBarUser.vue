@@ -8,6 +8,9 @@
             .avatar.is-rounded(:style="`background-image: url(${$store.state.user.avatar})`")
         .level-item
           span {{ $store.state.user.name }}
+          //ul
+            li {{ $store.state.user.name }}
+            li.is-size-7 {{ $store.state.user.views }} views
   .navbar-dropdown.is-right(:class="{'is-closing': closing}")
 
     nuxt-link.navbar-item(to="/profile",@click.native="off")

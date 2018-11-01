@@ -43,7 +43,49 @@ class PuppetService {
      *
      * @param Array $ids
      */
-    public function __construct($boost_ids,$machines=1)
+    public function __construct()
+    {
+        $this->client = new Ec2Client([
+            'region' => self::REGION,
+            'version' => '2016-11-15',
+            'profile' => 'default',
+        ]);
+    }
+
+    public function describe()
+    {
+
+        $filters = [
+            'Filters' => [
+                [
+                    'Name' => 'instance-state-name',
+                    'Values' => ['pending','running','stopped','stopping','shutting-down'],
+                ],
+            ],
+        ];
+
+
+        $result = $this->client->describeInstances($filters);
+
+        if (
+            !isset($result['Reservations']) ||
+            !isset($result['Reservations'][0]) ||
+            !isset($result['Reservations'][0]['Instances'])
+        ) {
+            return false;
+        }
+        $instances = [];
+        foreach ($result['Reservations'][0]['Instances'] as $instance) {
+            $instances[$instance['InstanceId']] = [
+                'InstanceId' => $instance['InstanceId'],
+                'State' => $instance['State']['Name'],
+            ];
+        };
+
+        return $instances;
+    }
+
+    public function deploy($boost_ids,$machines=1)
     {
         $this->boost_ids = $boost_ids;
         $this->video_ids = Boost::whereIn('id', $this->boost_ids)->pluck('video_id')->toArray();
@@ -52,16 +94,6 @@ class PuppetService {
         $this->video_str = implode(',', $this->video_ids);
 
         $this->machines = $machines;
-
-        $this->client = new Ec2Client([
-            'region' => self::REGION,
-            'version' => '2016-11-15',
-            'profile' => 'default',
-        ]);
-    }
-
-    public function deploy()
-    {
 
         $result = $this->client->runInstances([
             'ImageId'    => $this->regions[self::REGION]['ImageId'],

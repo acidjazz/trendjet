@@ -21,6 +21,8 @@ let index = 0;
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
+  console.log(`video_ids: ${process.argv[2]} boost_ids: ${process.argv[3]}`)
+
   for (let id of video_ids) {
 
     let agent = new useragent({ deviceCategory: 'desktop'}).toString();
@@ -39,11 +41,25 @@ let index = 0;
     await page.waitForSelector(el);
     await page.click(el);
     await page.waitFor(3000);
-    let file = `shot-${id}-${boost_ids[index]}-${new Date().getTime()}.jpg`;
+    let file = `shot:${id}:${boost_ids[index]}:${new Date().getTime()}.jpg`;
     await page.screenshot({type: 'jpeg', quality: 1, path: file});
     exec(`aws s3 cp ${file} s3://trendjet-shots/ --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers`);
-    await axios.put(`${process.env.APP_URL}boost/${boost_ids[index]}/?apikey=${process.env.API_KEY}`);
-    await axios.post(`${process.env.APP_URL}shot/?apikey=${process.env.API_KEY}`, {file:file});
+
+    try {
+      await axios.put(`${process.env.APP_URL}boost/${boost_ids[index]}/?apikey=${process.env.API_KEY}`);
+    } catch (error) {
+      console.log(`${process.env.APP_URL}boost/${boost_ids[index]}/?apikey=${process.env.API_KEY}`);
+      console.log(error.message);
+      throw error;
+    }
+
+    try {
+      await axios.post(`${process.env.APP_URL}shot/?apikey=${process.env.API_KEY}`, {file:file});
+    } catch (error) {
+      console.log(`${process.env.APP_URL}shot/?apikey=${process.env.API_KEY}`, {file:file});
+      console.log(error.message);
+      throw error;
+    }
 
     index++;
 

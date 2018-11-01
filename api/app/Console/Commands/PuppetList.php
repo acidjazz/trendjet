@@ -5,25 +5,21 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Services\PuppetService;
 
-// use Aws\Ec2\Ec2Client;
-
-class SendPuppet extends Command
+class PuppetList extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'send:puppet
-        {boost_ids : Comma seperated list of Boost ids}
-        {machines=1 : Amount of machines to spawn}';
+    protected $signature = 'puppet:list';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Send a puppet to watch a video, then report back';
+    protected $description = 'Show any existing puppets doing work';
 
     /**
      * Create a new command instance.
@@ -42,8 +38,11 @@ class SendPuppet extends Command
      */
     public function handle()
     {
-        $puppet = new PuppetService(explode(',', $this->argument('boost_ids')), $this->argument('machines'));
-        $puppet->deploy();
-        $this->info($this->argument('machines') . ' Puppet instance(s) launched successfully');
+        $puppet = new PuppetService();
+        if ($instances = $puppet->describe()) {
+            $headers = ['InstanceId', 'State'];
+            return $this->table($headers, $instances);
+        }
+        return $this->info('No active instances found');
     }
 }

@@ -7,15 +7,23 @@ use Illuminate\Http\Request;
 
 class ShotController extends Controller
 {
+
+    public function __construct(Request $request)
+    {
+        $this->middleware('auth:api')->only(['index']);
+        $this->middleware('apikey')->only('store');
+
+        parent::__construct($request);
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $this->middleware('auth:api')->only(['index']);
-        $this->middleware('apikey')->only('store');
+        $this->option('boost_id', 'required|exists:boosts,id');
+        return $this->render($this->paginate(Shot::where('boost_id', $request->boost_id), 9));
     }
 
     /**
@@ -29,7 +37,7 @@ class ShotController extends Controller
         $this->option('file', 'required|string');
         $this->verify();
 
-        $ids = explode('-', basename($request->file));
+        $ids = explode(':', basename($request->file));
 
         Shot::create([
             'video_id' => $ids[1],
