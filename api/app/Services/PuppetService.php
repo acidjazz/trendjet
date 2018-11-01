@@ -39,9 +39,8 @@ class PuppetService {
     ];
 
     /**
-     * Create instance
+     * Initiate the client
      *
-     * @param Array $ids
      */
     public function __construct()
     {
@@ -52,6 +51,11 @@ class PuppetService {
         ]);
     }
 
+    /**
+     * If available, return all instances still runnign
+     *
+     * @return [Boolean, Array]
+     */
     public function describe()
     {
 
@@ -85,6 +89,14 @@ class PuppetService {
         return $instances;
     }
 
+
+    /**
+     * Deploy views for boost ids
+     * @param array $boost_ids
+     * @param integer $machines
+     *
+     * @return array
+     */
     public function deploy($boost_ids,$machines=1)
     {
         $this->boost_ids = $boost_ids;
@@ -129,6 +141,7 @@ class PuppetService {
     /**
      * User Data - cloudinit bash script run on instance
      *
+     * @return string
      */
     private function userData()
     {
