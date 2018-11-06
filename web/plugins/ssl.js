@@ -5,7 +5,7 @@
  * Distributed under terms of the APACHE license.
  */
 export default async function (ctx) {
-  if (ctx.env.ENV !== 'local' && ctx.isClient && location.protocol != 'https:') {
+  if (ctx.env.ENV !== 'local' && window && location.protocol != 'https:') {
     location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
   }
 }

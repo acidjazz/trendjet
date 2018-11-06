@@ -19,7 +19,7 @@ export default {
   computed: {
     type () {
       if (this.status == 'pending') return 'is-light'
-      if (this.status == 'active') return 'is-primary'
+      if (this.status == 'active') return 'is-success'
       if (this.status == 'complete') return 'is-success'
     },
   },

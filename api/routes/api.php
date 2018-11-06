@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 
 use \Torann\GeoIP\Facades\GeoIP;
 use App\Services\YouTubeService;
+use App\Services\BoostService;
 
 require(base_path('routes/auth.php'));
 
@@ -36,6 +37,11 @@ Route::apiResource('purchase', 'PurchaseController')->middleware('auth:api');
 
 Route::apiResource('boost', 'BoostController');
 Route::apiResource('shot', 'ShotController');
+
+Route::get('test', function() {
+    $bs = new BoostService();
+    $bs->complete();
+});
 
 require(base_path('routes/mailable.php'));
 

@@ -5,7 +5,7 @@
     .container
       .level
         .level-left
-          .level-item.ani-slide-in-right
+          .level-item.ani-slide-in-right(v-if="$store.state.user.stats")
             strong: FormatNumber(:value="$store.state.user.stats.videos")
             | &nbsp;videos
         .level-right

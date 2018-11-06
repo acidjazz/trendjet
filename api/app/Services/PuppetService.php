@@ -1,6 +1,6 @@
 <?php
 /**
- * Short description for PuppetService.php
+ * Puppeteering service for delivering views from boosts
  *
  * @package PuppetService
  * @author kevin olson <acidjazz@gmail.com>
@@ -17,16 +17,52 @@ use App\Models\Boost;
 
 class PuppetService {
 
+    /**
+     * IAM assigned to each instance
+     *
+     * @var string
+     */
     const IAM_ARN = 'arn:aws:iam::751311555268:instance-profile/api';
+
+    /**
+     * Region instances are deployed and checked on
+     *
+     * @var string
+     */
     const REGION = 'us-east-2';
 
+    /**
+     * Array of boost Ids machines will report to
+     *
+     * @var array
+     */
     private $boost_ids;
-    private $video_ids;
-    private $machines;
-    private $client;
-    private $endpoint_boost;
-    private $endpoint_shot;
 
+    /**
+     * Array of Video Ids machines will report to
+     *
+     * @var array
+     */
+    private $video_ids;
+
+    /**
+     * Count of machines to spawn
+     * @var integer
+     */
+    private $machines;
+
+    /**
+     * AWS SDK EC2 Client instnace
+     *
+     * @var  Aws\Ec2\Ec2Client
+     */
+    private $client;
+
+    /**
+     * List of potential regions available
+     *
+     * @var array
+     */
     private $regions = [
         'us-east-1' => [
             'SubnetId' => 'subnet-a3ceaefa',
@@ -39,7 +75,7 @@ class PuppetService {
     ];
 
     /**
-     * Initiate the client
+     * Initiate the client, populating $this->client
      *
      */
     public function __construct()
@@ -52,7 +88,7 @@ class PuppetService {
     }
 
     /**
-     * If available, return all instances still runnign
+     * If available, return all instances still runnigng
      *
      * @return [Boolean, Array]
      */
@@ -67,7 +103,6 @@ class PuppetService {
                 ],
             ],
         ];
-
 
         $result = $this->client->describeInstances($filters);
 
