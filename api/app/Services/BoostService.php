@@ -44,8 +44,9 @@ class BoostService {
 
     public function complete()
     {
-        Boost::where('status', Boost::ACTIVE)->where('remaining', '<=', 0)
-            ->update(['status' -> Boost::COMPLETE]);
+        return Boost::where('status', Boost::ACTIVE)
+            ->where('remaining', '<',  1)
+            ->update(['status' => Boost::COMPLETE]);
     }
 
 }

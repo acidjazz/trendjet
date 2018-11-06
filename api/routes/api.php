@@ -38,10 +38,5 @@ Route::apiResource('purchase', 'PurchaseController')->middleware('auth:api');
 Route::apiResource('boost', 'BoostController');
 Route::apiResource('shot', 'ShotController');
 
-Route::get('test', function() {
-    $bs = new BoostService();
-    $bs->complete();
-});
-
 require(base_path('routes/mailable.php'));
 
