@@ -11,6 +11,7 @@
 
 namespace App\Services;
 use App\Models\Boost;
+use PuppetService;
 
 class BoostService {
 
@@ -48,5 +49,13 @@ class BoostService {
             ->where('remaining', '<',  1)
             ->update(['status' => Boost::COMPLETE]);
     }
+
+    public function deploy()
+    {
+        $ps = new PuppetService();
+        $boost_ids = Boost::where('status', Boost::ACTIVE)->pluck('id');
+        return $boost_ids;
+    }
+
 
 }

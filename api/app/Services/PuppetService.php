@@ -88,7 +88,7 @@ class PuppetService {
     }
 
     /**
-     * If available, return all instances still runnigng
+     * If available, return all instances still running
      *
      * @return [Boolean, Array]
      */
@@ -126,7 +126,8 @@ class PuppetService {
 
 
     /**
-     * Deploy views for boost ids
+     * Deploy puppets to satisfy active boosts
+     *
      * @param array $boost_ids
      * @param integer $machines
      *

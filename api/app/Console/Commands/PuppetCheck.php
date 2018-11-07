@@ -41,5 +41,6 @@ class PuppetCheck extends Command
         $bs = new BoostService();
         $this->info("Activated {$bs->activate()} boosts");
         $this->info("Completed {$bs->complete()} boosts");
+        $this->info("Boosting {$bs->deploy()} ids");
     }
 }
