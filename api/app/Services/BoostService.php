@@ -11,7 +11,7 @@
 
 namespace App\Services;
 use App\Models\Boost;
-use PuppetService;
+use App\Services\PuppetService;
 
 class BoostService {
 
@@ -53,8 +53,12 @@ class BoostService {
     public function deploy()
     {
         $ps = new PuppetService();
-        $boost_ids = Boost::where('status', Boost::ACTIVE)->pluck('id');
-        return $boost_ids;
+        if ($ps->describe() === false) {
+            $boost_ids = Boost::where('status', Boost::ACTIVE)->pluck('id')->toArray();
+            $ps->deploy($boost_ids, 10);
+            return implode(',', $boost_ids);
+        }
+        return false;
     }
 
 

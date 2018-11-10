@@ -174,6 +174,21 @@ class PuppetService {
         return $result;
     }
 
+    private function env()
+    {
+        switch (config('app.env')) {
+            case 'local':
+                return 'api-dev';
+                break;
+            case 'staging':
+                return 'api-staging';
+                break;
+            case 'production':
+                return 'api-master';
+                break;
+        }
+    }
+
     /**
      * User Data - cloudinit bash script run on instance
      *
@@ -182,12 +197,13 @@ class PuppetService {
     private function userData()
     {
 
+        $env = $this->env();
         return  <<<EOT
 #!/bin/bash
 aws iam attach-role-policy --role-name api --policy-arn arn:aws:iam::aws:policy/service-role/AWSConfigRole
 su - ec2-user -c "
 cd ~/.
-aws s3 cp s3://trendjet-vault/envs/api-dev .env
+aws s3 cp s3://trendjet-vault/envs/{$this->env()} .env
 aws s3 cp s3://trendjet-vault/puppet/index.js index.js
 node index.js {$this->video_str} {$this->boost_str} "
 shutdown -h now
