@@ -40,7 +40,7 @@ let index = 0;
     await page.waitFor(1000);
     await page.waitForSelector(el);
     await page.click(el);
-    await page.waitFor(6000);
+    await page.waitFor(Math.random() * (10000 - 6000) + 6000);
     let file = `shot:${id}:${boost_ids[index]}:${new Date().getTime()}.jpg`;
     await page.screenshot({type: 'jpeg', quality: 1, path: file});
     exec(`aws s3 cp ${file} s3://trendjet-shots/ --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers`);
