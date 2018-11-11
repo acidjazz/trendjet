@@ -2,8 +2,15 @@
 #Boost.page
   BreadCrumbs(:crumbs="crumbs")
   section.section
-    .container
+    //.container
       pre {{ boost }}
+    .container
+      .columns.is-multiline
+        .column.is-one-third(v-for="shot in shots.data")
+          .card
+            .card-image
+              figure.image
+                img(:src="shot.url")
 </template>
 
 <script>
@@ -15,6 +22,7 @@ export default {
     async get () {
       this.boost = (await this.$axios.get(`/boost/${this.$route.params.id}`)).data.data
       this.crumbs[1].name = this.boost.video.title
+      this.shots = (await this.$axios.get(`/shot/?boost_id=${this.$route.params.id}`)).data
     }
   },
 
@@ -32,6 +40,7 @@ export default {
     return {
       loaded: false,
       boost: {},
+      shots: {},
       crumbs: [
         {
           name: 'Boosts',
