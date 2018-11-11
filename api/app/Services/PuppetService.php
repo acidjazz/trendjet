@@ -83,8 +83,7 @@ class PuppetService {
 
         $this->client = new Ec2Client([
             'region' => self::REGION,
-            'version' => '2016-11-15',
-            'profile' => 'default',
+            'version' => 'latest',
             'credentials' => [
                 'key' => env('AWS_KEY'),
                 'secret' => env('AWS_SECRET'),
