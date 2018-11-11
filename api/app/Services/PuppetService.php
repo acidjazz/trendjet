@@ -161,7 +161,7 @@ class PuppetService {
     public function deploy($boost_ids,$machines=1)
     {
         $this->boost_ids = $boost_ids;
-        $this->video_ids = Boost::whereIn('id', $this->boost_ids)->pluck('video_id')->toArray();
+        $this->video_ids = Boost::whereIn('id', $this->boost_ids)->orderBy('id', 'ASC')->pluck('video_id')->toArray();
 
         $this->boost_str = implode(',', $this->boost_ids);
         $this->video_str = implode(',', $this->video_ids);

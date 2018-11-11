@@ -52,7 +52,7 @@ class BoostService {
 
     public function actives()
     {
-        return Boost::where('status', Boost::ACTIVE)->pluck('id')->toArray();
+        return Boost::where('status', Boost::ACTIVE)->orderBy('id', 'asc')->pluck('id')->toArray();
     }
 
     public function deploy()

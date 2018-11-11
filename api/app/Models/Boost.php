@@ -7,6 +7,8 @@ use App\Models\Shot;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Scopes\OrderScope;
+
 class Boost extends Model
 {
     protected $fillable = ['user_id', 'video_id', 'status', 'views', 'delivered'];
@@ -16,6 +18,12 @@ class Boost extends Model
     const PENDING = 'pending';
     const ACTIVE = 'active';
     const COMPLETE = 'complete';
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new OrderScope('created_at', 'desc'));
+    }
 
     public function user()
     {
