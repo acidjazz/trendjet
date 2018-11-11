@@ -55,8 +55,10 @@ class BoostService {
         $ps = new PuppetService();
         if ($ps->describe() === false) {
             $boost_ids = Boost::where('status', Boost::ACTIVE)->pluck('id')->toArray();
-            $ps->deploy($boost_ids, 10);
-            return implode(',', $boost_ids);
+            if (count($boost_ids) > 0) {
+                $ps->deploy($boost_ids, 10);
+                return implode(',', $boost_ids);
+            }
         }
         return false;
     }

@@ -44,7 +44,7 @@ class PuppetCheck extends Command
         if ($ids = $bs->deploy()) {
             $this->info("Boosting ids: $ids");
         } else {
-            $this->info("Found active instances, no deploy needed");
+            $this->info("No active boosts or found active instances, no deploy needed");
         }
     }
 }

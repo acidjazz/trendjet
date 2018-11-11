@@ -139,7 +139,7 @@ class PuppetService {
         }
 
         return $instances;
-    }
+   }
 
 
     public function terminate($ids)
@@ -149,8 +149,6 @@ class PuppetService {
             'InstanceIds' => $ids,
         ]);
     }
-
-
 
     /**
      * Deploy puppets to satisfy active boosts
