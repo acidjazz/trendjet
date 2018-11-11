@@ -21,7 +21,7 @@ let index = 0;
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
-  console.log(`video_ids: ${process.argv[2]} boost_ids: ${process.argv[3]}`)
+  console.log(`[PUPPET]: video_ids: ${process.argv[2]} boost_ids: ${process.argv[3]}`)
 
   for (let id of video_ids) {
 
@@ -45,18 +45,20 @@ let index = 0;
     await page.screenshot({type: 'jpeg', quality: 1, path: file});
     exec(`aws s3 cp ${file} s3://trendjet-shots/ --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers`);
 
+    console.log(`[PUPPET] ${process.env.APP_URL}boost/${boost_ids[index]}/?apikey=${process.env.API_KEY}`);
     try {
       await axios.put(`${process.env.APP_URL}boost/${boost_ids[index]}/?apikey=${process.env.API_KEY}`);
     } catch (error) {
-      console.log(`${process.env.APP_URL}boost/${boost_ids[index]}/?apikey=${process.env.API_KEY}`);
+      console.log(`[PUPPET:ERROR] ${process.env.APP_URL}boost/${boost_ids[index]}/?apikey=${process.env.API_KEY}`);
       console.log(error.message);
       throw error;
     }
 
+    console.log(`[PUPPET] ${process.env.APP_URL}shot/?apikey=${process.env.API_KEY}`, {file:file});
     try {
       await axios.post(`${process.env.APP_URL}shot/?apikey=${process.env.API_KEY}`, {file:file});
     } catch (error) {
-      console.log(`${process.env.APP_URL}shot/?apikey=${process.env.API_KEY}`, {file:file});
+      console.log(`[PUPPET:ERROR] ${process.env.APP_URL}shot/?apikey=${process.env.API_KEY}`, {file:file});
       console.log(error.message);
       throw error;
     }
