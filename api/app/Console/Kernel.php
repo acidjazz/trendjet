@@ -5,7 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
-use Console\Commands\PuppetCheck;
+use App\Console\Commands\PuppetCheck;
 
 class Kernel extends ConsoleKernel
 {
