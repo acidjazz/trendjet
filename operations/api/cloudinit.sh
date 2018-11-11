@@ -110,3 +110,5 @@ service nginx restart
 # https://gist.github.com/jmsaavedra/62bbcd20d40bcddf27ac
 
 # yum install ImageMagick
+
+# * * * * * cd /home/ec2-user/trendjet/api && php artisan schedule:run >> /dev/null 2>&1
