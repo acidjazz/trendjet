@@ -179,7 +179,7 @@ class PuppetService {
             'InstanceType'  => 't2.nano',
             'KeyName'   => 'tj',
             'SubnetId' => $this->regions[self::REGION]['SubnetId'],
-            'SecurityGroups'    => ['default'],
+            // 'SecurityGroups'    => ['default'],
             'UserData' => base64_encode($this->userData()),
         ]);
 
