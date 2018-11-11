@@ -51,9 +51,9 @@ export default {
       boosted: false,
       boosting: false,
       boosts: [
-        100,
-        1000,
-        10000,
+        10,
+        20,
+        30,
       ],
     }
   }
