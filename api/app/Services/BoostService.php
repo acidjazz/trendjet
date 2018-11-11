@@ -50,11 +50,16 @@ class BoostService {
             ->update(['status' => Boost::COMPLETE]);
     }
 
+    public function actives()
+    {
+        return Boost::where('status', Boost::ACTIVE)->pluck('id')->toArray();
+    }
+
     public function deploy()
     {
         $ps = new PuppetService();
         if ($ps->describe() === false) {
-            $boost_ids = Boost::where('status', Boost::ACTIVE)->pluck('id')->toArray();
+            $boost_ids = $this->actives();
             if (count($boost_ids) > 0) {
                 $ps->deploy($boost_ids, 10);
                 return implode(',', $boost_ids);
