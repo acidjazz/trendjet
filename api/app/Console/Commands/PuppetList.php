@@ -40,7 +40,7 @@ class PuppetList extends Command
     {
         $puppet = new PuppetService();
         if ($instances = $puppet->describe()) {
-            $headers = ['InstanceId', 'State'];
+            $headers = ['InstanceId', 'State', 'Runtime'];
             return $this->table($headers, $instances);
         }
         return $this->info('No active instances found');

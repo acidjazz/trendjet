@@ -14,6 +14,7 @@ namespace App\Services;
 use Aws\Ec2\Ec2Client;
 
 use App\Models\Boost;
+use Carbon\Carbon;
 
 class PuppetService {
 
@@ -118,10 +119,13 @@ class PuppetService {
             return false;
         }
         $instances = [];
+
         foreach ($result['Reservations'][0]['Instances'] as $instance) {
+            $start = new Carbon($instance['LaunchTime']);
             $instances[$instance['InstanceId']] = [
                 'InstanceId' => $instance['InstanceId'],
                 'State' => $instance['State']['Name'],
+                'Runtime' => $start->diffInSeconds(new Carbon()),
             ];
         };
 
