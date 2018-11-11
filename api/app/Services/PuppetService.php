@@ -177,9 +177,9 @@ class PuppetService {
             ],
             'InstanceInitiatedShutdownBehavior' => 'terminate',
             'InstanceType'  => 't2.nano',
-            // 'KeyName'   => 'sugar',
+            'KeyName'   => 'tj',
             'SubnetId' => $this->regions[self::REGION]['SubnetId'],
-            // 'SecurityGroups'    => ['default'],
+            'SecurityGroups'    => ['default'],
             'UserData' => base64_encode($this->userData()),
         ]);
 
@@ -231,7 +231,7 @@ cd ~/.
 aws s3 cp s3://trendjet-vault/envs/{$this->env()} .env
 aws s3 cp s3://trendjet-vault/puppet/index.js index.js
 node index.js {$this->video_str} {$this->boost_str} "
-shutdown -h now
+# shutdown -h now
 EOT;
     }
 }
