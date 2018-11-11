@@ -119,18 +119,37 @@ class PuppetService {
             return false;
         }
         $instances = [];
+        $terminates = [];
 
         foreach ($result['Reservations'][0]['Instances'] as $instance) {
             $start = new Carbon($instance['LaunchTime']);
+            $runtime = $start->diffInSeconds(new Carbon());
+            if ($runtime > 120) {
+                $terminates[] = $instance['InstanceId'];
+            }
             $instances[$instance['InstanceId']] = [
                 'InstanceId' => $instance['InstanceId'],
                 'State' => $instance['State']['Name'],
-                'Runtime' => $start->diffInSeconds(new Carbon()),
+                'Runtime' => $runtime,
             ];
         };
 
+        if (count($terminates) > 0) {
+            $this->terminate($terminates);
+        }
+
         return $instances;
     }
+
+
+    public function terminate($ids)
+    {
+        return $this->client->terminateInstances([
+            'DryRun' => false,
+            'InstanceIds' => $ids,
+        ]);
+    }
+
 
 
     /**
