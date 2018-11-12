@@ -6,6 +6,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 use App\Console\Commands\PuppetCheck;
+use App\Console\Commands\ViewsService;
 
 class Kernel extends ConsoleKernel
 {
@@ -28,6 +29,11 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command(PuppetCheck::class)
             ->everyMinute()
+            ->environments(['staging','production'])
+            ->appendOutputTo('storage/output.log');
+
+        $schedule->command(ViewsUpdate::class)
+            ->everyHour()
             ->environments(['staging','production'])
             ->appendOutputTo('storage/output.log');
     }

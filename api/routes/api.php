@@ -14,8 +14,6 @@ use Illuminate\Http\Request;
 */
 
 use \Torann\GeoIP\Facades\GeoIP;
-use App\Services\YouTubeService;
-use App\Services\BoostService;
 
 require(base_path('routes/auth.php'));
 

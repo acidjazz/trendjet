@@ -50,5 +50,6 @@ class PuppetCheck extends Command
         } else {
             $this->info("Found active instances, no deploy needed");
         }
+
     }
 }
