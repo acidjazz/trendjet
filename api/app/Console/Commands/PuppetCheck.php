@@ -40,7 +40,7 @@ class PuppetCheck extends Command
     {
         $bs = new BoostService();
         $this->info("Activated {$bs->activate()} boosts");
-        $this->info("Completed {$bs->complete()} boosts");
+        // $this->info("Completed {$bs->complete()} boosts");
         if (count($bs->actives()) < 1) {
             return $this->info('No actives boosts found');
         }

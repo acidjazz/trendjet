@@ -109,6 +109,10 @@ class BoostController extends Controller
      */
     public function update(Request $request, Boost $boost)
     {
+        if ($boost->remaining  == 1) {
+            $boost->status = Boost::COMPLETE;
+            $boost->save();
+        }
         $boost->increment('delivered');
         return $this->success('boost.updated');
     }
