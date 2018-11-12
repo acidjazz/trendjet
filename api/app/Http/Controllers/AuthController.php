@@ -174,8 +174,6 @@ class AuthController extends Controller
             ->render([
                 'token' => Auth::token(),
                 'user' => Auth::user(),
-                'success' => true,
-                'type' => 'success',
                 'message' => __('auth.success'),
             ])->cookie('token',Auth::token(), 0, '', config('app.domain'));
     }

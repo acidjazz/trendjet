@@ -37,48 +37,55 @@ class BoostController extends Controller
     {
         $this->middleware('auth:api');
 
-        $this->option('video_id', 'required|exists:videos,id');
+        $this->option('videos', 'required|array|exists:videos,id');
         $this->option('views', 'required|in:'.join(',', Boost::options));
         $this->verify();
 
-        $video = Video
-            ::where('id', $request->video_id)
-            ->where('user_id', Auth::user()->id)
-            ->first();
+        foreach ($request->videos as $video_id) {
 
-        if ($video == null) {
-            return $this->error('boost.unauthorized');
+            if (Video
+                ::where('id', $video_id)
+                ->where('user_id', Auth::user()->id)
+                ->first() == null) {
+                return $this->error('boost.unauthorized');
+            }
+
+            if (Boost
+                ::where('user_id', Auth::user()->id)
+                ->where('video_id', $video_id)
+                ->where('status', '<>', Boost::COMPLETE)
+                ->count() > 0) {
+                return $this->error('boost.exists');
+            }
         }
 
-        if (Boost
-            ::where('user_id', Auth::user()->id)
-            ->where('video_id', $request->video_id)
-            ->where('status', '<>', Boost::COMPLETE)
-            ->count() > 0) {
-            return $this->error('boost.exists');
-        }
-
-        if ($request->views > Auth::user()->views) {
+        if (($request->views * count($request->videos)) > Auth::user()->views) {
             return $this->error('boost.not-enough');
         }
 
-        $boost = Boost::create([
-            'user_id' => Auth::user()->id,
-            'video_id' => $request->video_id,
-            'views' => $request->views,
-            'delivered' => 0,
-            'status' => Boost::PENDING,
-        ]);
+        foreach ($request->videos as $video_id) {
+            $boost = Boost::create([
+                'user_id' => Auth::user()->id,
+                'video_id' => $video_id,
+                'views' => $request->views,
+                'delivered' => 0,
+                'status' => Boost::PENDING,
+            ]);
+            Activity::log('boost', Auth::user(), [
+                'boost' => $boost,
+                'video' => Video::find($video_id)->first(),
+            ]);
+        }
 
-        Auth::user()->views -= $request->views;
+        Auth::user()->views -= ( $request->views * count($request->videos) );
         Auth::user()->save();
 
-        Activity::log('boost', Auth::user(), [
-            'boost' => $boost,
-            'video' => $video,
-        ]);
 
-        $this->success('boost.created');
+        if (count($request->videos) == 1) {
+            $this->success('boost.created');
+        } else {
+            $this->success('boost.created_plural');
+        }
 
     }
 

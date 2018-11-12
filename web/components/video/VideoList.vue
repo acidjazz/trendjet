@@ -7,6 +7,7 @@
     VideoCard(
       :video="video"
       :type="type"
+      :selected="selected"
       @removed="removed"
       @boost="boost")
 </template>
@@ -27,6 +28,10 @@ export default {
     refresh: {
       type: Function,
       required: false,
+    },
+    selected: {
+      type: Array,
+      required: true,
     },
   },
   methods: {

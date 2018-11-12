@@ -10,7 +10,8 @@
             | &nbsp;videos
         .level-right
           .level-item.ani-slide-in-left
-            VideoAdd(@refresh="refresh")
+            VideoAdd(v-if="selected.length < 1",@refresh="refresh")
+            BoostMultiple(v-else,:selected="selected",:clear="clear",:boost="boost")
 
       .columns.is-multiline(v-if="!loaded")
         .column.is-one-third(v-for="n in videostat")
@@ -23,11 +24,12 @@
       VideoNone(v-if="loaded && videos.data.length == 0")
       VideoList(v-else
       :videos="videos.data"
+      :selected="selected"
       type="video"
       @refresh="refresh"
       @boost="boost")
       Paginate(v-if="loaded",:paginate="videos.paginate",:query="query")
-  BoostModal(v-if="boosting",:video="boosting",@cancel="cancel")
+  BoostModal(v-if="boosting",:videos="boosting",@cancel="cancel")
 </template>
 
 <script>
@@ -40,6 +42,7 @@ import VideoAdd from '@/components/video/VideoAdd'
 import VideoList from '@/components/video/VideoList'
 import VideoNone from '@/components/video/VideoNone'
 import FormatNumber from '@/components/format/FormatNumber'
+import BoostMultiple from '@/components/buttons/BoostMultiple'
 import Paginate from '@/components/buttons/Paginate'
 import BoostModal from '@/components/modals/BoostModal'
 
@@ -53,11 +56,15 @@ export default {
     VideoNone,
     FormatNumber,
     Paginate,
+    BoostMultiple,
     VideoCardLoading,
     LoadingSpinner,
     BreadCrumbs,
   },
   methods: {
+    clear () {
+      this.$set(this, 'selected', [])
+    },
     refresh () {
       this.get(this.$route.query)
     },
@@ -71,7 +78,17 @@ export default {
       this.get(query)
     },
     boost (video) {
-      this.boosting = video
+      if (Array.isArray(video)) {
+        let videos = []
+        for (let vid of this.videos.data) {
+          if (video.includes(vid.id)) {
+            videos.push(vid)
+          }
+        }
+        this.boosting = videos
+        return
+      }
+      this.boosting = [video]
     },
     cancel () {
       this.boosting = false
@@ -91,6 +108,7 @@ export default {
       videos: {},
       loaded: false,
       boosting: false,
+      selected: [],
       crumbs: [
         {
           name: 'My Videos',

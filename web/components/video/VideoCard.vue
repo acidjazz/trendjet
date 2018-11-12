@@ -1,6 +1,15 @@
 <template lang="pug">
 .card
   VideoCardCover(:video="video")
+
+  .checkbox.is-pulled-right(v-if="selected",style="margin-top: 25px;")
+    input.is-checkradio.is-checkbox.is-primary(
+    :class="{'has-background-color': checked}",
+    :id="`Video-${video.id}`"
+    v-model="checked"
+    type="checkbox")
+    label(:for="`Video-${video.id}`")
+
   .card-content
     .field.is-grouped.is-grouped-multiline(v-if="is_video")
       .control
@@ -11,12 +20,6 @@
         .tags.has-addons
           span.tag.is-dark Added
           span.tag.is-info: FormatDate(:value="video.created_at")
-    ButtonBoost(v-if="is_boost",:id="video.id")
-      .control
-        button.button.is-primary
-          span.icon
-            i.mdi.mdi-rocket
-          span Boost this Video!
     .buttons.is-centered(v-if="is_channel",@click="add")
       button.button.is-primary(
         :disabled="video.added || adding",
@@ -42,11 +45,10 @@
 
 <script>
 import VideoCardCover from '@/components/video/VideoCardCover'
-import ButtonBoost from '@/components/buttons/ButtonBoost'
 import FormatNumber from '@/components/format/FormatNumber'
 import FormatDate from '@/components/format/FormatDate'
 export default {
-  components: { VideoCardCover, FormatNumber, FormatDate, ButtonBoost },
+  components: { VideoCardCover, FormatNumber, FormatDate },
   props: {
     type: {
       type: String,
@@ -55,13 +57,16 @@ export default {
     video: {
       type: Object,
       required: true,
-    }
+    },
+    selected: {
+      type: Array,
+      required: false,
+    },
   },
 
   computed: {
     is_channel () { return this.type === 'channel' },
     is_video () { return this.type === 'video' },
-    is_boost () { return this.type === 'boost' },
   },
   filters: {
     numeral (value) {
@@ -71,7 +76,28 @@ export default {
     },
   },
 
+  watch: {
+    'checked' () {
+      this.check()
+    },
+    'selected' () {
+      if (this.selected.includes(this.video.id) === false) {
+        this.checked = false
+      }
+    },
+  },
+
   methods: {
+
+    check () {
+      if (this.checked) {
+        this.selected.push(this.video.id)
+      } else {
+        this.selected.splice(this.selected.indexOf(this.video.id), 1)
+      }
+      this.$emit('input', this.selected)
+    },
+
     boost () {
       this.$emit('boost', this.video)
     },
@@ -111,6 +137,7 @@ export default {
 
   data () {
     return {
+      checked: false,
       adding: false,
       deleting: false,
       deleted: false,
