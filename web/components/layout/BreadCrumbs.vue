@@ -1,6 +1,7 @@
 <template lang="pug">
 .page-breadcrumbs.has-background-white
   .container
+    slot
     nav.breadcrumb.is-medium.has-bullet-separator
       ul
         li(v-for="crumb in crumbs",:class="{'is-active': crumb.active}")
