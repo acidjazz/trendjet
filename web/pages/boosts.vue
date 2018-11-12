@@ -1,7 +1,7 @@
 <template lang="pug">
 #Boosts.page
   BreadCrumbs(:crumbs="crumbs")
-    span.tag.is-info.is-pulled-right(v-if="refreshing") refreshing
+    span.tag.ani-zoom-in.is-info.is-pulled-right(v-if="refreshing") refreshing
   section.section(v-if="boosts.data")
     .container
       BoostList(:boosts="boosts.data")
