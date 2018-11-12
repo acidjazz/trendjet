@@ -140,7 +140,7 @@ class PuppetService {
         $ids = [];
         $instances = $this->describe();
         foreach ($instances as $instance) {
-            if ($instance['runtime'] > 120) {
+            if ($instance['runtime'] > 220) {
                 $ids[] = $instance['InstanceId'];
             }
         }
