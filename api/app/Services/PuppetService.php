@@ -229,8 +229,9 @@ aws iam attach-role-policy --role-name api --policy-arn arn:aws:iam::aws:policy/
 su - ec2-user -c "
 cd ~/.
 aws s3 cp s3://trendjet-vault/envs/{$this->env()} .env
-aws s3 cp s3://trendjet-vault/puppet/index.js index.js
-node index.js {$this->video_str} {$this->boost_str} "
+aws s3 cp s3://trendjet-vault/puppet/index.js index.js"
+
+su - ec2-user -c "cd ~/.; node index.js {$this->video_str} {$this->boost_str} "
 shutdown -h now
 EOT;
     }
