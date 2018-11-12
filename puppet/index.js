@@ -27,6 +27,7 @@ let index = 0;
 
     let agent = new useragent({ deviceCategory: 'desktop'}).toString();
     page.setUserAgent(agent);
+    console.log(`[PUPPET]:  https://www.youtube.com/watch?v=${id}`);
     await page.goto(`https://www.youtube.com/watch?v=${id}`);
 
     if (page._target._targetInfo.url.includes('https://m.youtube')) {

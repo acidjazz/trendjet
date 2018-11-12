@@ -67,11 +67,11 @@ class PuppetService {
     private $regions = [
         'us-east-1' => [
             'SubnetId' => 'subnet-a3ceaefa',
-            'ImageId' => 'ami-017ed5b753ea0a814',
+            'ImageId' => 'ami-05a8b19cd5dfcc7c9',
         ],
         'us-east-2' => [
             'SubnetId' => 'subnet-3ce31955',
-            'ImageId' => 'ami-044c204615efb74f5',
+            'ImageId' => 'ami-0642953dd3a49869c',
         ],
     ];
 
