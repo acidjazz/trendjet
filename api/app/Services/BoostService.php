@@ -54,6 +54,14 @@ class BoostService {
     {
         return Boost::where('status', Boost::ACTIVE)->orderBy('id', 'asc')->pluck('id')->toArray();
     }
+    public function least()
+    {
+        $least = min(Boost::where('status', Boost::ACTIVE)->orderBy('id', 'asc')->pluck('remaining')->toArray());
+        if ($least >= self::LIMIT) {
+            return self::LIMIT;
+        }
+        return $least;
+    }
 
     public function deploy()
     {
@@ -61,7 +69,7 @@ class BoostService {
         if ($ps->describe() === false) {
             $boost_ids = $this->actives();
             if (count($boost_ids) > 0) {
-                $ps->deploy($boost_ids, 10);
+                $ps->deploy($boost_ids, $this->least());
                 return implode(',', $boost_ids);
             }
         }
