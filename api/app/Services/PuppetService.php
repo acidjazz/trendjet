@@ -238,7 +238,7 @@ cd ~/.
 aws s3 cp s3://trendjet-vault/envs/{$this->env()} .env
 aws s3 cp s3://trendjet-vault/puppet/index.js index.js
 node index.js {$this->video_str} {$this->boost_str} "
+shutdown -h now
 EOT;
-# shutdown -h now
     }
 }
