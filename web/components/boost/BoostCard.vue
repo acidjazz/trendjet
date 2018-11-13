@@ -1,6 +1,6 @@
 <template lang="pug">
 .card
-  VideoCardCover(:video="boost.video")
+  VideoCardCover(v-if="boost.video",:video="boost.video")
   ProgressBar(:total="boost.views",:progress="boost.delivered",:height="30",:on="boost.status !== 'pending'")
   .card-content
     .content

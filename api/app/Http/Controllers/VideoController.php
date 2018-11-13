@@ -17,7 +17,9 @@ class VideoController extends Controller
      */
     public function index(Request $request)
     {
-        return $this->render($this->paginate(Video::where('user_id', Auth::user()->id), 9));
+        return $this->render($this->paginate(
+            Video::where('user_id', Auth::user()->id)->withCount('boosts')
+            , 9));
     }
 
     /**

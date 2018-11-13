@@ -14,12 +14,17 @@
     .field.is-grouped.is-grouped-multiline(v-if="is_video")
       .control
         .tags.has-addons
+          span.tag.is-dark Added
+          span.tag.is-info: FormatDate(:value="video.created_at")
+      .control
+        .tags.has-addons
           span.tag.is-dark Views
           span.tag.is-info: FormatNumber(:value="video.views")
       .control
         .tags.has-addons
-          span.tag.is-dark Added
-          span.tag.is-info: FormatDate(:value="video.created_at")
+          span.tag.is-dark Boosts
+          span.tag.is-info: FormatNumber(:value="video.boosts_count")
+
     .buttons.is-centered(v-if="is_channel",@click="add")
       button.button.is-primary(
         :disabled="video.added || adding",
@@ -28,7 +33,7 @@
           i.mdi.mdi-video-plus
         span(v-if="!video.added") Add Video
         span(v-else) Video added
-  footer.card-footer(v-if="is_video")
+  footer.card-footer(v-if="is_video && buttons")
     nuxt-link.card-footer-item.has-text-info(:to="`/video/${video.id}`")
       span.icon
         i.mdi.mdi-history
@@ -62,6 +67,11 @@ export default {
       type: Array,
       required: false,
     },
+    buttons: {
+      type: Boolean,
+      required: false,
+      default: true,
+    }
   },
 
   computed: {
