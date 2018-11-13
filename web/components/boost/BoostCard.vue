@@ -1,7 +1,17 @@
 <template lang="pug">
 .card
   VideoCardCover(v-if="boost.video",:video="boost.video")
-  ProgressBar(:total="boost.views",:progress="boost.delivered",:height="30",:on="boost.status !== 'pending'")
+  .card-header(v-else)
+    p.card-header-title
+      span Created
+      span &nbsp;
+      span: FormatDate(:value="boost.created_at")
+
+  ProgressBar(
+    :total="boost.views",
+    :progress="boost.delivered",
+    :height="30",
+    :on="boost.status === 'active'")
   .card-content
     .content
       BoostCardStatus(:status="boost.status")
@@ -38,9 +48,10 @@
 import VideoCardCover from '@/components/video/VideoCardCover'
 import BoostCardStatus from '@/components/boost/BoostCardStatus'
 import FormatNumber from '@/components/format/FormatNumber'
+import FormatDate from '@/components/format/FormatDate'
 import ProgressBar from '@/components/loading/ProgressBar'
 export default {
-  components: { VideoCardCover, BoostCardStatus, FormatNumber, ProgressBar },
+  components: { VideoCardCover, BoostCardStatus, FormatNumber, FormatDate, ProgressBar },
   props: {
     boost: {
       type: Object,
