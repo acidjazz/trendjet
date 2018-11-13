@@ -50,6 +50,6 @@ class ViewsUpdate extends Command
         $views = $vs->getViews($boosts);
         $vs->updateViews($boosts, $views);
 
-        return $this->info('Updated '.$vs->getBoostsVideoIds($boosts)->count().' videos');
+        return $this->info('Updated '.count($vs->getBoostsVideoIds($boosts)).' videos');
     }
 }
