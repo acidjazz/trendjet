@@ -51,5 +51,13 @@ class PuppetCheck extends Command
             $this->info("Found active instances, no deploy needed");
         }
 
+        $expired = $bs->expire();
+
+        if (count($expired) > 0) {
+            $this->info("Stale instances detected, expired ".count($expired));
+        } else {
+            $this->info('No stale instances found');
+        }
+
     }
 }

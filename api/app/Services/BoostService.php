@@ -77,4 +77,22 @@ class BoostService {
     }
 
 
+    public function expire()
+    {
+        $ps = new PuppetService();
+        $ids = [];
+        if (!$instances = $ps->describe()) {
+            return [];
+        }
+        foreach ($instances as $instance) {
+            if ($instance['Runtime'] > 220) {
+                $ids[] = $instance['InstanceId'];
+            }
+        }
+        $ps->terminate($ids);
+        return $ids;
+    }
+
+
+
 }
