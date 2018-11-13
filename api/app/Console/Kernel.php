@@ -6,7 +6,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 use App\Console\Commands\PuppetCheck;
-use App\Console\Commands\ViewsService;
+use App\Console\Commands\ViewsUpdate;
 
 class Kernel extends ConsoleKernel
 {
