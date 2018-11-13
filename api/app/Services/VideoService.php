@@ -24,9 +24,14 @@ class VideoService {
         return Boost::where('updated_at', '>=', Carbon::now()->subDay());
     }
 
-    public function getViews($videos)
+    public function getBoostsVideoIds($boosts)
     {
-        return (new TubeStuff)->getVideos($videos->pluck('video_id')->toArray());
+        return array_unique($boosts->pluck('video_id')->toArray());
+    }
+
+    public function getViews($boosts)
+    {
+        return (new TubeStuff)->getVideos($this->getBoostsVideoIds($boosts));
     }
 
     public function updateViews($videos, $views)
