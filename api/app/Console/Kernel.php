@@ -33,7 +33,7 @@ class Kernel extends ConsoleKernel
             ->appendOutputTo('storage/output.log');
 
         $schedule->command(ViewsUpdate::class)
-            ->everyHour()
+            ->hourly()
             ->environments(['staging','production'])
             ->appendOutputTo('storage/output.log');
     }
