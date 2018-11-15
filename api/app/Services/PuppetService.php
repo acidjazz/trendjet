@@ -135,20 +135,6 @@ class PuppetService {
         return $instances;
    }
 
-    public function expire()
-    {
-        $ids = [];
-        $instances = $this->describe();
-        foreach ($instances as $instance) {
-            if ($instance['runtime'] > 220) {
-                $ids[] = $instance['InstanceId'];
-            }
-        }
-        $this->terminate($ids);
-        return $ids;
-    }
-
-
     public function terminate($ids)
     {
         return $this->client->terminateInstances([
