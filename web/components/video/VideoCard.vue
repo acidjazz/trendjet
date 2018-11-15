@@ -22,6 +22,10 @@
           span.tag.is-info: FormatNumber(:value="video.views")
       .control
         .tags.has-addons
+          span.tag.is-dark Duration
+          span.tag.is-info: FormatDuration(:value="video.duration")
+      .control
+        .tags.has-addons
           span.tag.is-dark Boosts
           span.tag.is-info: FormatNumber(:value="video.boosts_count")
 
@@ -52,8 +56,9 @@
 import VideoCardCover from '@/components/video/VideoCardCover'
 import FormatNumber from '@/components/format/FormatNumber'
 import FormatDate from '@/components/format/FormatDate'
+import FormatDuration from '@/components/format/FormatDuration'
 export default {
-  components: { VideoCardCover, FormatNumber, FormatDate },
+  components: { VideoCardCover, FormatNumber, FormatDate, FormatDuration },
   props: {
     type: {
       type: String,
