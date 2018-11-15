@@ -12,8 +12,8 @@ use App\Scopes\OrderScope;
 class Video extends Model
 {
 
-    protected $fillable = [ 'id', 'user_id', 'title', 'views'];
     public $incrementing = false;
+    protected $fillable = [ 'id', 'user_id', 'title', 'views', 'duration'];
     protected $appends = ['cover'];
 
     protected static function boot()
@@ -22,7 +22,7 @@ class Video extends Model
         static::addGlobalScope(new OrderScope('created_at', 'desc'));
     }
 
-    public function getCoverAttribute ()
+    public function getCoverAttribute()
     {
         return TubeStuff::cover($this->id);
     }
@@ -46,9 +46,7 @@ class Video extends Model
     */
     public static function add($user, $ids) {
 
-        $ts = new TubeStuff(config('services.google.api_key'));
-        $videos = $ts->getVideos($ids);
-
+        $videos = (new TubeStuff)->getVideos($ids);
         foreach ($videos as $id=>$video) {
             $video['user_id'] = $user->id;
             $row = self::create($video);

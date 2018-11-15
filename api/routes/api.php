@@ -24,6 +24,7 @@ Route::get('/loginas/{email}', 'AuthController@loginAs');
 
 Route::get('/youtube/parse', 'YouTubeController@parse')->middleware('auth:api');
 Route::get('/youtube/channel/{id}', 'YouTubeController@channel')->middleware('auth:api');
+Route::get('/youtube/video/{id}', 'YouTubeController@video')->middleware('auth:api');
 
 Route::apiResource('package', 'PackageController');
 Route::apiResource('session', 'SessionController')->middleware('auth:api');
@@ -33,7 +34,9 @@ Route::apiResource('activity', 'ActivityController')->middleware('auth:api');
 Route::apiResource('video', 'VideoController')->middleware('auth:api');
 Route::apiResource('purchase', 'PurchaseController')->middleware('auth:api');
 
+Route::get('/boost/meta', 'BoostController@meta');
 Route::apiResource('boost', 'BoostController');
+
 Route::apiResource('shot', 'ShotController');
 
 require(base_path('routes/mailable.php'));

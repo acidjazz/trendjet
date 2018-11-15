@@ -24,6 +24,7 @@ class CreateViewsTables extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('title');
             $table->integer('views');
+            $table->string('duration');
             $table->timestamps();
         });
 

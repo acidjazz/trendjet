@@ -11,7 +11,7 @@
     .select(:class="{'is-loading': boosting, 'is-primary': !boosting}")
       select(v-model="views")
         option(value=0) Select View Count
-        option(v-for="value in boosts",:value="value")
+        option(v-for="value in meta.options",:value="value")
           FormatNumber(:value="value",:text="true")
           | &nbsp;views
   .control
@@ -45,6 +45,10 @@ export default {
         .then( (resposne) => this.boosting = false)
     },
 
+    async populate () {
+      this.meta = (await this.$axios.get('/boost/meta')).data.data
+    },
+
     ids () {
       let ids = []
       for (let video of this.videos) {
@@ -60,16 +64,18 @@ export default {
     },
   },
 
+  created () {
+    this.populate()
+  },
+
   data () {
     return {
       views: 0,
       boosted: false,
       boosting: false,
-      boosts: [
-        10,
-        20,
-        30,
-      ],
+      meta: {
+        options: []
+      },
     }
   }
 }

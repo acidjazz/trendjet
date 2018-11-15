@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ad703d77950af4faa9bc76efaa5328ba",
+    "content-hash": "bc49963a989eeab40647372f956ca0d7",
     "packages": [
         {
             "name": "acidjazz/humble",
@@ -114,16 +114,16 @@
         },
         {
             "name": "acidjazz/tubestuff",
-            "version": "v0.0.10",
+            "version": "1.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/acidjazz/tubestuff.git",
-                "reference": "0808e9ae6c21ddd362ba90cdfff59a948c16038d"
+                "reference": "1f2531050919f538cacfc6d346156b8da4b82976"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acidjazz/tubestuff/zipball/0808e9ae6c21ddd362ba90cdfff59a948c16038d",
-                "reference": "0808e9ae6c21ddd362ba90cdfff59a948c16038d",
+                "url": "https://api.github.com/repos/acidjazz/tubestuff/zipball/1f2531050919f538cacfc6d346156b8da4b82976",
+                "reference": "1f2531050919f538cacfc6d346156b8da4b82976",
                 "shasum": ""
             },
             "require": {
@@ -154,7 +154,7 @@
                 "php",
                 "youtube"
             ],
-            "time": "2018-11-12T22:00:08+00:00"
+            "time": "2018-11-15T06:39:00+00:00"
         },
         {
             "name": "asm89/stack-cors",

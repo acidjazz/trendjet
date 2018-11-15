@@ -5,9 +5,10 @@
     span {{ video.title }}
     .card-image-actions
       .buttons.is-centered
-        a.button.is-inverted.is-outlined.is-dark(target="_new",:href="`https://www.youtube.com/watch/?v=${video.id}`")
-          span.icon
-            i.mdi.mdi-youtube
+        a.button.is-inverted.is-outlined.is-dark(
+          target="_new",
+          :href="`https://www.youtube.com/watch/?v=${video.id}`")
+          span.icon: i.mdi.mdi-youtube
           span Watch Video on YouTube
 </template>
 

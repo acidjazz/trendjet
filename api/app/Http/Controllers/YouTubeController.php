@@ -53,4 +53,17 @@ class YouTubeController extends Controller
         }
         return $this->render($channel);
     }
+
+    /**
+     * Grab Video info from an ID
+     *
+     * @param String $id
+     * @param \Illuminate\http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function video(String $id, Request $request)
+    {
+        return $this->render((new TubeStuff)->getVideos([$id]));
+    }
+
 }

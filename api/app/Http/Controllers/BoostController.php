@@ -127,4 +127,9 @@ class BoostController extends Controller
     {
         //
     }
+
+    public function meta()
+    {
+        return $this->render(['options' => Boost::options]);
+    }
 }
