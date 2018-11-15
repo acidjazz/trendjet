@@ -89,7 +89,9 @@ class BoostService {
                 $ids[] = $instance['InstanceId'];
             }
         }
-        $ps->terminate($ids);
+        if (count($ids) > 0) {
+            $ps->terminate($ids);
+        }
         return $ids;
     }
 
