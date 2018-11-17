@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use Carbon\Carbon;
+use Carbon\CarbonInterval;
 use App\Models\Shot;
 use Illuminate\Http\Request;
 
@@ -35,7 +35,7 @@ class ShotController extends Controller
     public function store(Request $request)
     {
         $this->option('file', 'required|string');
-        $this->option('duration', 'required|string');
+        $this->option('duration', 'required|numeric');
         $this->verify();
 
         $ids = explode(':', basename($request->file));
@@ -44,7 +44,7 @@ class ShotController extends Controller
             'video_id' => $ids[1],
             'boost_id' => $ids[2],
             'file' => basename($request->file),
-            'duration' => Carbon\CarbonInterval::fromString($request->duration . ' seconds')->spec(),
+            'duration' => CarbonInterval::fromString($request->duration . ' seconds')->spec(),
         ]);
 
         return $this->success('shot.created');

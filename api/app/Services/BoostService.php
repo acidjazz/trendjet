@@ -84,6 +84,9 @@ class BoostService {
         if (!$instances = $ps->describe()) {
             return [];
         }
+        if (count($instances) < 1) {
+            return [];
+        }
         foreach ($instances as $instance) {
             if ($instance['Runtime'] > 400) {
                 $ids[] = $instance['InstanceId'];

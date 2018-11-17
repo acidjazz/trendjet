@@ -52,7 +52,7 @@ let index = 0;
       await axios.put(`${process.env.APP_URL}boost/${boost_ids[index]}/?apikey=${process.env.API_KEY}`);
     } catch (error) {
       console.log(`[PUPPET:ERROR] ${process.env.APP_URL}boost/${boost_ids[index]}/?apikey=${process.env.API_KEY}`);
-      console.log(error.message);
+      console.log(error);
       throw error;
     }
 
@@ -61,7 +61,7 @@ let index = 0;
       await axios.post(`${process.env.APP_URL}shot/?apikey=${process.env.API_KEY}`, {file:file, duration: Math.round(duration/1000)});
     } catch (error) {
       console.log(`[PUPPET:ERROR] ${process.env.APP_URL}shot/?apikey=${process.env.API_KEY}`, {file:file, duration: duration});
-      console.log(error.message);
+      console.log(error);
       throw error;
     }
 
