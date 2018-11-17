@@ -41,7 +41,8 @@ let index = 0;
     await page.waitFor(1000);
     await page.waitForSelector(el);
     await page.click(el);
-    await page.waitFor(Math.random() * (20000 - 6000) + 6000);
+    var duration = Math.random() * (30000 - 20000) + 20000;
+    await page.waitFor(duration);
     let file = `shot:${id}:${boost_ids[index]}:${new Date().getTime()}.jpg`;
     await page.screenshot({type: 'jpeg', quality: 1, path: file});
     exec(`aws s3 cp ${file} s3://trendjet-shots/ --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers`);
@@ -55,11 +56,11 @@ let index = 0;
       throw error;
     }
 
-    console.log(`[PUPPET] ${process.env.APP_URL}shot/?apikey=${process.env.API_KEY}`, {file:file});
+    console.log(`[PUPPET] ${process.env.APP_URL}shot/?apikey=${process.env.API_KEY}`, {file:file, duration: Math.round(duration/1000)});
     try {
-      await axios.post(`${process.env.APP_URL}shot/?apikey=${process.env.API_KEY}`, {file:file});
+      await axios.post(`${process.env.APP_URL}shot/?apikey=${process.env.API_KEY}`, {file:file, duration: Math.round(duration/1000)});
     } catch (error) {
-      console.log(`[PUPPET:ERROR] ${process.env.APP_URL}shot/?apikey=${process.env.API_KEY}`, {file:file});
+      console.log(`[PUPPET:ERROR] ${process.env.APP_URL}shot/?apikey=${process.env.API_KEY}`, {file:file, duration: duration});
       console.log(error.message);
       throw error;
     }

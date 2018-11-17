@@ -99,6 +99,7 @@ class CreateViewsTables extends Migration
             $table->foreign('boost_id')->references('id')->on('boosts')->onDelete('cascade');
 
             $table->string('file');
+            $table->string('duration');
             $table->timestamps();
         });
 
