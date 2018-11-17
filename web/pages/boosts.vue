@@ -5,13 +5,15 @@
   section.section(v-if="boosts.data")
     .container
       BoostList(:boosts="boosts.data")
+      Paginate(v-if="loaded",:paginate="boosts.paginate",:query="query")
 </template>
 
 <script>
 import BreadCrumbs from '@/components/layout/BreadCrumbs'
 import BoostList from '@/components/boost/BoostList'
+import Paginate from '@/components/buttons/Paginate'
 export default {
-  components: { BreadCrumbs, BoostList },
+  components: { BreadCrumbs, BoostList, Paginate },
 
   methods: {
     visibility () {
@@ -20,6 +22,13 @@ export default {
 
     async get (query) {
       this.boosts = (await this.$axios.get('/boost', { params: query })).data
+      this.loaded = true
+    },
+
+    query (params) {
+      let query = Object.assign({}, this.$route.query, params)
+      this.$router.push({ query: query })
+      this.get(query)
     },
 
     async refresh () {
@@ -54,6 +63,7 @@ export default {
       visible: false,
       interval: false,
       refreshing: false,
+      loaded: false,
       boosts: {},
       crumbs: [
         {
