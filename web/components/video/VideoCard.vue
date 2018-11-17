@@ -2,7 +2,7 @@
 .card
   VideoCardCover(:video="video")
 
-  .checkbox.is-pulled-right(v-if="selected",style="margin-top: 25px;")
+  .checkbox.is-pulled-right(style="margin-top: 25px;")
     input.is-checkradio.is-checkbox.is-primary(
     :class="{'has-background-color': checked}",
     :id="`Video-${video.id}`"
@@ -69,7 +69,11 @@ export default {
       required: true,
     },
     selected: {
-      type: Array,
+      type: Boolean,
+      required: false,
+    },
+    change: {
+      type: Function,
       required: false,
     },
     buttons: {
@@ -92,26 +96,15 @@ export default {
   },
 
   watch: {
-    'checked' () {
-      this.check()
+    'selected' (after, before) {
+      this.checked = after
     },
-    'selected' () {
-      if (this.selected.includes(this.video.id) === false) {
-        this.checked = false
-      }
+    'checked' (after, before) {
+      this.change(after, this.video.id)
     },
   },
 
   methods: {
-
-    check () {
-      if (this.checked) {
-        this.selected.push(this.video.id)
-      } else {
-        this.selected.splice(this.selected.indexOf(this.video.id), 1)
-      }
-      this.$emit('input', this.selected)
-    },
 
     boost () {
       this.$emit('boost', this.video)

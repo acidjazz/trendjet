@@ -11,11 +11,6 @@
             strong {{ results.channelTitle }}
         .level-right
           .level-item
-            nuxt-link.button(to="/videos").ani-slide-in-left
-              span.icon
-                i.mdi.mdi-video
-              span My Videos
-          .level-item
             .buttons.has-addons
               button.button.ani-slide-in-left.delay-1(
                 :disabled="results.prevPageToken == null || !loaded"
@@ -30,7 +25,7 @@
                 span.icon
                   i.mdi.mdi-arrow-right
 
-      VideoList(v-if="loaded",:videos="results.videos",type="channel")
+      VideoList(v-if="loaded",:videos="results.videos",:selected="selected",type="channel")
       .columns.is-multiline(v-if="!loaded")
         .column.is-one-third(v-for="n in 9")
           VideoCardLoading(type="channel")
@@ -67,6 +62,7 @@ export default {
 
   data () {
     return {
+      selected: [],
       loaded: false,
       results: {},
       page: 1,

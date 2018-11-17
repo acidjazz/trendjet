@@ -8,10 +8,11 @@
           .level-item.ani-slide-in-right(v-if="$store.state.user.stats")
             strong: FormatNumber(:value="$store.state.user.stats.videos")
             | &nbsp;videos
+          .level-item.ani-slide-in-right
+            BoostMultiple(:all="selectAll",:selected="selected",:clear="clear",:boost="boost")
         .level-right
           .level-item.ani-slide-in-left
-            VideoAdd(v-if="selected.length < 1",@refresh="refresh")
-            BoostMultiple(v-else,:selected="selected",:clear="clear",:boost="boost")
+            VideoAdd(@refresh="refresh")
 
       .columns.is-multiline(v-if="!loaded")
         .column.is-one-third(v-for="n in videostat")
@@ -62,8 +63,14 @@ export default {
     BreadCrumbs,
   },
   methods: {
+
+    selectAll () {
+      for (let video of this.videos.data) {
+        this.selected.push(video.id)
+      }
+    },
     clear () {
-      this.$set(this, 'selected', [])
+      this.selected = []
     },
     refresh () {
       this.get(this.$route.query)

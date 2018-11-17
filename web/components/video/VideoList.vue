@@ -7,7 +7,8 @@
     VideoCard(
       :video="video"
       :type="type"
-      :selected="selected"
+      :change="change"
+      :selected="is_selected(video.id)"
       @removed="removed"
       @boost="boost")
 </template>
@@ -42,6 +43,17 @@ export default {
     boost (video) {
       this.$emit('boost', video)
     },
+    change (value, id) {
+      if (value && !this.is_selected(id)) {
+        this.selected.push(id)
+      }
+      if (!value) {
+        this.selected.splice(this.selected.indexOf(id), 1)
+      }
+    },
+    is_selected (id) {
+      return this.selected.indexOf(id) !== -1
+    }
   },
 
   data () {
