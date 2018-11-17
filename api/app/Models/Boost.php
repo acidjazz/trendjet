@@ -22,7 +22,7 @@ class Boost extends Model
     protected static function boot()
     {
         parent::boot();
-        static::addGlobalScope(new OrderScope('created_at', 'desc'));
+        static::addGlobalScope(new OrderScope('created_at', 'desc', 'status', 'asc'));
     }
 
     public function user()

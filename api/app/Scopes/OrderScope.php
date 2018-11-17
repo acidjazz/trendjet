@@ -19,17 +19,24 @@ class OrderScope implements Scope
 {
 
     private $column;
-
     private $direction;
 
-    public function __construct($column, $direction = 'asc')
+    private $column_b;
+    private $direction_b;
+
+    public function __construct($column, $direction = 'asc',$column_b=false,$direction_b=false)
     {
         $this->column = $column;
         $this->direction = $direction;
+        $this->column_b = $column_b;
+        $this->direction_b = $direction_b;
     }
 
     public function apply(Builder $builder, Model $model)
     {
         $builder->orderBy($this->column, $this->direction);
+        if ($this->column_b) {
+            $builder->orderBy($this->column_b, $this->direction_b);
+        }
     }
 }

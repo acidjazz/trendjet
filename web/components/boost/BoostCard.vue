@@ -17,6 +17,10 @@
       BoostCardStatus(:status="boost.status")
       table.table.is-striped
         tr
+          td Created
+          td
+            strong: FormatDate(:value="boost.created_at")
+        tr
           td Total Views
           td
             strong: FormatNumber(:value="boost.views") {{ boost.views }}
