@@ -53,7 +53,7 @@ export default {
 
   async destroyed () {
     if (process.browser) {
-      this.interval === false
+      this.interval = false
       window.addEventListener('visibilitychange', this.visibility)
     }
   },
