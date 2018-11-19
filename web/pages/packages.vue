@@ -3,30 +3,39 @@
   BreadCrumbs(:crumbs="crumbs")
   section.section
     .container
-      .box(style="min-height: 347px;")
-        .pricing-table
-          .pricing-plan.ani-zoom-in(
-            v-for="pkg, index in packages",
-            :class="[`${styles[pkg.title]} delay-${index+1}`, {'is-active': index === active}]")
-            .plan-header {{ pkg.title }}
-            .plan-price
-              span.plan-price-amount
-                span.plan-price-currency $
-                FormatNumber(:value="pkg.price")
-            .plan-items
-              .plan-item
-                FormatNumber(:value="pkg.views")
-                | &nbsp;Views
-              .plan-item SmartView Guarantee
-            .plan-footer
-              ButtonLongPress(
-                :action="() => { purchase(pkg.id); }",
-                position="center",
-                :theme="pkg.title === 'Tester' ? 'dark' : 'light'")
-                span.icon
-                  i.mdi.mdi-rocket
-                span Get Package
-
+      //.box(style="min-height: 347px;")
+      .pricing-table
+        .pricing-plan.ani-zoom-in(
+          v-for="pkg, index in packages",
+          :class="[`${styles[pkg.title]} delay-${index+1}`, {'is-active': index === active}]")
+          .plan-header {{ pkg.title }}
+          .plan-price
+            span.plan-price-amount
+              span.plan-price-currency $
+              FormatNumber(:value="pkg.price")
+          .plan-items
+            .plan-item
+              FormatNumber(:value="pkg.views")
+              | &nbsp;Views
+            .plan-item SmartView Guarantee
+          .plan-footer
+            ButtonLongPress(
+              :action="() => { purchase(pkg.id); }",
+              position="center",
+              :theme="pkg.title === 'Tester' ? 'dark' : 'light'")
+              span.icon
+                i.mdi.mdi-rocket
+              span Get Package
+  section.section
+    //form(action="your-server-side-code",method="POST")
+    script.stripe-button(
+      src="https://checkout.stripe.com/checkout.js"
+      data-key="pk_test_oHkrGuCGFuJAM0t6PI2wyY0m"
+      data-amount="999"
+      data-name="trendjet"
+      data-description="Tester Package"
+      data-image="/android-chrome-192x192.png"
+      data-locale="auto")
 </template>
 
 <script>

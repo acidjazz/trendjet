@@ -69,10 +69,13 @@ module.exports = {
   ** Nuxt.js modules
   */
   modules: [
-    // Doc: https://github.com/nuxt-community/axios-module#usage
     '@nuxtjs/axios',
     // 'globals',
   ],
+
+  'google-analytics': {
+    id: 'UA-129403453-1',
+  },
 
   axios: {
     credentials: true,
