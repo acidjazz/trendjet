@@ -88,7 +88,7 @@ class BoostService {
             return [];
         }
         foreach ($instances as $instance) {
-            if ($instance['Runtime'] > 400) {
+            if ($instance['Runtime'] > 220) {
                 $ids[] = $instance['InstanceId'];
             }
         }
