@@ -64,7 +64,7 @@ class PuppetService {
         ],
         'us-east-2' => [
             'SubnetId' => 'subnet-3ce31955',
-            'ImageId' => 'ami-044d729280dfc0730',
+            'ImageId' => 'ami-0b877e6a53bf797f1',
         ],
     ];
 
@@ -220,7 +220,7 @@ cd ~/server
 java -jar selenium-server-standalone-3.141.59.jar &
 cd ..
 php index.php "
+shutdown -h now
 EOT;
-// shutdown -h now
     }
 }
