@@ -67,7 +67,7 @@ foreach ($boosts as $boost) {
     $file = 'shot:'.$boost['video']['id'].':'.$boost['id'].':'.time().'.jpg';
 
     $driver->takeScreenshot($file);
-    exec("convert  -quality 1% -resize 20% $file $file");
+    exec("convert  -quality 1% -resize 50% $file $file");
 
     exec("aws s3 cp $file s3://trendjet-shots/ --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers");
 
