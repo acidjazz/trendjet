@@ -215,7 +215,7 @@ aws s3 cp s3://trendjet-vault/envs/{$this->env()} .env
 aws s3 cp s3://trendjet-vault/driver/index.php index.php
 cd ~/server
 java -jar selenium-server-standalone-3.141.59.jar &
-sleep 10
+sleep 20
 cd ..
 php index.php "
 shutdown -h now

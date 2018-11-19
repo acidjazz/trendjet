@@ -58,11 +58,9 @@ export default {
   async mounted () {
     await this.get(this.$route.query)
     if (process.browser) {
-
       if (this.interval === false && this.actives === true) {
         this.interval = setInterval(this.refresh, 5000)
       }
-
       window.addEventListener('visibilitychange', this.visibility)
       this.visibility()
     }

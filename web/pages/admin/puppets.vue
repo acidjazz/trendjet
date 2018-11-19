@@ -51,16 +51,35 @@ export default {
       }
 
       return 'is-danger'
-    }
+    },
+
+    async refresh () {
+      this.refreshing = true
+      await this.get(this.$route.query)
+      setTimeout( () => this.refreshing = false, 1000)
+    },
   },
 
   mounted () {
     this.get()
+    if (process.browser) {
+      if (this.interval === false) {
+        this.interval = setInterval(this.refresh, 5000)
+      }
+    }
+  },
+
+  async destroyed () {
+    if (process.browser) {
+      clearInterval(this.interval)
+      this.interval = false
+    }
   },
 
 
   data () {
     return {
+      interval: false,
       refreshing: false,
       puppets: {},
     }
