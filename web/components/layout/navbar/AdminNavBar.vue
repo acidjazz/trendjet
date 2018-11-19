@@ -20,6 +20,10 @@ nav.navbar.navbar-second.is-link
           span.icon
             i.mdi.mdi-laptop
           span Sessions
+        nuxt-link.navbar-item(to="/admin/puppets",:class="{'is-active': page === 'puppets'}")
+          span.icon
+            i.mdi.mdi-desktop-classic
+          span Puppets
 </template>
 
 <script>

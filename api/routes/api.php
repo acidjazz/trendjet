@@ -19,6 +19,7 @@ require(base_path('routes/auth.php'));
 
 Route::get('/', 'TestController@routes');
 Route::apiResource('user', 'UserController')->middleware('admin');
+Route::apiResource('puppet', 'PuppetController')->middleware('admin');
 Route::get('/me/stats', 'UserController@stats')->middleware('auth:api');
 Route::get('/loginas/{email}', 'AuthController@loginAs');
 
