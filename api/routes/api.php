@@ -40,4 +40,3 @@ Route::apiResource('boost', 'BoostController');
 Route::apiResource('shot', 'ShotController');
 
 require(base_path('routes/mailable.php'));
-

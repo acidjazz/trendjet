@@ -14,14 +14,17 @@ include 'vendor/autoload.php';
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\WebDriverExpectedCondition;
 use Facebook\WebDriver\Chrome\ChromeOptions;
-
 
 use Campo\UserAgent;
 
+use GuzzleHttp\Psr7;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 
-$host = 'http://localhost:4444/wd/hub';
-$video = '58sdtOMd5gA';
+$dotenv = new Dotenv\Dotenv(__DIR__);
+$dotenv->load();
 
 $options = (new ChromeOptions)->addArguments([
     '--disable-gpu',
@@ -31,15 +34,55 @@ $options = (new ChromeOptions)->addArguments([
 ]);
 
 $driver = RemoteWebDriver::create(
-    $host, DesiredCapabilities::chrome()->setCapability(
+    'http://localhost:4444/wd/hub', DesiredCapabilities::chrome()->setCapability(
     ChromeOptions::CAPABILITY, $options
     )
 );
 
-$driver->navigate()->to('https://www.youtube.com/watch?v='.$video);
-$driver->findElement(WebDriverBy::className('ytp-play-button'))->click();
-sleep(10);
+$boosts = json_decode(file_get_contents('/tmp/boosts.json'), true);
 
-// <div class="ytp-icon ytp-icon-large-play-button-hover"></div>
-$driver->takeScreenshot('ss-'.time().'.png');
+
+foreach ($boosts as $boost) {
+
+    echo "[DRIVER] BOOST #".$boost['id']."\n";
+
+    $driver->navigate()->to('https://www.youtube.com/watch?v='.$boost['video']['id']);
+    $element = WebDriverBy::className('ytp-large-play-button');
+    $driver->wait()->until(WebDriverExpectedCondition::titleIs($boost['video']['title'].' - YouTube'));
+    $driver->findElement($element)->click();
+
+    $duration = rand(5,10);
+    sleep($duration);
+
+    $file = 'shot:'.$boost['video']['id'].':'.$boost['id'].':'.time().'.jpg';
+
+    $driver->takeScreenshot($file);
+    exec("convert  -quality 1% -resize 20% $file $file");
+
+    exec("aws s3 cp $file s3://trendjet-shots/ --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers");
+
+    $client = new Client(['base_uri' => $_ENV['APP_URL']]);
+    $query = ['apikey' => $_ENV['API_KEY'], 'json' => 'true'];
+    try {
+        $response = $client->put('/boost/'.$boost['id'], ['query' => $query]);
+    } catch (RequestException $e) {
+        echo Psr7\str($e->getRequest());
+        if ($e->hasResponse()) {
+            echo Psr7\str($e->getResponse());
+        }
+    }
+
+    $query['file'] = $file;
+    $query['duration'] = $duration;
+    try {
+        $response = $client->post('/shot', ['query' => $query]);
+    } catch (RequestException $e) {
+        echo Psr7\str($e->getRequest());
+        if ($e->hasResponse()) {
+            echo Psr7\str($e->getResponse());
+        }
+    }
+
+}
+
 $driver->quit();

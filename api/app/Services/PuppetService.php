@@ -33,18 +33,11 @@ class PuppetService {
     const REGION = 'us-east-2';
 
     /**
-     * Array of boost Ids machines will report to
+     * Array of boosts
      *
      * @var array
      */
-    private $boost_ids;
-
-    /**
-     * Array of Video Ids machines will report to
-     *
-     * @var array
-     */
-    private $video_ids;
+    private $boosts;
 
     /**
      * Count of machines to spawn
@@ -153,13 +146,11 @@ class PuppetService {
      */
     public function deploy($boost_ids,$machines=1)
     {
-        $this->boost_ids = $boost_ids;
-        $this->video_ids = Boost::whereIn('id', $this->boost_ids)->orderBy('id', 'ASC')->pluck('video_id')->toArray();
-
-        $this->boost_str = implode(',', $this->boost_ids);
-        $this->video_str = implode(',', $this->video_ids);
-
+        $this->boosts = Boost::with('video')->whereIn('id', $boost_ids)->get();
         $this->machines = $machines;
+
+        echo $this->userData();
+        dd('testing');
 
         $result = $this->client->runInstances([
             'ImageId'    => $this->regions[self::REGION]['ImageId'],
@@ -216,15 +207,17 @@ class PuppetService {
     {
 
         $env = $this->env();
+        $json = addslashes($this->boosts->makeHidden(['created_at','updated_at'])->toJson());
         return  <<<EOT
 #!/bin/bash
 aws iam attach-role-policy --role-name api --policy-arn arn:aws:iam::aws:policy/service-role/AWSConfigRole
+echo "$json" > /tmp/boosts.json
 su - ec2-user -c "
 cd ~/.
 aws s3 cp s3://trendjet-vault/envs/{$this->env()} .env
-aws s3 cp s3://trendjet-vault/puppet/index.js index.js
-node index.js {$this->video_str} {$this->boost_str} "
-shutdown -h now
+aws s3 cp s3://trendjet-vault/driver/index.php index.php
+php index.php "
 EOT;
+// shutdown -h now
     }
 }
