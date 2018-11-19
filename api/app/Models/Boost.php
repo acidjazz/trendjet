@@ -13,7 +13,7 @@ class Boost extends Model
 {
     protected $fillable = ['user_id', 'video_id', 'status', 'views', 'delivered'];
 
-    const options = [10, 50, 100];
+    const options = [10, 50, 100, 200, 300, 400, 500];
 
     const PENDING = 'pending';
     const ACTIVE = 'active';
