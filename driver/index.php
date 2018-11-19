@@ -61,7 +61,7 @@ foreach ($boosts as $boost) {
     $element = WebDriverBy::className('ytp-large-play-button');
     $driver->findElement($element)->click();
 
-    $duration = rand(5,10);
+    $duration = rand(10,20);
     sleep($duration);
 
     $file = 'shot:'.$boost['video']['id'].':'.$boost['id'].':'.time().'.jpg';
