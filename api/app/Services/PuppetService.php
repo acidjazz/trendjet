@@ -167,6 +167,7 @@ class PuppetService {
             $ids[] = $instance['InstanceId'];
         }
 
+        /* this fails too much, and we dont need it
         $this->client->createTags([
             'Resources' => $ids,
             'Tags' => [[
@@ -174,6 +175,7 @@ class PuppetService {
                 'Value' => 'puppet',
                 ]],
         ]);
+        */
 
         return $result;
     }
