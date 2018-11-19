@@ -79,8 +79,8 @@ class PuppetService {
             'region' => self::REGION,
             'version' => 'latest',
             'credentials' => [
-                'key' => env('AWS_KEY'),
-                'secret' => env('AWS_SECRET'),
+                'key' => config('services.ses.key'),
+                'secret' => config('services.ses.secret'),
             ],
         ]);
     }
@@ -149,6 +149,8 @@ class PuppetService {
         $this->boosts = Boost::with('video')->whereIn('id', $boost_ids)->get();
         $this->machines = $machines;
 
+        dd($this->userData());
+
         $result = $this->client->runInstances([
             'ImageId'    => $this->regions[self::REGION]['ImageId'],
             'MinCount'  => $this->machines,
@@ -204,7 +206,7 @@ class PuppetService {
     {
 
         $env = $this->env();
-        $json = addslashes($this->boosts->makeHidden(['created_at','updated_at'])->toJson());
+        $json = str_replace("\\'", "'", addslashes($this->boosts->makeHidden(['created_at','updated_at'])->toJson()));
         return  <<<EOT
 #!/bin/bash
 aws iam attach-role-policy --role-name api --policy-arn arn:aws:iam::aws:policy/service-role/AWSConfigRole
@@ -215,6 +217,7 @@ aws s3 cp s3://trendjet-vault/envs/{$this->env()} .env
 aws s3 cp s3://trendjet-vault/driver/index.php index.php
 cd ~/server
 java -jar selenium-server-standalone-3.141.59.jar &
+sleep 3
 cd ..
 php index.php "
 EOT;

@@ -16,9 +16,7 @@ use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 use Facebook\WebDriver\Chrome\ChromeOptions;
-
 use Campo\UserAgent;
-
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
@@ -26,29 +24,41 @@ use GuzzleHttp\Exception\RequestException;
 $dotenv = new Dotenv\Dotenv(__DIR__);
 $dotenv->load();
 
+$boosts = json_decode(file_get_contents('/tmp/boosts.json'), true);
+
 $options = (new ChromeOptions)->addArguments([
     '--disable-gpu',
     '--headless',
     '--kiosk',
+    '--no-sandbox',
+    '--disable-infobars',
+    '--disable-dev-shm-usage',
+    '--disable-browser-side-navigation',
     '--user-agent='.UserAgent::random(),
 ]);
 
-$driver = RemoteWebDriver::create(
-    'http://localhost:4444/wd/hub', DesiredCapabilities::chrome()->setCapability(
-    ChromeOptions::CAPABILITY, $options
-    )
-);
-
-$boosts = json_decode(file_get_contents('/tmp/boosts.json'), true);
-
+$host = 'http://localhost:4444/wd/hub';
+$caps = DesiredCapabilities::chrome();
+$caps->setCapability(ChromeOptions::CAPABILITY, $options);
+$caps->setPlatform("Linux");
+$driver = RemoteWebDriver::create($host, $caps, 60000);
+$first = true;
 
 foreach ($boosts as $boost) {
 
-    echo "[DRIVER] BOOST #".$boost['id']."\n";
+    echo "[DRIVER] BOOST #".$boost['id'].", title: ".$boost['video']['title'].' - YouTube'."\n";
 
-    $driver->navigate()->to('https://www.youtube.com/watch?v='.$boost['video']['id']);
-    $element = WebDriverBy::className('ytp-large-play-button');
+    if ($first) {
+        $driver->navigate()->to('https://www.youtube.com/watch?v='.$boost['video']['id']);
+    } else {
+        $driver->get('https://www.youtube.com/watch?v='.$boost['video']['id']);
+    }
+
+    $first = false;
+
     $driver->wait()->until(WebDriverExpectedCondition::titleIs($boost['video']['title'].' - YouTube'));
+
+    $element = WebDriverBy::className('ytp-large-play-button');
     $driver->findElement($element)->click();
 
     $duration = rand(5,10);
@@ -82,6 +92,7 @@ foreach ($boosts as $boost) {
             echo Psr7\str($e->getResponse());
         }
     }
+    $driver->stop();
 
 }
 
