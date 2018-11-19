@@ -64,7 +64,7 @@ export default {
     this.get()
     if (process.browser) {
       if (this.interval === false) {
-        this.interval = setInterval(this.refresh, 5000)
+        this.interval = setInterval(this.refresh, 10000)
       }
     }
   },

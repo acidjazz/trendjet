@@ -120,6 +120,7 @@ class PuppetService {
                 'InstanceId' => $instance['InstanceId'],
                 'State' => $instance['State']['Name'],
                 'Runtime' => $runtime,
+                'Domain' => $instance['PublicDnsName'],
             ];
         };
 

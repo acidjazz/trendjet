@@ -1,9 +1,16 @@
 <template lang="pug">
-time.tooltip(:data-tooltip="value | human") {{ value | duration }}
+time.tooltip(:data-tooltip="value | human")
+  span: FormatNumber(:value="minutes")
+  span m
+  span &nbsp;
+  span: FormatNumber(:value="seconds")
+  span s
 </template>
 
 <script>
+import FormatNumber from '@/components/format/FormatNumber'
 export default {
+  components: { FormatNumber },
   props: {
     value: {
       type: String,
@@ -11,13 +18,21 @@ export default {
     },
   },
 
-  filters: {
-    duration: function (value) {
+  computed: {
+    seconds: function () {
       if (process.browser) {
-        return window.moment(window.moment.duration(value).as('milliseconds')).format('m\\m s\\s')
+        return window.moment.duration(this.value).as('seconds') - (this.minutes*60)
       }
       return value
     },
+    minutes: function () {
+      if (process.browser) {
+        return Math.floor(window.moment.duration(this.value).as('minutes'))
+      }
+      return value
+    },
+  },
+  filters: {
     human: function(value) {
       if (process.browser) {
         return window.moment.duration(value).humanize()

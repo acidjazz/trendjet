@@ -17,6 +17,9 @@ class PuppetController extends Controller
     public function index(Request $request)
     {
         $puppets = (new PuppetService)->describe();
+        if (!is_array($puppets)) {
+            return $this->render([]);
+        }
         foreach ($puppets as $key=>$value) {
             $puppets[$key]['Runtime'] = CarbonInterval::fromString($value['Runtime'].' seconds')->spec();
         }
