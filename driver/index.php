@@ -92,7 +92,6 @@ foreach ($boosts as $boost) {
             echo Psr7\str($e->getResponse());
         }
     }
-    $driver->stop();
 
 }
 
