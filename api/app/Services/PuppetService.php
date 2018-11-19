@@ -64,7 +64,7 @@ class PuppetService {
         ],
         'us-east-2' => [
             'SubnetId' => 'subnet-3ce31955',
-            'ImageId' => 'ami-0b1f65571330f4d2d',
+            'ImageId' => 'ami-044d729280dfc0730',
         ],
     ];
 
@@ -216,6 +216,9 @@ su - ec2-user -c "
 cd ~/.
 aws s3 cp s3://trendjet-vault/envs/{$this->env()} .env
 aws s3 cp s3://trendjet-vault/driver/index.php index.php
+cd ~/server
+java -jar selenium-server-standalone-3.141.59.jar &
+cd ..
 php index.php "
 EOT;
 // shutdown -h now
