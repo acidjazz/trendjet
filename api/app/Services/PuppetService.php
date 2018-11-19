@@ -155,7 +155,7 @@ class PuppetService {
                 'Arn' => self::IAM_ARN,
             ],
             'InstanceInitiatedShutdownBehavior' => 'terminate',
-            'InstanceType'  => 't2.nano',
+            'InstanceType'  => 't2.small',
             'KeyName'   => 'tj',
             'SubnetId' => $this->regions[self::REGION]['SubnetId'],
             // 'SecurityGroups'    => ['default'],
