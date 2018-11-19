@@ -116,7 +116,6 @@ class PuppetService {
         foreach ($result['Reservations'][0]['Instances'] as $instance) {
             $start = new Carbon($instance['LaunchTime']);
             $runtime = $start->diffInSeconds(new Carbon());
-            dump($instance);
             $instances[$instance['InstanceId']] = [
                 'InstanceId' => $instance['InstanceId'],
                 'State' => $instance['State']['Name'],
