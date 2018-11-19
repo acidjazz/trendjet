@@ -64,7 +64,7 @@ class PuppetService {
         ],
         'us-east-2' => [
             'SubnetId' => 'subnet-3ce31955',
-            'ImageId' => 'ami-0b877e6a53bf797f1',
+            'ImageId' => 'ami-0ba503d981a89b66b',
         ],
     ];
 
@@ -116,8 +116,7 @@ class PuppetService {
         foreach ($result['Reservations'][0]['Instances'] as $instance) {
             $start = new Carbon($instance['LaunchTime']);
             $runtime = $start->diffInSeconds(new Carbon());
-            if ($runtime > 120) {
-            }
+            dump($instance);
             $instances[$instance['InstanceId']] = [
                 'InstanceId' => $instance['InstanceId'],
                 'State' => $instance['State']['Name'],
@@ -213,10 +212,6 @@ su - ec2-user -c "
 cd ~/.
 aws s3 cp s3://trendjet-vault/envs/{$this->env()} .env
 aws s3 cp s3://trendjet-vault/driver/index.php index.php
-cd ~/server
-java -jar selenium-server-standalone-3.141.59.jar &
-sleep 20
-cd ..
 php index.php "
 shutdown -h now
 EOT;

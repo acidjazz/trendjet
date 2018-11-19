@@ -1,0 +1,12 @@
+[Unit]
+Description=Selenium Standalone Server
+
+[Service]
+Type=simple
+User=root
+
+Environment=DISPLAY=:44
+ExecStart=/usr/bin/java -jar -Dwebdriver.chrome.driver=/var/selenium/chromedriver /var/selenium/selenium-server-standalone.jar
+
+[Install]
+WantedBy=multi-user.target
