@@ -149,8 +149,6 @@ class PuppetService {
         $this->boosts = Boost::with('video')->whereIn('id', $boost_ids)->get();
         $this->machines = $machines;
 
-        dd($this->userData());
-
         $result = $this->client->runInstances([
             'ImageId'    => $this->regions[self::REGION]['ImageId'],
             'MinCount'  => $this->machines,
