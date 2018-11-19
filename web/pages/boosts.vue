@@ -1,7 +1,10 @@
 <template lang="pug">
 #Boosts.page
   BreadCrumbs(:crumbs="crumbs")
-    span.tag.ani-zoom-in.is-info.is-pulled-right(v-if="refreshing") refreshing
+    .tags.has-addons.is-pulled-right(v-if="actives")
+      span.tag.ani-zoom-in.is-success live
+      span.tag.ani-zoom-in.is-info(v-if="refreshing") refreshing
+      span.tag.ani-zoom-in.has-text-grey(v-else) refreshing
   section.section(v-if="boosts.data")
     .container
       BoostList(:boosts="boosts.data")
@@ -23,6 +26,18 @@ export default {
     async get (query) {
       this.boosts = (await this.$axios.get('/boost', { params: query })).data
       this.loaded = true
+      this.actives = false
+      for (let boost of this.boosts.data) {
+        if (['active','pending'].indexOf(boost.status) !== -1) {
+          this.actives = true
+        }
+      }
+
+      if (this.interval !== false && this.actives === false) {
+        clearInterval(this.interval)
+        this.interval = false
+      }
+
     },
 
     query (params) {
@@ -34,7 +49,7 @@ export default {
     async refresh () {
       if (!this.visible) return true
       this.refreshing = true
-      this.boosts = (await this.$axios.get('/boost', { params: this.$route.query })).data
+      await this.get(this.$route.query)
       setTimeout( () => this.refreshing = false, 1000)
     },
 
@@ -43,9 +58,11 @@ export default {
   async mounted () {
     await this.get(this.$route.query)
     if (process.browser) {
-      if (this.interval === false) {
+
+      if (this.interval === false && this.actives === true) {
         this.interval = setInterval(this.refresh, 5000)
       }
+
       window.addEventListener('visibilitychange', this.visibility)
       this.visibility()
     }
@@ -53,6 +70,7 @@ export default {
 
   async destroyed () {
     if (process.browser) {
+      clearInterval(this.interval)
       this.interval = false
       window.addEventListener('visibilitychange', this.visibility)
     }
@@ -64,6 +82,7 @@ export default {
       interval: false,
       refreshing: false,
       loaded: false,
+      actives: false,
       boosts: {},
       crumbs: [
         {
