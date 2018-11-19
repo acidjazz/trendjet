@@ -16,7 +16,7 @@
                 .control
                   .tags.has-addons
                     span.tag.is-dark state
-                    span.tag {{ puppet.State }}
+                    span.tag(:class="state(puppet.State)") {{ puppet.State }}
                 .control
                   .tags.has-addons
                     span.tag.is-dark runtime
@@ -33,6 +33,25 @@ export default {
     async get () {
       this.puppets = (await this.$axios.get('/puppet')).data.data
     },
+    state (state) {
+      if (state === 'pending') {
+        return 'is-warning'
+      }
+      if (state === 'stopped') {
+        return 'is-warning'
+      }
+      if (state === 'stopping') {
+        return 'is-warning'
+      }
+      if (state === 'running') {
+        return 'is-success'
+      }
+      if (state === 'shutting-down') {
+        return 'is-danger'
+      }
+
+      return 'is-danger'
+    }
   },
 
   mounted () {
