@@ -218,7 +218,7 @@ java -jar selenium-server-standalone-3.141.59.jar &
 sleep 3
 cd ..
 php index.php "
+shutdown -h now
 EOT;
-// shutdown -h now
     }
 }
