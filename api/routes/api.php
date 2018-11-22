@@ -21,7 +21,6 @@ Route::get('/', 'TestController@routes');
 Route::apiResource('user', 'UserController')->middleware('admin');
 Route::apiResource('puppet', 'PuppetController')->middleware('admin');
 Route::get('/me/stats', 'UserController@stats')->middleware('auth:api');
-Route::get('/loginas/{email}', 'AuthController@loginAs');
 
 Route::get('/youtube/parse', 'YouTubeController@parse')->middleware('auth:api');
 Route::get('/youtube/channel/{id}', 'YouTubeController@channel')->middleware('auth:api');

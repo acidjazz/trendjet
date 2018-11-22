@@ -30,7 +30,7 @@ class PuppetService {
      *
      * @var string
      */
-    const REGION = 'us-east-2';
+    const REGION = 'us-west-1';
 
     /**
      * Array of boosts
@@ -65,6 +65,10 @@ class PuppetService {
         'us-east-2' => [
             'SubnetId' => 'subnet-3ce31955',
             'ImageId' => 'ami-0ba503d981a89b66b',
+        ],
+        'us-west-1' => [
+            'SubnetId' => 'subnet-28b51870',
+            'ImageId' => 'ami-09ee583639c586d6a',
         ],
     ];
 
